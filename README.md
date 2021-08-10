@@ -2,6 +2,8 @@
 
 Client for Weather Vortex.
 
+To create gui components https://vuetifyjs.com/en/features/theme/. For Vue doc, visit https://vuejs.org/.
+
 ## Project setup
 
 ```
