@@ -1,6 +1,6 @@
 <template>
   <!-- Can be placed on the left or right side of an application and can be configured to sit next to or below v-app-bar. -->
-  <v-navigation-drawer app v-model="drawer" absolute temporary>
+  <v-navigation-drawer app v-model="drawerVisible" absolute temporary>
     <!-- -->
     <v-list dense rounded nav>
       <v-list-item
@@ -25,7 +25,6 @@ export default {
   name: "NavigationDrawer",
   data() {
     return {
-      drawer: true,
       items: [
         { title: "Home", route: "/home", icon: "mdi-view-dashboard" },
         { title: "Forecasts", route: "/forecasts", icon: "mdi-view-dashboard" },
@@ -33,6 +32,19 @@ export default {
         { title: "About", route: "/about", icon: "mdi-forum" },
       ],
     };
+  },
+  computed: {
+    drawerVisible() {
+      /* Expose drawer.visible attribute value. */
+      return this.$store.state.drawer;
+    },
+  },
+  methods: {
+    toggleDrawer() {
+      this.$store.commit("toggleDrawer");
+      const visible = this.$store.state.drawer;
+      console.log("Navigation drawer visible", visible);
+    },
   },
 };
 </script>

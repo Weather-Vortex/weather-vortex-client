@@ -1,7 +1,7 @@
 <template>
   <!-- Is always placed at the top of an application with a lower priority than v-system-bar. -->
   <v-app-bar app dark>
-    <v-app-bar-nav-icon @click="drawer = true"
+    <v-app-bar-nav-icon @click="toggleDrawer"
       ><!-- 
           TODO: Add App Bar Nav Icon
           Add following this page tutorial: https://vuetifyjs.com/en/components/app-bars/#v-app-bar-nav-icon
@@ -28,14 +28,14 @@
       </template>
       <v-list>
         <!-- LOGIN item -->
-        <v-list-item :key="login" @click="() => {}">
+        <v-list-item @click="() => {}">
           <v-list-item-icon>
             <!-- TODO: Icons here? -->
           </v-list-item-icon>
           <v-list-item-title>Login</v-list-item-title>
         </v-list-item>
         <!-- REGISTER item -->
-        <v-list-item :key="register" @click="() => {}">
+        <v-list-item @click="() => {}">
           <v-list-item-title>Register</v-list-item-title>
         </v-list-item>
       </v-list>
@@ -48,8 +48,19 @@ export default {
   name: "AppBar",
   data: () => ({
     collapseOnScroll: true,
-    /* Expose drawer.visible attribute value. */
-    drawer: false,
   }),
+  computed: {
+    drawerVisible() {
+      /* Expose drawer.visible attribute value. */
+      return this.$store.state.drawer;
+    },
+  },
+  methods: {
+    toggleDrawer() {
+      this.$store.commit("toggleDrawer");
+      const visible = this.$store.state.drawer;
+      console.log("Navigation drawer visible", visible);
+    },
+  },
 };
 </script>
