@@ -30,6 +30,32 @@ const routes = [
       import(/* webpackChunkName: "about" */ "../views/About.vue"),
   },
   {
+    path: "/user",
+    name: "User",
+    component: () => import("../views/User.vue"),
+    children: [
+      {
+        // Login will be rendered inside User's <router-view>
+        // when /user/:id/profile is matched
+        path: "login",
+        name: "Login",
+        component: () => import("../views/users/Login.vue"),
+      },
+      {
+        path: "register",
+        component: () => import("../views/users/Register.vue"),
+      },
+      {
+        path: "profile",
+        component: () => import("../views/users/Profile.vue"),
+      },
+      {
+        path: ":id",
+        component: () => import("../views/users/PublicProfile.vue"),
+      },
+    ],
+  },
+  {
     path: "*",
     name: "Error 404",
     component: Home, // TODO: Generate a proper 404 page.
