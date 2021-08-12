@@ -1,6 +1,6 @@
 <template>
   <!-- Can be placed on the left or right side of an application and can be configured to sit next to or below v-app-bar. -->
-  <v-navigation-drawer app v-model="drawerVisible" absolute temporary>
+  <v-navigation-drawer app v-model="drawerVisible" absolute temporary clipped>
     <!-- -->
     <v-list dense rounded nav>
       <v-list-item
@@ -21,6 +21,8 @@
 </template>
 
 <script>
+import store from "@/state/";
+
 export default {
   name: "NavigationDrawer",
   data() {
@@ -34,17 +36,14 @@ export default {
     };
   },
   computed: {
-    drawerVisible() {
+    drawerVisible: {
       /* Expose drawer.visible attribute value. */
-      return this.$store.state.drawer;
+      get: () => store.state.drawer,
+      set: (newValue) => store.commit("setDrawerVisibility", newValue),
     },
   },
   methods: {
-    toggleDrawer() {
-      this.$store.commit("toggleDrawer");
-      const visible = this.$store.state.drawer;
-      console.log("Navigation drawer visible", visible);
-    },
+    toggleDrawer: () => this.$store.commit("toggleDrawer"),
   },
 };
 </script>

@@ -1,6 +1,6 @@
 <template>
   <!-- Is always placed at the top of an application with a lower priority than v-system-bar. -->
-  <v-app-bar app dark>
+  <v-app-bar app dark clipped-left>
     <v-app-bar-nav-icon @click="toggleDrawer"
       ><!-- 
           TODO: Add App Bar Nav Icon
@@ -50,16 +50,12 @@ export default {
     collapseOnScroll: true,
   }),
   computed: {
-    drawerVisible() {
-      /* Expose drawer.visible attribute value. */
-      return this.$store.state.drawer;
-    },
+    /* Expose drawer.visible attribute value. */
+    drawerVisible: () => this.$store.state.drawer,
   },
   methods: {
     toggleDrawer() {
       this.$store.commit("toggleDrawer");
-      const visible = this.$store.state.drawer;
-      console.log("Navigation drawer visible", visible);
     },
   },
 };
