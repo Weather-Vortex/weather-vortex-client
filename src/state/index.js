@@ -16,6 +16,11 @@ const mutations = {
 const store = new Vuex.Store({
   state,
   mutations,
+  /*
+  In strict mode, whenever Vuex state is mutated outside of mutation handlers, an error will be thrown.
+  From doc: https://vuex.vuejs.org/guide/strict.html#strict-mode.
+  */
+  strict: process.env.NODE_ENV !== "production",
 });
 
 export default store;
