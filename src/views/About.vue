@@ -7,11 +7,5 @@
 <script>
 export default {
   name: "About",
-  data() {
-    return {
-      status: null,
-      loading: false,
-    };
-  },
 };
 </script>
