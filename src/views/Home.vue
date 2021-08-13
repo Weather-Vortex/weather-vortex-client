@@ -21,80 +21,16 @@
       </v-col>
       <v-spacer></v-spacer>
     </v-row>
+
     <!-- Functionality presentation -->
+    <InfoMain />
+
     <v-row>
-      <v-col class="mb-5" cols="12">
-        <h2 class="headline font-weight-bold mb-3">
-          Weather Forecasting Aggregation!
-        </h2>
-        <v-row justify="center">
-          <!-- Those cards are repetitives, move to a new component -->
-          <v-col>
-            <v-card class="mx-3" max-width="300">
-              <v-card-title>
-                You can get weather forecasts from all around the world!
-              </v-card-title>
-            </v-card>
-          </v-col>
-          <v-col>
-            <v-card class="mx-3" max-width="300">
-              <v-card-title>
-                Compare various providers to look the world from many eye's
-                points!
-              </v-card-title>
-            </v-card>
-          </v-col>
-          <v-col>
-            <v-card class="mx-3" max-width="300">
-              <v-card-title> You will not be unprepared anymore! </v-card-title>
-            </v-card>
-          </v-col>
-        </v-row>
+      <v-col v-for="(service, i) in services" :key="i">
+        <CheckStatus v-bind="service" />
       </v-col>
     </v-row>
-    <v-row>
-      <v-col>
-        <v-card :loading="loading" class="mx-auto my-12" max-width="374">
-          <template slot="progress">
-            <v-progress-linear
-              color="deep-purple"
-              height="10"
-              indeterminate
-            ></v-progress-linear>
-          </template>
-          <v-card-title>
-            Server Status:&nbsp;
-            <div>
-              <div v-if="loading">
-                <v-progress-circular
-                  indeterminate
-                  color="primary"
-                ></v-progress-circular>
-              </div>
-              <div v-else-if="status === true">
-                <!-- Server status {{ status }} -->
-                <v-icon color="green" x-large>mdi-check-circle</v-icon>
-              </div>
-              <div v-else-if="status === false">
-                <v-icon color="red" x-large>mdi-close-circle</v-icon>
-              </div>
-            </div>
-          </v-card-title>
-          <v-card-text>
-            <div>
-              Fetching for service info (add dynamic url)
-              weather-vortex-server.herokuapp.com.
-            </div>
-          </v-card-text>
-          <v-card-actions>
-            <v-btn color="deep-purple lighten-2" text @click="checkStatus">
-              <v-icon>mdi-refresh</v-icon>
-              Retry</v-btn
-            >
-          </v-card-actions>
-        </v-card>
-      </v-col>
-    </v-row>
+
     <div class="home">
       <img alt="Vue logo" src="../assets/logo.png" />
       <HelloWorld msg="Welcome to Your Vue.js App" /></div
@@ -103,36 +39,30 @@
 
 <script>
 // @ is an alias to /src
+import CheckStatus from "@/components/info/CheckStatus.vue";
 import HelloWorld from "@/components/HelloWorld.vue";
+import InfoMain from "@/components/info/InfoMain.vue";
 
 export default {
   name: "Home",
   components: {
+    CheckStatus,
     HelloWorld,
+    InfoMain,
   },
   data() {
     return {
-      loading: false,
-      status: null,
+      services: [
+        {
+          name: "Main Server",
+          url: process.env.VUE_APP_SERVER_URL,
+        },
+      ],
     };
   },
-  methods: {
-    async checkStatus() {
-      this.loading = true;
-      const info = "http://localhost:49161/";
-      try {
-        const { data } = await this.$http.get(info);
-        console.log(data);
-        this.status = data.result === "ok";
-      } catch (error) {
-        console.error(error);
-      } finally {
-        this.loading = false;
-      }
-    },
-  },
   created() {
-    this.checkStatus();
+    console.log("Created");
+    console.log(process.env);
   },
 };
 </script>
