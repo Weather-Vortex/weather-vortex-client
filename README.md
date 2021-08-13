@@ -1,4 +1,4 @@
-# weather-vortex-client
+# Weather Vortex Client
 
 Client for Weather Vortex.
 
@@ -7,7 +7,7 @@ To create gui components https://vuetifyjs.com/en/features/theme/. For Vue doc, 
 ## Project setup
 
 ```
-npm install
+npm i
 ```
 
 ### Compiles and hot-reloads for development
