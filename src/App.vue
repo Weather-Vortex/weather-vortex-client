@@ -1,14 +1,38 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/">Forecasts</router-link> |
-      <router-link to="/">Feedbacks</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view />
-  </div>
+  <v-app>
+    <!-- 
+      Applying the app prop automatically applies position: fixed to the layout element. If your application calls for an absolute element, you can overwrite this functionality by using the absolute prop.
+    -->
+
+    <AppBar />
+
+    <NavigationDrawer />
+
+    <v-main>
+      <!-- Provides the application the proper gutter -->
+      <v-container fluid>
+        <!-- If using vue-router -->
+        <router-view></router-view>
+      </v-container>
+    </v-main>
+    <!-- Is always placed at the bottom of an application with a lower priority than v-bottom-navigation. -->
+    <v-footer app>
+      <!-- -->
+      Weather Vortex Project
+    </v-footer>
+  </v-app>
 </template>
+
+<script>
+import AppBar from "@/components/AppBar.vue";
+import NavigationDrawer from "@/components/NavigationDrawer.vue";
+
+export default {
+  name: "App",
+  components: { AppBar, NavigationDrawer },
+  data: () => ({}),
+};
+</script>
 
 <style lang="scss">
 #app {
