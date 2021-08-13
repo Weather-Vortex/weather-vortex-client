@@ -8,6 +8,8 @@
           -->
     </v-app-bar-nav-icon>
 
+    <v-spacer></v-spacer>
+
     <v-toolbar-title>
       Weather Vortex
       <!--
@@ -18,34 +20,15 @@
     <!-- Fill empty space? -->
     <v-spacer></v-spacer>
 
-    <!-- Add menu with this tutorial: https://vuetifyjs.com/en/components/app-bars/#menu -->
-    <v-menu left bottom>
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn icon v-bind="attrs" v-on="on">
-          <!-- TODO: Add here user icon -->
-          <v-icon>mdi-dots-vertical</v-icon>
-        </v-btn>
-      </template>
-      <v-list>
-        <!-- LOGIN item -->
-        <v-list-item @click="() => {}">
-          <v-list-item-icon>
-            <!-- TODO: Icons here? -->
-          </v-list-item-icon>
-          <v-list-item-title>Login</v-list-item-title>
-        </v-list-item>
-        <!-- REGISTER item -->
-        <v-list-item @click="() => {}">
-          <v-list-item-title>Register</v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-menu>
+    <UserIcon />
   </v-app-bar>
 </template>
 
 <script>
+import UserIcon from "@/components/UserIcon";
 export default {
   name: "AppBar",
+  components: { UserIcon },
   data: () => ({
     collapseOnScroll: true,
   }),
