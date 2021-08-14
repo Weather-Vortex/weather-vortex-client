@@ -6,25 +6,29 @@
         Ask for Weather Forecast quickly using this form. Input your location
         and click on the FORECAST button.
       </h3>
+      <v-text-field
+        full-width
+        label="Locality"
+        :loading="isLoading"
+        placeholder="Locality"
+        prepend-inner-icon="mdi-map-marker"
+        single-line
+        type="text"
+        v-model="message"
+        @click:append="navigate"
+      >
+      </v-text-field>
     </v-card-text>
     <v-card-actions>
       <v-form ref="form" lazy-validation>
-        <v-container>
+        <!--<v-container>
           <v-row>
-            <v-col cols="12">
-              <v-text-field
-                class="mx-auto"
-                label="Locality"
-                placeholder="Locality"
-                prepend-inner-icon="mdi-map-marker"
-                solo
-                type="text"
-                v-model="message"
-                @click:append="navigate"
-              ></v-text-field>
-            </v-col>
+            <v-col cols="12">-->
+
+        <!--</v-col>
           </v-row>
-        </v-container>
+        </v-container>-->
+        <v-divider></v-divider>
 
         <v-btn color="success" class="mx-2" @click="navigate">Forecast!</v-btn>
       </v-form>
@@ -35,14 +39,26 @@
 <script>
 export default {
   name: "QuickForecastCard",
+  computed: {
+    isLoading() {
+      return this.loading === true;
+    },
+  },
   data: () => ({
-    message: "Hey!",
+    message: null,
     loading: false,
   }),
   methods: {
     navigate() {
+      this.loading = true;
       const locality = this.message;
-      this.$router.push({ name: "Forecasts", params: { locality } });
+      try {
+        this.$router.push({ name: "Forecasts", params: { locality } });
+      } catch (error) {
+        console.error("Router navigation error:", error);
+      } finally {
+        this.loading = false;
+      }
     },
   },
 };

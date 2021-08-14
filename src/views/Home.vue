@@ -63,9 +63,5 @@ export default {
       ],
     };
   },
-  created() {
-    // console.log("Created");
-    // console.log(process.env);
-  },
 };
 </script>

@@ -4,7 +4,6 @@ import Vuex from "vuex";
 Vue.use(Vuex);
 
 const state = {
-  count: 0,
   drawer: null,
 };
 
@@ -13,7 +12,6 @@ const getters = {
 };
 
 const mutations = {
-  increment: (state) => state.count++,
   setDrawerVisibility: (state, value) => (state.drawer = value),
   toggleDrawer: (state) => (state.drawer = !state.drawer),
 };
