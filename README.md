@@ -17,7 +17,7 @@ Client for Weather Vortex Project.
 After clone this project, run this command to install all necessary dependencies:
 
 ```
-npm install
+npm i
 ```
 
 ### Compiles and hot-reloads for development
