@@ -25,7 +25,7 @@
                           class="rounded-0"
                           ref="name"
                           v-model="name"
-                          :rules="[() => !!name || 'This field is required']"
+                          :rules="[rules.required]"
                           :error-messages="errorMessages"
                           required
                           outlined
@@ -43,7 +43,7 @@
                           class="rounded-0"
                           ref="surname"
                           v-model="surname"
-                          :rules="[() => !!surname || 'This field is required']"
+                          :rules="[rules.required]"
                           :error-messages="errorMessages"
                           required
                           outlined
@@ -58,12 +58,17 @@
                       prepend-inner-icon="mdi-email"
                       type="email"
                       class="rounded-0"
+                      v-model="email"
+                      :rules="[rules.required]"
+                      :error-messages="errorMessages"
+                      required
                       outlined
                     ></v-text-field>
                     <v-text-field
                       v-model="password"
                       :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-                      :rules="[rules.required, rules.min]"
+                      :rules="[rules.required,rules.min]"
+                      
                       :type="show1 ? 'text' : 'password'"
                       label="Enter your password"
                       name="password"
@@ -72,9 +77,17 @@
                       @click:append="show1 = !show1"
                       prepend-inner-icon="mdi-lock"
                       class="rounded-0"
+                      
+                      :error-messages="errorMessages"
                       outlined
                     ></v-text-field>
-                    <v-btn class="rounded-0" color="#000000" x-large block dark
+                    <v-btn
+                      class="rounded-0"
+                      color="#000000"
+                      x-large
+                      block
+                      dark
+                      @click="submit"
                       >Register</v-btn
                     >
                     <v-card-actions class="text--secondary">
@@ -116,15 +129,21 @@ export default {
       show1: false,
       password: "password",
       name: null,
-      surname:null,
+      surname: null,
       formHasErrors: false,
       rules: {
-        required: (value) => !!value || "Required.",
+        required: (value) => !!value || "This field is required",
         min: (v) => v.length >= 8 || "Min 8 characters",
         emailMatch: () => `The email and password you entered don't match`,
       },
+      submit() {
+        this.formHasErrors = false;
+        Object.keys(this.form).forEach((f) => {
+          if (!this.form[f]) this.formHasErrors = true;
+          this.$refs[f].validate(true);
+        });
+      },
     };
-    
   },
 };
 </script>
