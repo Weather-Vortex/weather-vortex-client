@@ -13,7 +13,7 @@
                   height="200"
                 ></v-img>
 
-                <v-card-text ref="form">
+                <v-card-text>
                   <v-form>
                     <v-row>
                       <v-col cols="12" sm="6">
