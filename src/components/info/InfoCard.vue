@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mx-3" elevation="2">
+  <v-card class="mx-auto" max-width="347" elevation="2">
     <v-card-title>{{ title }}</v-card-title>
     <v-card-text>
       <h4 class="font-weight-bold">{{ text }}</h4>
