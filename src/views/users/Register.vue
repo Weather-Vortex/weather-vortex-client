@@ -13,7 +13,7 @@
                   height="200"
                 ></v-img>
 
-                <v-card-text>
+                <v-card-text ref="form">
                   <v-form>
                     <v-row>
                       <v-col cols="12" sm="6">
@@ -28,6 +28,7 @@
                           :rules="[rules.required]"
                           :error-messages="errorMessages"
                           required
+                          placeholder="FirstName"
                           outlined
                         >
                           ></v-text-field
@@ -45,6 +46,7 @@
                           v-model="surname"
                           :rules="[rules.required]"
                           :error-messages="errorMessages"
+                          placeholder="Surname"
                           required
                           outlined
                         >
@@ -61,14 +63,14 @@
                       v-model="email"
                       :rules="[rules.required]"
                       :error-messages="errorMessages"
+                      placeholder="Email"
                       required
                       outlined
                     ></v-text-field>
                     <v-text-field
                       v-model="password"
                       :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-                      :rules="[rules.required,rules.min]"
-                      
+                      :rules="[rules.required, rules.min]"
                       :type="show1 ? 'text' : 'password'"
                       label="Enter your password"
                       name="password"
@@ -77,8 +79,9 @@
                       @click:append="show1 = !show1"
                       prepend-inner-icon="mdi-lock"
                       class="rounded-0"
-                      
+                      placeholder="Password"
                       :error-messages="errorMessages"
+                      required
                       outlined
                     ></v-text-field>
                     <v-btn
@@ -88,8 +91,9 @@
                       block
                       dark
                       @click="submit"
-                      >Register</v-btn
+                      >Signup</v-btn
                     >
+
                     <v-card-actions class="text--secondary">
                       <v-spacer></v-spacer>
                       <!-- <router-link :to="{ name: 'SignUp' }">Sign Up</router-link> -->
@@ -124,26 +128,20 @@
 <script>
 export default {
   //la località preferita secondo me ci sta nell'account
-  data() {
-    return {
-      show1: false,
-      password: "password",
-      name: null,
-      surname: null,
-      formHasErrors: false,
-      rules: {
-        required: (value) => !!value || "This field is required",
-        min: (v) => v.length >= 8 || "Min 8 characters",
-        emailMatch: () => `The email and password you entered don't match`,
-      },
-      submit() {
-        this.formHasErrors = false;
-        Object.keys(this.form).forEach((f) => {
-          if (!this.form[f]) this.formHasErrors = true;
-          this.$refs[f].validate(true);
-        });
-      },
-    };
-  },
+  data: () => ({
+    show1: false,
+    password: "password",
+    name: null,
+    surname: null,
+    email: null,
+    password: null,
+    formHasErrors: false,
+
+    rules: {
+      required: (value) => !!value || "This field is required",
+      min: (v) => v.length >= 8 || "Min 8 characters",
+      //emailMatch: () => `The email and password you entered don't match`,
+    },
+  }),
 };
 </script>
