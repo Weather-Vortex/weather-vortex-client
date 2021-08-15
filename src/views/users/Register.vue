@@ -14,7 +14,7 @@
                 ></v-img>
 
                 <v-card-text>
-                  <v-form>
+                  <v-form ref="form" class="mx-2" v-model="valid" lazy-validation >
                     <v-row>
                       <v-col cols="12" sm="6">
                         <v-text-field
@@ -70,7 +70,7 @@
                     <v-text-field
                       v-model="password"
                       :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-                      :rules="[rules.required, rules.min]"
+                      :rules="[rules.required, rules.min, rules.pwd]"
                       :type="show1 ? 'text' : 'password'"
                       label="Enter your password"
                       name="password"
@@ -130,17 +130,24 @@ export default {
   //la località preferita secondo me ci sta nell'account
   data: () => ({
     show1: false,
-    password: "password",
+    password: null,
     name: null,
     surname: null,
     email: null,
-    password: null,
-    formHasErrors: false,
 
     rules: {
       required: (value) => !!value || "This field is required",
       min: (v) => v.length >= 8 || "Min 8 characters",
+      pwd: (v) =>
+        /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/.test(v) ||
+        "Password must contain at least lowercase letter, one number, a special character and one uppercase letter",
       //emailMatch: () => `The email and password you entered don't match`,
+    },
+
+    methods: {
+      submit() {
+        this.$refs.form.validate();
+      },
     },
   }),
 };
