@@ -32,11 +32,11 @@ export default {
   data: () => ({
     items: [
       /* TODO: Show only if not logged. */
-      { title: "Login", route: "/login", icon: "mdi-login" },
-      { title: "Register", route: "/register", icon: "mdi-account-plus" },
+      { title: "Login", route: "/user/login", icon: "mdi-login" },
+      { title: "Register", route: "/user/register", icon: "mdi-account-plus" },
       /* TODO: Show only if logged. */
-      { title: "Account", route: "/account", icon: "mdi-account" },
-      { title: "Logout", route: "/logout", icon: "mdi-logout" },
+      { title: "Account", route: "/user/account", icon: "mdi-account" },
+      { title: "Logout", route: "/user/logout", icon: "mdi-logout" },
     ],
   }),
 };
