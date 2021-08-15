@@ -1,4 +1,6 @@
 <template>
+<div class="login">
+    <h1 justify="center" class="font-italic">Welcome to</h1>
   <v-container fluid class="fluid">
     <v-row justify="center" align="center" class="row">
       <v-col
@@ -9,14 +11,15 @@
         class="text-center"
         style="height: 100vh"
       >
-        <h1 justify="center" class="font-italic" >Welcome to</h1>
         <v-img
           src="@/assets/vortex.png"
           alt="Weather Vortex logo"
           contain
           height="200"
         ></v-img>
-        <p class="font-italic">Please complete this form to create an account</p>
+        <p class="font-italic">
+          Please complete this form to create an account
+        </p>
 
         <v-form ref="form" class="mx-2" v-model="valid" lazy-validation>
           <v-row>
@@ -104,6 +107,7 @@
       </v-col>
     </v-row>
   </v-container>
+  </div>
 </template>
 
 <script>

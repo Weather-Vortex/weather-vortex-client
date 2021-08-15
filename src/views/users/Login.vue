@@ -1,64 +1,66 @@
 <template>
-  <v-container fluid class="fluid">
-    <v-row justify="center" align="center" class="row">
-      <v-col
-        cols="12"
-        sm="8"
-        md="4"
-        xs="4"
-        class="text-center"
-        style="height: 100vh"
-      >
-        <h1 justify="center" class="font-italic">Welcome to</h1>
-        <v-img
-          src="@/assets/vortex.png"
-          alt="Weather Vortex logo"
-          contain
-          height="200"
-        ></v-img>
-        <p class="font-italic">Please confirm this form to login</p>
+  <div class="login">
+    <h1 justify="center" class="font-italic">Welcome to</h1>
+    <v-container fluid class="fluid">
+      <v-row justify="center" align="center" class="row">
+        <v-col
+          cols="12"
+          sm="8"
+          md="4"
+          xs="4"
+          class="text-center"
+          style="height: 100vh"
+        >
+          <v-img
+            src="@/assets/vortex.png"
+            alt="Weather Vortex logo"
+            contain
+            height="200"
+          ></v-img>
+          <p class="font-italic">Please confirm this form to login</p>
 
-        <v-form ref="form" class="mx-2" v-model="valid" lazy-validation>
-          <v-row>
-            <v-col cols="12">
-              <v-text-field
-                v-model="email"
-                :rules="emailRules"
-                label="Email"
-                prepend-inner-icon="mdi-email"
-                required
-              ></v-text-field>
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col cols="12">
-              <v-text-field
-                v-model="password"
-                :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-                :type="show1 ? 'text' : 'password'"
-                @click:append="show1 = !show1"
-                :rules="passwordRules"
-                label="Password"
-                prepend-inner-icon="mdi-lock"
-                required
-              ></v-text-field>
-            </v-col>
-          </v-row>
+          <v-form ref="form" class="mx-2" v-model="valid" lazy-validation>
+            <v-row>
+              <v-col cols="12">
+                <v-text-field
+                  v-model="email"
+                  :rules="emailRules"
+                  label="Email"
+                  prepend-inner-icon="mdi-email"
+                  required
+                ></v-text-field>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="12">
+                <v-text-field
+                  v-model="password"
+                  :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                  :type="show1 ? 'text' : 'password'"
+                  @click:append="show1 = !show1"
+                  :rules="passwordRules"
+                  label="Password"
+                  prepend-inner-icon="mdi-lock"
+                  required
+                ></v-text-field>
+              </v-col>
+            </v-row>
 
-          <v-btn
-            class="rounded-0"
-            color="#000000"
-            x-large
-            block
-            dark
-            @click="submitForm"
-          >
-            Log In
-          </v-btn>
-        </v-form>
-      </v-col>
-    </v-row>
-  </v-container>
+            <v-btn
+              class="rounded-0"
+              color="#000000"
+              x-large
+              block
+              dark
+              @click="submitForm"
+            >
+              Log In
+            </v-btn>
+          </v-form>
+        </v-col>
+      </v-row>
+    </v-container>
+  </div>
 </template>
 
 <script>
