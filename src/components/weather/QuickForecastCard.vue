@@ -12,6 +12,7 @@
         <v-row>
           <v-col>
             <v-text-field
+              id="quick-forecast-text-field"
               full-width
               label="Locality"
               :loading="isLoading"
@@ -38,7 +39,12 @@
         <v-row>
           <v-col>
             <v-spacer></v-spacer>
-            <v-btn color="success" text @click="navigate">Forecast!</v-btn
+            <v-btn
+              color="success"
+              id="quick-forecast-search-button"
+              text
+              @click="navigate"
+              >Forecast!</v-btn
             ><v-spacer></v-spacer>
           </v-col>
         </v-row>
