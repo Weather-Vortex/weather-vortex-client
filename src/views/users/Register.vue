@@ -130,6 +130,8 @@ export default {
           v
         ) || "E-mail must be valid",
     ],
+    //Nota: la regola delle due password che devono coincidere rimetterla nel server
+    //oppure farla qui?
     password: "",
     retypepassword: "",
     passwordRules: [
