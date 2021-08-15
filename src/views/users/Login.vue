@@ -17,7 +17,7 @@
             contain
             height="200"
           ></v-img>
-          <p class="font-italic">Please confirm this form to login</p>
+          <p class="font-italic">Please complete this form to login</p>
 
           <v-form ref="form" class="mx-2" v-model="valid" lazy-validation>
             <v-row>
