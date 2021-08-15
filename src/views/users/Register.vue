@@ -1,6 +1,4 @@
 <template>
-<div class="login">
-    <h1 justify="center" class="font-italic">Welcome to</h1>
   <v-container fluid class="fluid">
     <v-row justify="center" align="center" class="row">
       <v-col
@@ -107,7 +105,6 @@
       </v-col>
     </v-row>
   </v-container>
-  </div>
 </template>
 
 <script>
