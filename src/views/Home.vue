@@ -12,12 +12,13 @@
     <v-row>
       <v-spacer></v-spacer>
       <v-col>
-        <v-form ref="form" lazy-validation>
+        <QuickForecastCard />
+        <!--<v-form ref="form" lazy-validation>
           <v-text-field label="Locality"></v-text-field>
-          <v-btn color="success" class="mr-4" @click="() => {}">
+          <v-btn color="success" class="mr-4" @click="router.push('forecasts')">
             Forecast!
           </v-btn>
-        </v-form>
+        </v-form>-->
       </v-col>
       <v-spacer></v-spacer>
     </v-row>
@@ -42,6 +43,7 @@
 import CheckStatus from "@/components/info/CheckStatus.vue";
 import HelloWorld from "@/components/HelloWorld.vue";
 import InfoMain from "@/components/info/InfoMain.vue";
+import QuickForecastCard from "@/components/weather/QuickForecastCard.vue";
 
 export default {
   name: "Home",
@@ -49,6 +51,7 @@ export default {
     CheckStatus,
     HelloWorld,
     InfoMain,
+    QuickForecastCard,
   },
   data() {
     return {
@@ -59,10 +62,6 @@ export default {
         },
       ],
     };
-  },
-  created() {
-    console.log("Created");
-    console.log(process.env);
   },
 };
 </script>

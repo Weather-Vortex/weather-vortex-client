@@ -1,5 +1,8 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+
+// View components.
+import Forecasts from "../views/Forecasts.vue";
 import Home from "../views/Home.vue";
 
 Vue.use(VueRouter);
@@ -13,7 +16,7 @@ const routes = [
   {
     path: "/forecasts/:locality",
     name: "Forecasts",
-    component: Home,
+    component: Forecasts,
   },
   {
     path: "/feedbacks",

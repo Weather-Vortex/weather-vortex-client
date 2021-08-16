@@ -61,12 +61,10 @@ export default {
     async checkStatus() {
       this.loading = true;
       try {
-        console.log(this.url);
         const { data } = await this.$http.get(this.url);
-        console.log(data);
         this.status = data.result === "ok";
       } catch (error) {
-        console.error(error);
+        console.error("Check Status Error:", error);
         this.status = false;
       } finally {
         this.loading = false;
