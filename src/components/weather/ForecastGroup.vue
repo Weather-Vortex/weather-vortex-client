@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row>
-      <v-col>
+      <v-col class="ma-auto">
         <div class="text-center">
           <v-pagination
             v-model="page"
@@ -9,6 +9,21 @@
             :total-visible="7"
           ></v-pagination></div
       ></v-col>
+      <v-col class="ma-auto">
+        <div class="text-center">
+          <v-text-field
+            label="Filter Provider"
+            append-icon="mdi-magnify"
+            @click:append="setFilter"
+            :loading="isLoading"
+            placeholder="Insert provider name"
+            single-line
+            type="text"
+            v-model="filter"
+          >
+          </v-text-field>
+        </div>
+      </v-col>
     </v-row>
     <v-row>
       <v-col
@@ -28,6 +43,9 @@ export default {
   name: "CurrentForecast",
   components: { WeatherForecastCard },
   computed: {
+    isLoading() {
+      return this.loading === true;
+    },
     pages() {
       if (typeof this.forecasts === "undefined") {
         // When this component is created, we don't have this.forecasts yet.
@@ -50,10 +68,22 @@ export default {
   },
   data() {
     return {
+      filter: null,
       forecasts: this.initialForecasts,
+      loading: null,
       page: 1,
     };
   },
+  methods: {
+    setFilter: function(value) {
+      console.log("Set filter:", value);
+    },
+  },
   props: ["initialForecasts"],
+  watch: {
+    filter: function(value) {
+      this.setFilter(value);
+    },
+  },
 };
 </script>
