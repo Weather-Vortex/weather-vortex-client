@@ -1,9 +1,6 @@
 <template>
   <v-container>
     <v-row>
-      <v-col>Current Forecasts</v-col>
-    </v-row>
-    <v-row>
       <v-col><ForecastGroup v-bind:initialForecasts="forecasts"/></v-col>
     </v-row>
   </v-container>
@@ -24,7 +21,7 @@ export default {
           tempMax: 27,
           pressure: 1000,
           humidity: 12,
-          weatherIcon: "mdi-sun",
+          weatherIcon: "mdi-weather-sunny",
           clouds: 3,
           rain: 3,
           snow: 3,
@@ -36,7 +33,7 @@ export default {
           tempMax: 26,
           pressure: 1001,
           humidity: 11,
-          weatherIcon: "mdi-rain",
+          weatherIcon: "mdi-weather-rainy",
           clouds: 2,
           rain: 2,
           snow: 2,
@@ -48,7 +45,7 @@ export default {
           tempMax: 26,
           pressure: 1001,
           humidity: 11,
-          weatherIcon: "mdi-rain",
+          weatherIcon: "mdi-weather-rainy",
           clouds: 2,
           rain: 2,
           snow: 2,
@@ -60,7 +57,7 @@ export default {
           tempMax: 26,
           pressure: 1001,
           humidity: 11,
-          weatherIcon: "mdi-rain",
+          weatherIcon: "mdi-weather-rainy",
           clouds: 2,
           rain: 2,
           snow: 2,
@@ -72,7 +69,7 @@ export default {
           tempMax: 26,
           pressure: 1001,
           humidity: 11,
-          weatherIcon: "mdi-rain",
+          weatherIcon: "mdi-weather-rainy",
           clouds: 2,
           rain: 2,
           snow: 2,
@@ -84,7 +81,7 @@ export default {
           tempMax: 26,
           pressure: 1001,
           humidity: 11,
-          weatherIcon: "mdi-rain",
+          weatherIcon: "mdi-weather-rainy",
           clouds: 2,
           rain: 2,
           snow: 2,
@@ -96,7 +93,7 @@ export default {
           tempMax: 26,
           pressure: 1001,
           humidity: 11,
-          weatherIcon: "mdi-rain",
+          weatherIcon: "mdi-weather-rainy",
           clouds: 2,
           rain: 2,
           snow: 2,
@@ -108,7 +105,7 @@ export default {
           tempMax: 26,
           pressure: 1001,
           humidity: 11,
-          weatherIcon: "mdi-rain",
+          weatherIcon: "mdi-weather-rainy",
           clouds: 2,
           rain: 2,
           snow: 2,
@@ -120,7 +117,7 @@ export default {
           tempMax: 26,
           pressure: 1001,
           humidity: 11,
-          weatherIcon: "mdi-rain",
+          weatherIcon: "mdi-weather-rainy",
           clouds: 2,
           rain: 2,
           snow: 2,
