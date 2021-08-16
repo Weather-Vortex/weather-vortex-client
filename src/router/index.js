@@ -14,32 +14,37 @@ const routes = [
   {
     path: "/forecasts",
     component: Forecasts,
-    name: "Forecasts",
     children: [
       {
-        path: "",
-        component: () => ({ template: "<div>Home</div>" }),
-      },
-      {
-        path: "/:locality",
-        component: () => ({
-          template:
-            "<div>By Locality {{ $route.params.locality }}</><router-view /> ",
-        }),
+        path: ":locality",
+        component: () =>
+          import(
+            /* webpackChunkName: "locality-forecast" */ "../components/forecasts/LocalityForecast.vue"
+          ),
         children: [
           {
-            path: "/current",
-            component: () => ({
-              template: "<div>Current Weather</div>",
-            }),
+            path: "current",
+            component: () =>
+              import(
+                /* webpackChunkName: "current-forecast" */ "../components/forecasts/CurrentForecast.vue"
+              ),
           },
           {
-            path: "/threedays",
-            component: () => ({
-              template: "<div>Three Days Weather</div>",
-            }),
+            path: "threedays",
+            component: () =>
+              import(
+                /* webpackChunkName: "three-days-forecast" */ "../components/forecasts/ThreeDaysForecast.vue"
+              ),
           },
         ],
+      },
+      {
+        path: "",
+        name: "Forecasts",
+        component: () =>
+          import(
+            /* webpackChunkName: "empty-forecast" */ "../components/forecasts/EmptyForecast.vue"
+          ),
       },
     ],
   },
