@@ -43,11 +43,9 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-spacer />
       <v-col>
         <router-view></router-view>
       </v-col>
-      <v-spacer />
     </v-row>
   </v-container>
 </template>
