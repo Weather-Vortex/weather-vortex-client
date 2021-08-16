@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container class="mt-12">
     <v-row class="text-center">
       <!-- Weather Forecasting Agrgegation Informations -->
       <v-col class="mb-5" cols="12">
@@ -7,10 +7,12 @@
           Weather Forecasting Aggregation!
         </h2>
 
-        <v-row justify="center">
+        <v-row justify-md="center">
+          <v-spacer></v-spacer>
           <v-col v-for="(info, i) in weatherInfo" :key="i">
             <InfoCard v-bind="info" />
           </v-col>
+          <v-spacer></v-spacer>
         </v-row>
       </v-col>
 
@@ -21,9 +23,11 @@
         </h2>
 
         <v-row justify="center">
+          <v-spacer></v-spacer>
           <v-col v-for="(info, i) in stationsInfo" :key="i">
             <InfoCard v-bind="info" />
           </v-col>
+          <v-spacer></v-spacer>
         </v-row>
       </v-col>
     </v-row>
@@ -44,8 +48,7 @@ export default {
       },
       {
         title: "Compare",
-        text:
-          "Compare various providers to look the world from many eye's points!",
+        text: "Compare various providers to look the world from many eye's points!",
         icon: "mdi-weather-windy-variant",
       },
       {
@@ -58,17 +61,17 @@ export default {
       {
         title: "Insert",
         text: "You can insert your stations into our database",
-        icon: "",
+        icon: "mdi-import",
       },
       {
         title: "Query",
         text: "Then you can consult stations from all over the world",
-        icon: "",
+        icon: "mdi-database-search",
       },
       {
         title: "Rate",
         text: "Then you can give feedback on stations too",
-        icon: "",
+        icon: "mdi-star",
       },
     ],
   }),
