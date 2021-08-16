@@ -33,9 +33,7 @@ export default {
       return ceil > 0 ? ceil : 1;
     },
     someForecasts: function() {
-      const t = this.page - 1;
-      console.log(this.page);
-      return this.forecasts.slice(t * 3, (t + 1) * 3);
+      return this.forecasts.slice((this.page - 1) * 3, this.page * 3);
     },
   },
   data() {
