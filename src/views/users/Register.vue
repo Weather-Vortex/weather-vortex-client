@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid class="fluid">
+  <v-container fluid>
     <v-row justify="center" align="center" class="row">
       <v-col
         cols="12"
@@ -146,9 +146,3 @@ export default {
   },
 };
 </script>
-<style scoped>
-.fluid {
-  margin: 0;
-  padding: 0;
-}
-</style>
