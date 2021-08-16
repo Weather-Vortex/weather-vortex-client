@@ -1,19 +1,47 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
+import Forecasts from "../views/Forecasts.vue";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
-    path: "/",
+    path: "/home",
     name: "Home",
     component: Home,
   },
   {
-    path: "/forecasts/:locality",
+    path: "/forecasts",
+    component: Forecasts,
     name: "Forecasts",
-    component: Home,
+    children: [
+      {
+        path: "",
+        component: () => ({ template: "<div>Home</div>" }),
+      },
+      {
+        path: "/:locality",
+        component: () => ({
+          template:
+            "<div>By Locality {{ $route.params.locality }}</><router-view /> ",
+        }),
+        children: [
+          {
+            path: "/current",
+            component: () => ({
+              template: "<div>Current Weather</div>",
+            }),
+          },
+          {
+            path: "/threedays",
+            component: () => ({
+              template: "<div>Three Days Weather</div>",
+            }),
+          },
+        ],
+      },
+    ],
   },
   {
     path: "/feedbacks",

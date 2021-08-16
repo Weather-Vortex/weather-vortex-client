@@ -30,7 +30,7 @@
         </div>
       </div>
       <span class="text-h6 font-weight-light"
-        >{{ this.name }} Status:&nbsp;</span
+        >&nbsp;{{ this.name }} Status:&nbsp;</span
       >
     </v-card-title>
     <v-card-text>
@@ -66,7 +66,6 @@ export default {
         console.log(data);
         this.status = data.result === "ok";
       } catch (error) {
-        console.error(error);
         this.status = false;
       } finally {
         this.loading = false;
