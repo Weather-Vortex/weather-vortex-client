@@ -1,7 +1,9 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
+
+// View components.
 import Forecasts from "../views/Forecasts.vue";
+import Home from "../views/Home.vue";
 
 Vue.use(VueRouter);
 
