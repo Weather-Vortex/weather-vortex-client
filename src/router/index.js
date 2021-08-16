@@ -18,27 +18,20 @@ const routes = [
     component: Forecasts,
     children: [
       {
-        path: ":locality",
+        path: ":locality/current",
+        name: "Current",
         component: () =>
           import(
-            /* webpackChunkName: "locality-forecast" */ "../components/forecasts/LocalityForecast.vue"
+            /* webpackChunkName: "current-forecast" */ "../components/forecasts/CurrentForecast.vue"
           ),
-        children: [
-          {
-            path: "current",
-            component: () =>
-              import(
-                /* webpackChunkName: "current-forecast" */ "../components/forecasts/CurrentForecast.vue"
-              ),
-          },
-          {
-            path: "threedays",
-            component: () =>
-              import(
-                /* webpackChunkName: "three-days-forecast" */ "../components/forecasts/ThreeDaysForecast.vue"
-              ),
-          },
-        ],
+      },
+      {
+        path: ":locality/threedays",
+        name: "Three Days",
+        component: () =>
+          import(
+            /* webpackChunkName: "three-days-forecast" */ "../components/forecasts/ThreeDaysForecast.vue"
+          ),
       },
       {
         path: "",
