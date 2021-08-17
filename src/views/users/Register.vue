@@ -154,7 +154,7 @@ export default {
       this.$refs.form.validate();
     },
     validatePassword2(value) {
-      return value == this.password || "Passwords don't match."
+      return value === this.password || "Passwords don't match."
     },
   },
 
