@@ -23,6 +23,7 @@
           <v-row>
             <v-col cols="6">
               <v-text-field
+                tabindex="1"
                 v-model="firstname"
                 :rules="nameRules"
                 label="First Name"
@@ -32,6 +33,7 @@
             </v-col>
             <v-col cols="6">
               <v-text-field
+                tabindex="2"
                 v-model="lastname"
                 :rules="nameRules"
                 label="Last Name"
@@ -43,6 +45,7 @@
           <v-row>
             <v-col cols="12">
               <v-text-field
+                tabindex="3"
                 v-model="email"
                 :rules="emailRules"
                 label="Email"
@@ -54,6 +57,7 @@
           <v-row>
             <v-col cols="6">
               <v-text-field
+                tabindex="4"
                 v-model="password"
                 :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
                 :type="show1 ? 'text' : 'password'"
@@ -66,6 +70,7 @@
             </v-col>
             <v-col cols="6">
               <v-text-field
+                tabindex="5"
                 v-model="retypepassword"
                 :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
                 :type="show2 ? 'text' : 'password'"
@@ -79,6 +84,7 @@
           </v-row>
 
           <v-checkbox
+            tabindex="6"
             v-model="firstcheckbox"
             :rules="[(v) => !!v || 'You must agree to continue!']"
             label="I agree with Terms and Conditions"
@@ -86,12 +92,14 @@
           ></v-checkbox>
 
           <v-checkbox
+            tabindex="7"
             v-model="seccheckbox"
             label="I want to receive WeatherVortex Emails"
             required
           ></v-checkbox>
 
           <v-btn
+            tabindex="8"
             class="rounded-0"
             color="#000000"
             x-large
