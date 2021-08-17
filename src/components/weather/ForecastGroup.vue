@@ -50,6 +50,7 @@
 
 <script>
 import WeatherForecastCard from "@/components/weather/WeatherForecastCard";
+
 export default {
   name: "CurrentForecast",
   components: { WeatherForecastCard },
@@ -77,7 +78,16 @@ export default {
         return undefined;
       }
 
-      return this.forecasts.slice((this.page - 1) * 3, this.page * 3);
+      let filtered;
+      if (typeof this.filter === "string" && this.filter.length > 0) {
+        filtered = this.forecasts.filter((elem) =>
+          elem.provider.includes(this.filter)
+        );
+      } else {
+        filtered = this.forecasts;
+      }
+
+      return filtered.slice((this.page - 1) * 3, this.page * 3);
     },
   },
   data() {
@@ -96,10 +106,5 @@ export default {
     },
   },
   props: ["initialForecasts", "initialMid"],
-  watch: {
-    filter: function(value) {
-      this.setFilter(value);
-    },
-  },
 };
 </script>

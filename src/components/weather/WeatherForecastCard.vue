@@ -9,8 +9,14 @@
     </v-list-item>
     <v-list class="transparent">
       <v-list-item>
-        <v-list-item-title>Temperature</v-list-item-title>
-
+        <v-tooltip top>
+          <template v-slot:activator="{ on, attrs }">
+            <v-list-item-title v-bind="attrs" v-on="on"
+              >Temperature</v-list-item-title
+            >
+          </template>
+          <span>Temperature</span>
+        </v-tooltip>
         <v-list-item-icon>
           <v-icon>mdi-thermometer</v-icon>
         </v-list-item-icon>
