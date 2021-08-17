@@ -61,7 +61,8 @@ const routes = [
   {
     path: "*",
     name: "Error 404",
-    component: Home, // TODO: Generate a proper 404 page.
+    component: () =>
+      import( "../views/Error404.vue"),
   },
 ];
 
