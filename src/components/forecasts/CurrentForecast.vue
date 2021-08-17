@@ -1,7 +1,11 @@
 <template>
   <v-container>
     <v-row>
-      <v-col><ForecastGroup v-bind:initialForecasts="forecasts"/></v-col>
+      <v-col
+        ><ForecastGroup
+          v-bind:initialForecasts="forecasts"
+          v-bind:initialMid="mid"
+      /></v-col>
     </v-row>
   </v-container>
 </template>
@@ -123,6 +127,18 @@ export default {
           snow: 2,
         },
       ],
+      mid: {
+        provider: "Aggregated",
+        temp: 25,
+        tempMin: 20,
+        tempMax: 26,
+        pressure: 1001,
+        humidity: 11,
+        weatherIcon: "mdi-weather-rainy",
+        clouds: 2,
+        rain: 2,
+        snow: 2,
+      },
     };
   },
 };

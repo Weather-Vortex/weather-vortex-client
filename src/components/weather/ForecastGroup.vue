@@ -3,6 +3,14 @@
     <v-row>
       <v-col class="ma-auto">
         <div class="text-center">
+          <v-switch
+            v-model="showAggregation"
+            :label="`Show aggregation: ${showAggregation.toString()}`"
+          ></v-switch>
+        </div>
+      </v-col>
+      <v-col class="ma-auto">
+        <div class="text-center">
           <v-pagination
             v-model="page"
             :length="pages"
@@ -26,8 +34,11 @@
       </v-col>
     </v-row>
     <v-row>
+      <v-col v-if="showAggregation" :cols="columns">
+        <WeatherForecastCard v-bind="mid" />
+      </v-col>
       <v-col
-        cols="4"
+        :cols="columns"
         v-for="forecast in someForecasts"
         :key="forecast.provider"
       >
@@ -43,6 +54,9 @@ export default {
   name: "CurrentForecast",
   components: { WeatherForecastCard },
   computed: {
+    columns() {
+      return this.showAggregation ? 3 : 4;
+    },
     isLoading() {
       return this.loading === true;
     },
@@ -70,8 +84,10 @@ export default {
     return {
       filter: null,
       forecasts: this.initialForecasts,
+      mid: this.initialMid,
       loading: null,
       page: 1,
+      showAggregation: true,
     };
   },
   methods: {
@@ -79,7 +95,7 @@ export default {
       console.log("Set filter:", value);
     },
   },
-  props: ["initialForecasts"],
+  props: ["initialForecasts", "initialMid"],
   watch: {
     filter: function(value) {
       this.setFilter(value);

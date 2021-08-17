@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mx-auto" min-width="350" width="400">
+  <v-card class="mx-auto" width="400">
     <v-list-item two-line>
       <v-list-item-content>
         <v-list-item-title class="text-h5">
@@ -20,7 +20,7 @@
         </v-list-item-subtitle>
       </v-list-item>
       <v-list-item>
-        <v-list-item-title>Minimal Temperature</v-list-item-title>
+        <v-list-item-title>Min Temperature</v-list-item-title>
 
         <v-list-item-icon>
           <v-icon>mdi-thermometer-minus</v-icon>
@@ -94,17 +94,6 @@
 
         <v-list-item-subtitle class="text-right">
           {{ rain }}
-        </v-list-item-subtitle>
-      </v-list-item>
-      <v-list-item>
-        <v-list-item-title>Temperature</v-list-item-title>
-
-        <v-list-item-icon>
-          <v-icon>mdi-thermometer</v-icon>
-        </v-list-item-icon>
-
-        <v-list-item-subtitle class="text-right">
-          {{ temp }}
         </v-list-item-subtitle>
       </v-list-item>
       <v-list-item>
