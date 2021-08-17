@@ -72,10 +72,10 @@
               <v-text-field
                 tabindex="5"
                 v-model="retypepassword"
+                :rules="passwordRules.concat(validatePassword2)"
                 :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
                 :type="show2 ? 'text' : 'password'"
                 @click:append="show2 = !show2"
-                :rules="passwordRules"
                 label="Re-type Password"
                 prepend-inner-icon="mdi-lock"
                 required
@@ -135,22 +135,28 @@ export default {
           v
         ) || "E-mail must be valid",
     ],
-    //Nota: la regola delle due password che devono coincidere  meglio rimetterla nel server oppure farla qui?
+    
     password: "",
     retypepassword: "",
     passwordRules: [
-      (v) => !!v || "Password is required",
+      [(v) => !!v || "Password is required"],
       (v) =>
         /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/.test(v) ||
         "Password must contain at least lowercase letter, one number, a special character and one uppercase letter",
     ],
+  
     firstcheckbox: false,
     seccheckbox: false,
   }),
+
   methods: {
     submitForm() {
       this.$refs.form.validate();
     },
+    validatePassword2(value) {
+      return value == this.password || "Passwords don't match."
+    },
   },
+
 };
 </script>

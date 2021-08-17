@@ -79,9 +79,6 @@ export default {
     password: "",
     passwordRules: [
       (v) => !!v || "Password is required",
-      (v) =>
-        /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/.test(v) ||
-        "Password must contain at least lowercase letter, one number, a special character and one uppercase letter",
     ],
   }),
   methods: {
