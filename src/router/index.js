@@ -1,5 +1,8 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+
+// View components.
+import Forecasts from "../views/Forecasts.vue";
 import Home from "../views/Home.vue";
 
 Vue.use(VueRouter);
@@ -13,7 +16,7 @@ const routes = [
   {
     path: "/forecasts/:locality",
     name: "Forecasts",
-    component: Home,
+    component: Forecasts,
   },
   {
     path: "/feedbacks",
@@ -28,6 +31,32 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/About.vue"),
+  },
+  {
+    path: "/user",
+    name: "User",
+    component: () => import("../views/User.vue"),
+    children: [
+      {
+        // Login will be rendered inside User's <router-view>
+        // when /user/:id/profile is matched
+        path: "login",
+        name: "Login",
+        component: () => import("../views/users/Login.vue"),
+      },
+      {
+        path: "register",
+        component: () => import("../views/users/Register.vue"),
+      },
+      {
+        path: "profile",
+        component: () => import("../views/users/Profile.vue"),
+      },
+      {
+        path: ":id",
+        component: () => import("../views/users/PublicProfile.vue"),
+      },
+    ],
   },
   {
     path: "*",
