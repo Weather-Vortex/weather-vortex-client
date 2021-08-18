@@ -45,21 +45,12 @@
                         <v-text-field
                           type="password"
                           label="Password"
-                          v-model="text1"
+                          v-model="password"
                           :disabled="!toggleDisable"
                         >
                         </v-text-field>
-                        <v-btn
-                          class="ml-3"
-                          :color="toggleDisable ? 'primary' : 'accent'"
-                          @click="toggleDisable = !toggleDisable"
-                        >
-                          <v-icon> mdi-pencil </v-icon>
-                        </v-btn>
                       </v-list-item-title>
-                      <v-list-item-subtitle
-                        >Edit Password</v-list-item-subtitle
-                      >
+                      <v-list-item-subtitle>Edit Password</v-list-item-subtitle>
 
                       <!--Campo modificabile-> al click del bottoncino disabilitare funzione read only-->
                     </v-list-item-content>
@@ -68,15 +59,31 @@
                   <v-divider inset></v-divider>
                   <v-list-item>
                     <v-list-item-icon>
-                      <v-icon color="indigo"> mdi-map-marker </v-icon>
+                     <v-icon color="indigo"> mdi-map-marker </v-icon>
                     </v-list-item-icon>
 
                     <v-list-item-content>
-                      <v-list-item-title>Weather Vortex</v-list-item-title>
-                      <v-list-item-subtitle>Online</v-list-item-subtitle>
+                      <v-list-item-title>
+                        <v-text-field
+                          label="Position"
+                          v-model="position"
+                          :disabled="!toggleDisable"
+                          :append-icon="show2 ? 'mdi-map-marker-off' : 'mdi-map-marker'"
+                          @click:append="show2 = !show2"
+                        >
+                        </v-text-field>
+                      </v-list-item-title>
+                      <v-list-item-subtitle>Edit Position</v-list-item-subtitle>
                     </v-list-item-content>
                   </v-list-item>
                 </v-list>
+                <v-btn
+                  class="ml-3"
+                  :color="toggleDisable ? 'primary' : 'accent'"
+                  @click="toggleDisable = !toggleDisable"
+                >
+                  <v-icon> mdi-pencil </v-icon>
+                </v-btn>
               </v-card-text>
             </v-card>
           </v-col>
@@ -100,8 +107,10 @@
 export default {
   name: "privateProfile",
   data: () => ({
-    text1: null,
+    position: "Cesena",
+    password: "Password",
     toggleDisable: false,
+    show2:false,
   }),
 };
 </script>
