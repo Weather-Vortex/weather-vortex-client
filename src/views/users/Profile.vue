@@ -10,12 +10,10 @@
                   <v-avatar size="100">
                     <img alt="user" src="@/assets/user.png" />
                   </v-avatar>
-
-                  
                 </v-app-bar>
 
                 <v-card-title class="white--text mt-8">
-                  <h3 class="font-weight-bold ml-3">Nome Cognome</h3>
+                  <h3 class="font-weight-bold ml-3">Name Surname</h3>
                 </v-card-title>
               </v-img>
 
@@ -43,14 +41,28 @@
                     </v-list-item-icon>
 
                     <v-list-item-content>
-                      <v-list-item-title>●●●●●●●</v-list-item-title>
-                      <v-list-item-subtitle>Password</v-list-item-subtitle>
-                      
-                    </v-list-item-content>
+                      <v-list-item-title>
+                        <v-text-field
+                          type="password"
+                          label="Password"
+                          v-model="text1"
+                          :disabled="!toggleDisable"
+                        >
+                        </v-text-field>
+                        <v-btn
+                          class="ml-3"
+                          :color="toggleDisable ? 'primary' : 'accent'"
+                          @click="toggleDisable = !toggleDisable"
+                        >
+                          <v-icon> mdi-pencil </v-icon>
+                        </v-btn>
+                      </v-list-item-title>
+                      <v-list-item-subtitle
+                        >Edit Password</v-list-item-subtitle
+                      >
 
-                    <v-list-item-content>
-                      <v-btn></v-btn> <!--Personalizza sto bottone-->
-                      </v-list-item-content>
+                      <!--Campo modificabile-> al click del bottoncino disabilitare funzione read only-->
+                    </v-list-item-content>
                   </v-list-item>
 
                   <v-divider inset></v-divider>
@@ -84,4 +96,13 @@
   border-radius: 3px;
 }
 </style>
+<script>
+export default {
+  name: "privateProfile",
+  data: () => ({
+    text1: null,
+    toggleDisable: false,
+  }),
+};
+</script>
 
