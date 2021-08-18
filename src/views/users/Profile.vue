@@ -1,10 +1,10 @@
 <template>
   <v-app>
-    <v-main>
+    <v-main class="blue lighten-5">
       <v-container align="center" justify="center">
         <v-row class="bg-img" justify="space-around">
           <v-col md="6" offset-md="3">
-            <v-card width="400">
+            <v-card width="400"  class="blue lighten-5">
               <v-img height="200px" src="@/assets/lavender.jpg">
                 <v-app-bar class="mt-8" flat color="rgba(0, 0, 0, 0)">
                   <v-avatar size="100">
@@ -20,7 +20,7 @@
               <v-card-text>
                 <div class="font-weight-bold ml-8 mb-2">Details</div>
 
-                <v-list two-line>
+                <v-list two-line class="blue lighten-5" >
                   <v-list-item>
                     <v-list-item-icon>
                       <v-icon color="indigo"> mdi-email </v-icon>
@@ -91,11 +91,19 @@
           </v-col>
         </v-row>
       </v-container>
-      <v-container>
-        <v-row justify="space-around">
-          <v-col md="6" offset-md="3">
-            <ControlUnits /> </v-col
-        ></v-row>
+      <v-spacer></v-spacer>
+      
+      <v-container ><v-div></v-div>
+        <v-row class="mb-3" no-gutters>
+          <v-col md="4" >
+            <h2>Control Units</h2>
+            <UserControlUnits />
+          </v-col>
+          <v-col md="4" offset-md="4">
+            <h2>Reviews</h2>
+            <UserReviews />
+          </v-col>
+        </v-row>
       </v-container>
     </v-main>
   </v-app>
@@ -104,7 +112,7 @@
 <style>
 .bg-img {
   /*l'immagine è anche in assets (cloud.jpg) ma non riesco a fargli riconoscere il percorso*/
-  background-image: url("https://pixabay.com/get/g2de72f7ddd24b05fd303f39aab65520ff1b182be9379185aae6a93ac2b2b0292e485349cdc70c9d701975862a256e04e.jpg");
+  background-image: url("https://pixabay.com/get/g73bbb070772384eeb994bfd384579c7ad1313beeee434e7b550bfbfea53ff32a92fd24e35800768b5577d31527dd187bffdd97c587aebe9c2d44e127271dae6f_1920.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center top;
@@ -112,10 +120,11 @@
 }
 </style>
 <script>
-import ControlUnits from "@/components/weather/ControlUnits";
+import UserControlUnits from "@/components/weather/UserControlUnits";
+import UserReviews from "@/components/UserReviews";
 export default {
   name: "privateProfile",
-  components: { ControlUnits },
+  components: { UserControlUnits, UserReviews },
   data: () => ({
     position: "Cesena",
     password: "Password",

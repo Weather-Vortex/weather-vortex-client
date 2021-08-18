@@ -39,3 +39,26 @@
     },
   }
 </script>
+
+<style>
+  tbody tr:nth-of-type(even) {
+    background-color: rgb(189, 230, 230);
+  }
+
+  tbody tr:nth-of-type(odd) {
+    background-color: rgb(161, 225, 241);
+  }
+
+  .v-data-table-header {
+    background-color: rgb(153, 166, 221);
+    color: white;
+  }
+
+  .v-data-footer {
+    background-color: rgb(250 ,250, 250);
+  }
+
+  .theme--light.v-data-table thead tr th {
+    color: white;
+  }
+</style>
