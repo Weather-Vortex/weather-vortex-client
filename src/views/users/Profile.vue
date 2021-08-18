@@ -59,7 +59,7 @@
                   <v-divider inset></v-divider>
                   <v-list-item>
                     <v-list-item-icon>
-                     <v-icon color="indigo"> mdi-map-marker </v-icon>
+                      <v-icon color="indigo"> mdi-map-marker </v-icon>
                     </v-list-item-icon>
 
                     <v-list-item-content>
@@ -68,7 +68,9 @@
                           label="Position"
                           v-model="position"
                           :disabled="!toggleDisable"
-                          :append-icon="show2 ? 'mdi-map-marker-off' : 'mdi-map-marker'"
+                          :append-icon="
+                            show2 ? 'mdi-map-marker-off' : 'mdi-map-marker'
+                          "
                           @click:append="show2 = !show2"
                         >
                         </v-text-field>
@@ -82,12 +84,18 @@
                   :color="toggleDisable ? 'primary' : 'accent'"
                   @click="toggleDisable = !toggleDisable"
                 >
-                  <v-icon> mdi-pencil </v-icon>
+                  <v-icon> mdi-pencil </v-icon> Edit
                 </v-btn>
               </v-card-text>
             </v-card>
           </v-col>
         </v-row>
+      </v-container>
+      <v-container>
+        <v-row justify="space-around">
+          <v-col md="6" offset-md="3">
+            <ControlUnits /> </v-col
+        ></v-row>
       </v-container>
     </v-main>
   </v-app>
@@ -104,13 +112,15 @@
 }
 </style>
 <script>
+import ControlUnits from "@/components/weather/ControlUnits";
 export default {
   name: "privateProfile",
+  components: { ControlUnits },
   data: () => ({
     position: "Cesena",
     password: "Password",
     toggleDisable: false,
-    show2:false,
+    show2: false,
   }),
 };
 </script>
