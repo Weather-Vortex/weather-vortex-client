@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-main class="blue lighten-5"  >
+    <v-main class="blue lighten-5">
       <v-container align="center" justify="center">
         <v-row class="bg-img" justify="space-around">
           <v-col md="6" offset-md="3">
@@ -96,7 +96,7 @@
       <v-container
         ><v-div></v-div>
         <v-row class="mb-3" no-gutters>
-          <v-col md="4" class="pa-md-10  mx-lg-auto">
+          <v-col md="4" class="pa-md-10 mx-lg-auto">
             <h2 class="pa-md-8 sm-10 mx-lg-auto">
               Control Units<v-btn class="mx-2" small fab dark color="indigo"
                 ><v-icon>mdi-plus</v-icon></v-btn
@@ -105,7 +105,7 @@
 
             <UserControlUnits />
           </v-col>
-          <v-col md="4" offset-md="4" class="pa-md-10  mx-lg-auto">
+          <v-col md="4" offset-md="4" class="pa-md-10 mx-lg-auto">
             <h2 class="pa-md-8 sm-10 mx-lg-auto">
               Reviews
               <v-btn class="mx-2" small fab dark color="indigo"
