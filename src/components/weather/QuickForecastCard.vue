@@ -48,6 +48,7 @@
             ><v-spacer></v-spacer>
           </v-col>
         </v-row>
+        <p>{{ myCoordinates.lat }} Latitude, {{ myCoordinates.lng }} Longitude</p>
       </v-container>
     </v-card-actions>
   </v-card>
@@ -56,15 +57,30 @@
 <script>
 export default {
   name: "QuickForecastCard",
-  computed: {
-    isLoading() {
-      return this.loading === true;
-    },
-  },
+
+  
   data: () => ({
     message: null,
     loading: false,
+    myCoordinates: {
+      lat: 0,
+      lng: 0,
+    },
   }),
+computed: {
+    isLoading() {
+      return this.loading === true;
+    },
+
+  },
+  created(){
+ this.$getLocation({})
+                    .then(coordinates => {
+                        this.myCoordinates = coordinates;
+                    })
+                    .catch(error => alert(error));
+            },
+  
   methods: {
     getPosition() {
       this.message = "Geolocation";

@@ -1,13 +1,14 @@
 import Vue from "vue";
+import VueGeolocation from 'vue-browser-geolocation';
 import App from "./App.vue";
 import axios from "axios";
 import router from "./router";
 import store from "./state";
 import vuetify from "./plugins/vuetify";
-import VueGeolocationApi from 'vue-browser-geolocation-api';
 
-Vue.use(VueGeolocationApi);
-Vue.config.productionTip = false;
+
+Vue.use(VueGeolocation);
+Vue.config.productionTip = false
 
 Vue.prototype.$http = axios;
 
