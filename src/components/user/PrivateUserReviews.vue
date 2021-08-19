@@ -9,6 +9,7 @@
 
 <script>
 export default {
+  name:"PrivateUserReviews",
   data() {
     return {
       headers: [
