@@ -61,28 +61,32 @@ export default {
   name: "QuickForecastCard",
 
   data: () => ({
-    message: null,
+   message: null,
     loading: false,
     myCoordinates: {
       lat: "",
       lng: "",
-    },
+    }, 
+    
   }),
   computed: {
     isLoading() {
       return this.loading === true;
     },
   },
-  
+
   methods: {
     getPosition() {
-      this.message = "Geolocation";
-      this.$getLocation({})
+      this.message=this.$getLocation({})
         .then((coordinates) => {
           this.myCoordinates = coordinates;
         })
         .catch((error) => alert(error));
+        
     },
+
+
+    
     navigate() {
       this.loading = true;
       const locality = this.message;
