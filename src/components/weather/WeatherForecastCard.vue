@@ -1,30 +1,26 @@
 <template>
-  <v-card class="mx-auto" width="400">
-    <v-list-item two-line>
-      <v-list-item-content>
-        <v-list-item-title class="text-h5">
-          {{ provider }}
-        </v-list-item-title>
-      </v-list-item-content>
-    </v-list-item>
-    <v-list class="transparent">
-      <v-list-item>
-        <v-tooltip top>
-          <template v-slot:activator="{ on, attrs }">
-            <v-list-item-title v-bind="attrs" v-on="on"
-              >Temperature</v-list-item-title
-            >
-          </template>
-          <span>Temperature</span>
-        </v-tooltip>
-        <v-list-item-icon>
-          <v-icon>mdi-thermometer</v-icon>
-        </v-list-item-icon>
-
-        <v-list-item-subtitle class="text-right">
-          {{ temp }}
-        </v-list-item-subtitle>
+  <v-card class="mx-4 my-1" :loading="loading" elevation="1">
+    <template slot="progress">
+      <v-progress-linear
+        color="deep-purple"
+        height="10"
+        indeterminate
+      ></v-progress-linear>
+    </template>
+    <v-list v-if="!loading" class="transparent">
+      <v-list-item two-line>
+        <v-list-item-content>
+          <v-list-item-title class="text-h5">
+            {{ provider }}
+          </v-list-item-title>
+        </v-list-item-content>
       </v-list-item>
+      <WeatherCardItem
+        v-for="type in types"
+        :key="type.title"
+        v-bind:type="type"
+      />
+      <!-- Convert other items to component Item. -->
       <v-list-item>
         <v-list-item-title>Min Temperature</v-list-item-title>
 
@@ -33,7 +29,7 @@
         </v-list-item-icon>
 
         <v-list-item-subtitle class="text-right">
-          {{ tempMin }}
+          {{ data.tempMin }}
         </v-list-item-subtitle>
       </v-list-item>
       <v-list-item>
@@ -44,7 +40,7 @@
         </v-list-item-icon>
 
         <v-list-item-subtitle class="text-right">
-          {{ tempMax }}
+          {{ data.tempMax }}
         </v-list-item-subtitle>
       </v-list-item>
       <v-list-item>
@@ -55,7 +51,7 @@
         </v-list-item-icon>
 
         <v-list-item-subtitle class="text-right">
-          {{ pressure }}
+          {{ data.pressure }}
         </v-list-item-subtitle>
       </v-list-item>
       <v-list-item>
@@ -66,18 +62,7 @@
         </v-list-item-icon>
 
         <v-list-item-subtitle class="text-right">
-          {{ humidity }}
-        </v-list-item-subtitle>
-      </v-list-item>
-      <v-list-item>
-        <v-list-item-title>Weather</v-list-item-title>
-
-        <v-list-item-icon>
-          <v-icon>{{ weatherIcon }}</v-icon>
-        </v-list-item-icon>
-
-        <v-list-item-subtitle class="text-right">
-          Weather description
+          {{ data.humidity }}
         </v-list-item-subtitle>
       </v-list-item>
       <v-list-item>
@@ -88,7 +73,7 @@
         </v-list-item-icon>
 
         <v-list-item-subtitle class="text-right">
-          {{ clouds }}
+          {{ data.clouds }}
         </v-list-item-subtitle>
       </v-list-item>
       <v-list-item>
@@ -99,7 +84,7 @@
         </v-list-item-icon>
 
         <v-list-item-subtitle class="text-right">
-          {{ rain }}
+          {{ data.rain }}
         </v-list-item-subtitle>
       </v-list-item>
       <v-list-item>
@@ -110,7 +95,7 @@
         </v-list-item-icon>
 
         <v-list-item-subtitle class="text-right">
-          {{ snow }}
+          {{ data.snow }}
         </v-list-item-subtitle>
       </v-list-item>
     </v-list>
@@ -118,19 +103,45 @@
 </template>
 
 <script>
+import WeatherCardItem from "@/components/weather/WeatherCardItem";
 export default {
   name: "WeatherForecastCard",
+  components: { WeatherCardItem },
+  computed: {
+    loading: function () {
+      return typeof this.data === "undefined" || this.data === null;
+    },
+    types: function () {
+      return [
+        {
+          icon: this.$props.data.weatherIcon,
+          title: "Weather",
+          tooltip: this.$props.data.weatherDescription,
+          value: this.$props.data.weatherDescription,
+        },
+        {
+          icon: "mdi-thermometer",
+          title: "Temperature",
+          tooltip: "Real Temperature",
+          value: this.$props.data.temp,
+        },
+      ];
+    },
+  },
   props: {
     provider: String,
-    temp: Number,
-    tempMin: Number,
-    tempMax: Number,
-    pressure: Number,
-    humidity: Number,
-    weatherIcon: String,
-    clouds: Number,
-    rain: Number,
-    snow: Number,
+    data: {
+      temp: Number,
+      tempMin: Number,
+      tempMax: Number,
+      pressure: Number,
+      humidity: Number,
+      weatherIcon: String,
+      weatherDescription: String,
+      clouds: Number,
+      rain: Number,
+      snow: Number,
+    },
   },
 };
 </script>

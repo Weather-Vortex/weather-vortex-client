@@ -1,17 +1,18 @@
 <template>
   <v-container>
     <v-row>
-      <v-col
-        >Connected: {{ connected }} - Loading: {{ loading }} - Fetching:
+      <v-col>
+        Loading: {{ loading }} - Fetching:
         {{ fetching }}
       </v-col>
     </v-row>
     <v-row>
-      <v-col
-        ><ForecastGroup
+      <v-col>
+        <ForecastGroup
           v-bind:initialForecasts="forecasts"
           v-bind:initialMid="mid"
-      /></v-col>
+        />
+      </v-col>
     </v-row>
   </v-container>
 </template>
@@ -39,127 +40,21 @@ export default {
   data() {
     return {
       fetching: 0,
-      forecasts: [
-        {
-          provider: "OpenWeatherMap",
-          temp: 24,
-          tempMin: 21,
-          tempMax: 27,
-          pressure: 1000,
-          humidity: 12,
-          weatherIcon: "mdi-weather-sunny",
-          clouds: 3,
-          rain: 3,
-          snow: 3,
-        },
-        {
-          provider: "Troposphere",
-          temp: 25,
-          tempMin: 20,
-          tempMax: 26,
-          pressure: 1001,
-          humidity: 11,
-          weatherIcon: "mdi-weather-rainy",
-          clouds: 2,
-          rain: 2,
-          snow: 2,
-        },
-        {
-          provider: "IoT Weather Station",
-          temp: 25,
-          tempMin: 20,
-          tempMax: 26,
-          pressure: 1001,
-          humidity: 11,
-          weatherIcon: "mdi-weather-rainy",
-          clouds: 2,
-          rain: 2,
-          snow: 2,
-        },
-        {
-          provider: "IoT Weather Station 2",
-          temp: 25,
-          tempMin: 20,
-          tempMax: 26,
-          pressure: 1001,
-          humidity: 11,
-          weatherIcon: "mdi-weather-rainy",
-          clouds: 2,
-          rain: 2,
-          snow: 2,
-        },
-        {
-          provider: "IoT Weather Station 3",
-          temp: 25,
-          tempMin: 20,
-          tempMax: 26,
-          pressure: 1001,
-          humidity: 11,
-          weatherIcon: "mdi-weather-rainy",
-          clouds: 2,
-          rain: 2,
-          snow: 2,
-        },
-        {
-          provider: "IoT Weather Station 4",
-          temp: 25,
-          tempMin: 20,
-          tempMax: 26,
-          pressure: 1001,
-          humidity: 11,
-          weatherIcon: "mdi-weather-rainy",
-          clouds: 2,
-          rain: 2,
-          snow: 2,
-        },
-        {
-          provider: "IoT Weather Station 5",
-          temp: 25,
-          tempMin: 20,
-          tempMax: 26,
-          pressure: 1001,
-          humidity: 11,
-          weatherIcon: "mdi-weather-rainy",
-          clouds: 2,
-          rain: 2,
-          snow: 2,
-        },
-        {
-          provider: "IoT Weather Station 6",
-          temp: 25,
-          tempMin: 20,
-          tempMax: 26,
-          pressure: 1001,
-          humidity: 11,
-          weatherIcon: "mdi-weather-rainy",
-          clouds: 2,
-          rain: 2,
-          snow: 2,
-        },
-        {
-          provider: "IoT Weather Station 7",
-          temp: 25,
-          tempMin: 20,
-          tempMax: 26,
-          pressure: 1001,
-          humidity: 11,
-          weatherIcon: "mdi-weather-rainy",
-          clouds: 2,
-          rain: 2,
-          snow: 2,
-        },
-      ],
+      forecasts: [],
       mid: {
         provider: "Aggregated",
-        temp: 25,
-        tempMin: 20,
-        tempMax: 26,
-        pressure: 1001,
-        humidity: 11,
-        weatherIcon: "mdi-weather-rainy",
-        clouds: 2,
-        rain: 2,
-        snow: 2,
+        data: {
+          temp: 25,
+          tempMin: 20,
+          tempMax: 26,
+          pressure: 1001,
+          humidity: 11,
+          weatherIcon: "mdi-weather-rainy",
+          weatherDescription: "Rainy",
+          clouds: 2,
+          rain: 2,
+          snow: 2,
+        },
       },
       socket: null,
       status: null,
@@ -213,7 +108,9 @@ export default {
         }
 
         args.providers.forEach((provider) => {
-          this.waiting.push({ provider });
+          console.log("Found provider", provider);
+          this.waiting.push({ provider: provider });
+          console.log("Waiting", this.waiting);
         });
 
         this.fetching = this.fetching + args.providers.length - 1;
@@ -229,10 +126,10 @@ export default {
         const { provider, data } = result;
         this.fetching = this.fetching - 1;
         const current = this.waiting.filter(
-          (forecast) => forecast.provider === provider
+          (forecast) => forecast.provider !== provider
         );
-        current.data = data;
-        this.forecasts.push(current);
+        console.log("Fetched %o from %o", current.provider, this.waiting);
+        this.forecasts.push({ provider, data });
       });
     },
   },
