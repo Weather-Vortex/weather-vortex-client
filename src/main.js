@@ -4,7 +4,9 @@ import axios from "axios";
 import router from "./router";
 import store from "./state";
 import vuetify from "./plugins/vuetify";
+import VueGeolocation from 'vue-browser-geolocation';
 
+Vue.use(VueGeolocation);
 Vue.config.productionTip = false;
 
 Vue.prototype.$http = axios;
