@@ -52,7 +52,7 @@
                       </v-list-item-title>
                       <v-list-item-subtitle>Edit Password</v-list-item-subtitle>
 
-                      <!--Campo modificabile-> al click del bottoncino disabilitare funzione read only-->
+                      <!--Campo modificabile-> al click del bottoncino disabilitare -->
                     </v-list-item-content>
                   </v-list-item>
 
