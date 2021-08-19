@@ -1,7 +1,10 @@
 <template>
   <v-container>
     <v-row>
-      <v-col> {{ loading }} - {{ status }} </v-col>
+      <v-col
+        >Connected: {{ connected }} - Loading: {{ loading }} - Fetching:
+        {{ fetching }}
+      </v-col>
     </v-row>
     <v-row>
       <v-col
@@ -14,20 +17,28 @@
 </template>
 
 <script>
+import create from "@/socket";
 import ForecastGroup from "@/components/weather/ForecastGroup";
+import { v4 as uuidv4 } from "uuid";
 
 export default {
   name: "CurrentForecast",
   components: { ForecastGroup },
   computed: {
-    guid: {
-      get: function () {
-        return this.$store.state.guid;
-      },
+    connected: function () {
+      return (
+        typeof this.socket !== "undefined" &&
+        this.socket !== null &&
+        this.socket.connected
+      );
+    },
+    loading: function () {
+      return this.fetching > 0;
     },
   },
   data() {
     return {
+      fetching: 0,
       forecasts: [
         {
           provider: "OpenWeatherMap",
@@ -138,7 +149,6 @@ export default {
           snow: 2,
         },
       ],
-      loading: null,
       mid: {
         provider: "Aggregated",
         temp: 25,
@@ -151,48 +161,103 @@ export default {
         rain: 2,
         snow: 2,
       },
+      socket: null,
       status: null,
+      waiting: [],
     };
   },
   methods: {
-    requireForecasts(locality) {
+    connect: function () {
+      const username = uuidv4();
+      this.socket = create();
+      this.subscribe();
+      console.log("Username: %s with socket %s", username, this.socket.id);
+      this.socket.auth = { username };
+      this.socket.connect({ forceNew: true });
+    },
+    clean: function () {
+      this.forecasts = [];
+      this.waiting = [];
+      this.mid = {};
+    },
+    disconnect: function () {
+      const instance = this.socket;
+      instance.off("connection");
+      instance.off("connect_error");
+      instance.off("forecast_requested");
+      instance.off("result");
+      // state. socket.disconnect();
+      // this.$socket.close();
+      instance.disconnect();
+      this.socket = null;
+    },
+    requireForecasts: function (locality) {
       console.log("Requested current for:", locality);
-      this.$socket.emit("current", { locality });
+      this.fetching = this.fetching + 1;
+      this.clean();
+      this.socket.emit("current", { locality });
+    },
+    subscribe: function () {
+      this.socket.on("connect", () => {
+        // Now we can require forecasts to our server and listen to future results.
+        console.log("Socket Connected");
+        const locality = this.$route.params.locality;
+        this.requireForecasts(locality);
+      });
+
+      this.socket.on("forecast_requested", (args) => {
+        if (typeof args.providers !== "object") {
+          console.error("Received a corrupted packet from socket");
+          this.fetching = this.fetching - 1;
+          return;
+        }
+
+        args.providers.forEach((provider) => {
+          this.waiting.push({ provider });
+        });
+
+        this.fetching = this.fetching + args.providers.length - 1;
+      });
+      this.socket.on("connect_error", (err) => {
+        console.warn("Connection error:", err);
+        if (err.message === "Invalid locality") {
+          this.selectedLocality = false;
+        }
+      });
+      this.socket.on("result", (result) => {
+        console.log("Result from %s with %o:", result.provider, result.data);
+        const { provider, data } = result;
+        this.fetching = this.fetching - 1;
+        const current = this.waiting.filter(
+          (forecast) => forecast.provider === provider
+        );
+        current.data = data;
+        this.forecasts.push(current);
+      });
     },
   },
   watch: {
-    guid(value) {
-      console.log("Guid modified:", value);
-      this.$socket.auth = { username: value };
-      this.$socket.connect();
+    connected(value) {
+      if (value && this.socket) {
+        console.log("connected");
+      }
     },
   },
   mounted() {
-    // Subscribe to some Socket.IO events.
-    this.$socket.on("connect", () => {
-      // Now we can require forecasts to our server and listen to future results.
-      console.log("Socket Connected");
-      const locality = this.$route.params.locality;
-      this.requireForecasts(locality);
-    });
-    this.$socket.on("forecast_requested", (args) => {
-      console.log("Forecast Requested Event:", args);
-    });
-    this.$socket.on("connect_error", (err) => {
-      console.warn("Connection error:", err);
-      if (err.message === "Invalid locality") {
-        this.selectedLocality = false;
-      }
-    });
-
-    // Assign an unique GUID to this client.
-    this.$store.commit("assignGUID");
+    console.log("mounted");
+    if (!this.connected) {
+      this.connect();
+    }
+  },
+  beforeRouteLeave(to, from, next) {
+    console.log("Before route leave from %s to %s", from, to);
+    next();
   },
   destroyed() {
-    this.$socket.off("connection");
-    this.$socket.off("connect_error");
-    this.$socket.off("forecast_requested");
-    this.$socket.disconnect();
+    console.log("Destroyed");
+    if (this.connected) {
+      this.disconnect();
+    }
   },
 };
 </script>
