@@ -103,7 +103,7 @@
               >
             </h2>
 
-            <UserControlUnits />
+            <PrivateUserControlUnits />
           </v-col>
           <v-col md="4" offset-md="4" class="pa-md-10 mx-lg-auto">
             <h2 class="pa-md-8 sm-10 mx-lg-auto">
@@ -112,7 +112,7 @@
                 ><v-icon>mdi-plus</v-icon></v-btn
               >
             </h2>
-            <UserReviews />
+            <PrivateUserReviews />
           </v-col>
         </v-row>
       </v-container>
@@ -131,11 +131,11 @@
 }
 </style>
 <script>
-import UserControlUnits from "@/components/weather/UserControlUnits";
-import UserReviews from "@/components/UserReviews";
+import PrivateUserControlUnits from "@/components/user/PrivateUserControlUnits";
+import PrivateUserReviews from "@/components/user/PrivateUserReviews";
 export default {
   name: "privateProfile",
-  components: { UserControlUnits, UserReviews },
+  components: { PrivateUserControlUnits, PrivateUserReviews },
   data: () => ({
     position: "Cesena",
     password: "Password",
