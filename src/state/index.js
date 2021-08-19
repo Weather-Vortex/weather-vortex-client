@@ -1,17 +1,22 @@
 import Vue from "vue";
 import Vuex from "vuex";
 
+import { v4 as uuidv4 } from "uuid";
+
 Vue.use(Vuex);
 
 const state = {
   drawer: null,
+  guid: null,
 };
 
 const getters = {
   drawerVisible: (state) => state.drawer,
+  guid: (state) => state.guid,
 };
 
 const mutations = {
+  assignGUID: (state) => (state.guid = uuidv4()),
   setDrawerVisibility: (state, value) => (state.drawer = value),
   toggleDrawer: (state) => (state.drawer = !state.drawer),
 };
