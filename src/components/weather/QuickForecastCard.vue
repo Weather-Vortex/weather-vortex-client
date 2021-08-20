@@ -77,9 +77,9 @@ export default {
 
   methods: {
     getPosition() {
-      this.message=this.$getLocation({})
+      this.$getLocation({})
         .then((coordinates) => {
-          this.myCoordinates = coordinates;
+          this.message = coordinates;
         })
         .catch((error) => alert(error));
         
