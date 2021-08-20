@@ -76,7 +76,7 @@ export default {
     showPosition: function (position) {
       this.lat = position.coords.latitude;
       this.lon = position.coords.longitude;
-      this.message = "Geolocation:{" + this.lat + "," + this.lon + "}";
+      this.message = "{" + this.lat + "," + this.lon + "}";
     },
     error: function (error) {
       if(error.code == error.PERMISSION_DENIED){
