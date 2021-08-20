@@ -38,8 +38,8 @@
 
 <style>
 .bg-img {
-  /*l'immagine è anche in assets (clouds.jpg) ma non riesco a fargli riconoscere il percorso*/
-  background-image: url("https://pixabay.com/get/g73bbb070772384eeb994bfd384579c7ad1313beeee434e7b550bfbfea53ff32a92fd24e35800768b5577d31527dd187bffdd97c587aebe9c2d44e127271dae6f_1920.jpg");
+  /*al momento non ho messo clouds di jpg in assets perchè non mi riconosce il percors*/
+  background-image: url("clouds.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center top;
