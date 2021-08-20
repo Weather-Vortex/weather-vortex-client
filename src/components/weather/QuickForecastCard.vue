@@ -69,10 +69,7 @@ export default {
 
   methods: {
     getPosition: function () {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(this.showPosition, this.error);
-      } else {
-      }
+      navigator.geolocation.getCurrentPosition(this.showPosition, this.error);
     },
     showPosition: function (position) {
       this.lat = position.coords.latitude;
