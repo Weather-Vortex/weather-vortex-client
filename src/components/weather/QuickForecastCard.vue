@@ -48,9 +48,6 @@
             ><v-spacer></v-spacer>
           </v-col>
         </v-row>
-        <p>
-          {{ myCoordinates.lat }} Latitude, {{ myCoordinates.lng }} Longitude
-        </p>
       </v-container>
     </v-card-actions>
   </v-card>
@@ -61,13 +58,8 @@ export default {
   name: "QuickForecastCard",
 
   data: () => ({
-   message: null,
+    message: null,
     loading: false,
-    myCoordinates: {
-      lat: "",
-      lng: "",
-    }, 
-    
   }),
   computed: {
     isLoading() {
@@ -76,17 +68,21 @@ export default {
   },
 
   methods: {
-    getPosition() {
-      this.$getLocation({})
-        .then((coordinates) => {
-          this.message = coordinates;
-        })
-        .catch((error) => alert(error));
-        
+    getPosition: function () {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(this.showPosition, this.error);
+      } else {
+      }
+    },
+    showPosition: function (position) {
+      this.lat = position.coords.latitude;
+      this.lon = position.coords.longitude;
+      this.message = "Geolocation:{" + this.lat + "," + this.lon + "}";
+    },
+    error: function () {
+      this.$alert("Geolocation error");
     },
 
-
-    
     navigate() {
       this.loading = true;
       const locality = this.message;

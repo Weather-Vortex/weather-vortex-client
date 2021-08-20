@@ -5,6 +5,9 @@ import axios from "axios";
 import router from "./router";
 import store from "./state";
 import vuetify from "./plugins/vuetify";
+import VueSimpleAlert from "vue-simple-alert";
+
+Vue.use(VueSimpleAlert);
 
 
 Vue.use(VueGeolocation);
