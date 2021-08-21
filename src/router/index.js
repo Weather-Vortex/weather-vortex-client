@@ -56,6 +56,10 @@ const routes = [
         path: ":id",
         component: () => import("../views/users/PublicProfile.vue"),
       },
+      {
+        path:"/confirm/:confirmationCode",
+        component: ()=>import("../views/users/Welcome.vue"),
+      },
     ],
   },
   {
