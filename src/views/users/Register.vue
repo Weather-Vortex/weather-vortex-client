@@ -151,7 +151,7 @@ export default {
 
   methods: {
     submitForm() {
-      this.$refs.form.validate();
+      if(this.$refs.form.validate()){
       let url = "http://localhost:12000/api/register";
       this.$http
         .post(url, {
@@ -176,7 +176,7 @@ export default {
         .catch((error) => {
           console.error(error);
         });
-      
+      }
     },
     validatePassword2(value) {
       return value === this.password || "Passwords don't match.";
