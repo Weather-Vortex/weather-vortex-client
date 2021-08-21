@@ -135,7 +135,7 @@ export default {
           v
         ) || "E-mail must be valid",
     ],
-    
+
     password: "",
     retypepassword: "",
     passwordRules: [
@@ -144,7 +144,7 @@ export default {
         /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/.test(v) ||
         "Password must contain at least lowercase letter, one number, a special character and one uppercase letter",
     ],
-  
+
     firstcheckbox: false,
     seccheckbox: false,
   }),
@@ -152,11 +152,35 @@ export default {
   methods: {
     submitForm() {
       this.$refs.form.validate();
+      let url = "http://localhost:12000/api/register";
+      this.$http
+        .post(url, {
+          firstName: this.firstname,
+          lastName: this.lastname,
+          email: this.email,
+          password: this.password,
+        })
+        .then((response) => {
+          localStorage.setItem("user", JSON.stringify(response.data.user));
+          localStorage.setItem("jwt", response.data.token);
+
+          if (localStorage.getItem("jwt") != null) {
+            this.$emit("loggedIn");
+            if (this.$route.params.nextUrl != null) {
+              this.$router.push(this.$route.params.nextUrl);
+            } else {
+              this.$router.push("/");
+            }
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+      
     },
     validatePassword2(value) {
-      return value === this.password || "Passwords don't match."
+      return value === this.password || "Passwords don't match.";
     },
   },
-
 };
 </script>
