@@ -8,11 +8,11 @@
         </h2>
 
         <v-row justify-md="center">
-          <v-spacer></v-spacer>
-          <v-col v-for="(info, i) in weatherInfo" :key="i">
+          <v-spacer class="d-none d-md-block"></v-spacer>
+          <v-col class="d-flex" v-for="(info, i) in weatherInfo" :key="i">
             <InfoCard v-bind="info" />
           </v-col>
-          <v-spacer></v-spacer>
+          <v-spacer class="d-none d-md-block"></v-spacer>
         </v-row>
       </v-col>
 
@@ -23,11 +23,11 @@
         </h2>
 
         <v-row justify="center">
-          <v-spacer></v-spacer>
-          <v-col v-for="(info, i) in stationsInfo" :key="i">
+          <v-spacer class="d-none d-md-block"></v-spacer>
+          <v-col class="d-flex" v-for="(info, i) in stationsInfo" :key="i">
             <InfoCard v-bind="info" />
           </v-col>
-          <v-spacer></v-spacer>
+          <v-spacer class="d-none d-md-block"></v-spacer>
         </v-row>
       </v-col>
     </v-row>
@@ -48,7 +48,8 @@ export default {
       },
       {
         title: "Compare",
-        text: "Compare various providers to look the world from many eye's points!",
+        text:
+          "Compare various providers to look the world from many eye's points!",
         icon: "mdi-weather-windy-variant",
       },
       {
