@@ -1,13 +1,16 @@
 <template>
   <v-container>
     <v-row>
-      <v-col cols="12" md="6" sm="6" xs="12" class="ma-auto">
+      <v-col cols="12" md="6" sm="6" xs="6" class="ma-auto">
         <div class="text-center">
           <v-switch
             v-model="showAggregation"
             :label="`Show aggregation: ${showAggregation.toString()}`"
           ></v-switch>
         </div>
+      </v-col>
+      <v-col v-if="_fetching > 0" cols="12" md="6" sm="6" xs="6">
+        Remainings: {{ _fetching }}
       </v-col>
       <!--<v-col class="ma-auto">
         <div class="text-center">
@@ -67,6 +70,9 @@ export default {
     columns() {
       return this.showAggregation ? 3 : 4;
     },
+    _fetching: function () {
+      return this.fetching;
+    },
     forecasts: function () {
       return this.initialForecasts;
     },
@@ -118,6 +124,6 @@ export default {
       console.log("Set filter:", value);
     },
   },
-  props: ["initialForecasts", "initialMid"],
+  props: ["initialForecasts", "initialMid", "fetching"],
 };
 </script>

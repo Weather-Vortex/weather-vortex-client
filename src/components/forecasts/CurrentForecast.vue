@@ -2,13 +2,8 @@
   <v-container>
     <v-row>
       <v-col>
-        Loading: {{ loading }} - Fetching:
-        {{ fetching }}
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col>
         <ForecastGroup
+          v-bind:fetching="fetching"
           v-bind:initialForecasts="forecasts"
           v-bind:initialMid="mid"
         />

@@ -1,10 +1,10 @@
 <template>
   <v-container>
     <v-row>
-      <v-col cols="3" class="my-auto">
+      <v-col cols="12" md="5" class="my-auto">
         <h1 class="display-2 font-weight-bold">{{ title }}</h1>
       </v-col>
-      <v-col cols="4" class="ma-auto">
+      <v-col cols="12" sm="7" md="4" class="ma-auto">
         <v-text-field
           full-width
           label="Locality"
@@ -28,7 +28,7 @@
           </template>
         </v-text-field>
       </v-col>
-      <v-col cols="3" class="my-auto">
+      <v-col cols="12" sm="5" md="3" class="my-auto">
         <v-btn-toggle v-model="selected" borderless>
           <v-btn
             v-for="item in items"
@@ -36,7 +36,7 @@
             text
             :value="item.route"
           >
-            <span class="hidden-sm-and-down">{{ item.description }}</span>
+            <span class="hidden-xs-and-down">{{ item.description }}</span>
             <v-icon right>{{ item.icon }}</v-icon>
           </v-btn>
         </v-btn-toggle>
@@ -59,7 +59,7 @@ export default {
       return this.$route.params.locality ?? "Forecasts";
     },
   },
-  data: function() {
+  data: function () {
     return {
       selected: "justify",
       isLoading: false,
