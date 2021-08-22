@@ -143,6 +143,9 @@ export default {
   },
   beforeRouteLeave(to, from, next) {
     console.log("Before route leave from %s to %s", from, to);
+    if (this.connected) {
+      this.disconnect();
+    }
     next();
   },
   destroyed() {
