@@ -20,84 +20,6 @@
         :key="type.title"
         v-bind:type="type"
       />
-      <!-- Convert other items to component Item. -->
-      <v-list-item>
-        <v-list-item-title>Min Temperature</v-list-item-title>
-
-        <v-list-item-icon>
-          <v-icon>mdi-thermometer-minus</v-icon>
-        </v-list-item-icon>
-
-        <v-list-item-subtitle class="text-right">
-          {{ data.tempMin }}
-        </v-list-item-subtitle>
-      </v-list-item>
-      <v-list-item>
-        <v-list-item-title>Max Temperature</v-list-item-title>
-
-        <v-list-item-icon>
-          <v-icon>mdi-thermometer-plus</v-icon>
-        </v-list-item-icon>
-
-        <v-list-item-subtitle class="text-right">
-          {{ data.tempMax }}
-        </v-list-item-subtitle>
-      </v-list-item>
-      <v-list-item>
-        <v-list-item-title>Pressure</v-list-item-title>
-
-        <v-list-item-icon>
-          <v-icon>mdi-thermometer</v-icon>
-        </v-list-item-icon>
-
-        <v-list-item-subtitle class="text-right">
-          {{ data.pressure }}
-        </v-list-item-subtitle>
-      </v-list-item>
-      <v-list-item>
-        <v-list-item-title>Humidity</v-list-item-title>
-
-        <v-list-item-icon>
-          <v-icon>mdi-water-percent</v-icon>
-        </v-list-item-icon>
-
-        <v-list-item-subtitle class="text-right">
-          {{ data.humidity }}
-        </v-list-item-subtitle>
-      </v-list-item>
-      <v-list-item>
-        <v-list-item-title>Clouds</v-list-item-title>
-
-        <v-list-item-icon>
-          <v-icon>mdi-cloud</v-icon>
-        </v-list-item-icon>
-
-        <v-list-item-subtitle class="text-right">
-          {{ data.clouds }}
-        </v-list-item-subtitle>
-      </v-list-item>
-      <v-list-item>
-        <v-list-item-title>Rain</v-list-item-title>
-
-        <v-list-item-icon>
-          <v-icon>mdi-weather-pouring</v-icon>
-        </v-list-item-icon>
-
-        <v-list-item-subtitle class="text-right">
-          {{ data.rain }}
-        </v-list-item-subtitle>
-      </v-list-item>
-      <v-list-item>
-        <v-list-item-title>Snow</v-list-item-title>
-
-        <v-list-item-icon>
-          <v-icon>mdi-weather-snowy</v-icon>
-        </v-list-item-icon>
-
-        <v-list-item-subtitle class="text-right">
-          {{ data.snow }}
-        </v-list-item-subtitle>
-      </v-list-item>
     </v-list>
   </v-card>
 </template>
@@ -124,6 +46,48 @@ export default {
           title: "Temperature",
           tooltip: "Real Temperature",
           value: this.$props.data.temp,
+        },
+        {
+          icon: "mdi-thermometer-minus",
+          title: "Min Temperature",
+          tooltip: "Minimal Temperature",
+          value: this.$props.data.tempMin,
+        },
+        {
+          icon: "mdi-thermometer-plus",
+          title: "Max Temperature",
+          tooltip: "Maximum Temperature",
+          value: this.$props.data.tempMax,
+        },
+        {
+          icon: "mdi-thermometer",
+          title: "Pressure",
+          tooltip: "Pressure",
+          value: this.$props.data.pressure,
+        },
+        {
+          icon: "mdi-water-percent",
+          title: "Humidity",
+          tooltip: "Humidity",
+          value: this.$props.data.humidity,
+        },
+        {
+          icon: "mdi-cloud",
+          title: "Clouds",
+          tooltip: "Clouds level",
+          value: this.$props.data.clouds,
+        },
+        {
+          icon: "mdi-water",
+          title: "Rain",
+          tooltip: "Rain level",
+          value: this.$props.data.rain,
+        },
+        {
+          icon: "mdi-snowflake",
+          title: "Snow",
+          tooltip: "Snow level",
+          value: this.$props.data.snow,
         },
       ];
     },

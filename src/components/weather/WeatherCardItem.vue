@@ -9,7 +9,7 @@
       </v-tooltip>
     </v-list-item-title>
 
-    <v-list-item-icon>
+    <v-list-item-icon v-if="_icon !== null">
       <v-tooltip top>
         <template v-slot:activator="{ on, attrs }">
           <v-icon v-bind="attrs" v-on="on">{{ _icon }}</v-icon>
@@ -29,16 +29,21 @@ export default {
       return this.type.title ?? "Title";
     },
     _icon: function () {
-      return this.type.icon ?? "mdi-baby-face";
+      return typeof this.type.icon !== "undefined" && this.type.icon !== ""
+        ? this.type.icon
+        : null;
     },
     _tooltip: function () {
       return this.type.tooltip ?? this._title;
     },
     _value: function () {
-      return this.type.value ?? "Value";
+      return typeof this.type.value !== "undefined" && this.type.value !== ""
+        ? this.type.value
+        : "n.d.";
     },
   },
   props: {
+    altro: String,
     type: {
       title: String,
       icon: String,
