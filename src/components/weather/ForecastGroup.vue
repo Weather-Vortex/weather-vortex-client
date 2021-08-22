@@ -36,11 +36,11 @@
         </div>
       </v-col>
     </v-row>
-    <v-row>
-      <v-col>
+    <v-row no-gutters>
+      <v-col cols="12" sm="4">
         <WeatherForecastCard v-if="showAggregation" v-bind="mid" />
       </v-col>
-      <v-col>
+      <v-col cols="12" sm="8">
         <v-slide-group show-arrows>
           <v-slide-item
             v-for="forecast in someForecasts"
