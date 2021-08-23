@@ -1,0 +1,96 @@
+<template>
+  <v-container fluid>
+    <v-row justify="center" align="center" class="row mb-4">
+      <v-col cols="12" sm="8" md="4" xs="4" class="text-center">
+        <v-img
+          src="@/assets/vortex.png"
+          alt="Weather Vortex logo"
+          contain
+          height="100"
+        ></v-img>
+        <p class="font-italic">Please feel free to send us an email:</p>
+
+        <v-form ref="form" class="mx-2" v-model="valid" lazy-validation>
+          <v-row>
+            <v-col class="my-0 py-0" cols="12">
+              <v-text-field
+                tabindex="1"
+                outlined
+                v-model="email"
+                :rules="emailRules"
+                label="Your Email"
+                prepend-inner-icon="mdi-email"
+                required
+              ></v-text-field>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col class="my-0 py-0" cols="12">
+              <v-select
+                tabindex="1"
+                v-model="select"
+                :items="items"
+                outlined
+                :rules="[(v) => !!v || 'Email Type is required']"
+                label="Type"
+                required
+              ></v-select>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col class="my-0 py-0" cols="12">
+              <v-textarea
+                tabindex="2"
+                auto-grow
+                outlined
+                v-model="text"
+                :rules="textRules"
+                label="Your text"
+                required
+                rows="4"
+                row-height="30"
+              ></v-textarea>
+            </v-col>
+          </v-row>
+
+          <v-btn
+            tabindex="3"
+            class="rounded-0"
+            color="#000000"
+            x-large
+            block
+            dark
+            @click="submitForm"
+          >
+            Send
+          </v-btn>
+        </v-form>
+      </v-col>
+    </v-row>
+  </v-container>
+</template>
+
+<script>
+export default {
+  name: "MeetTeam",
+  data: () => ({
+    email: "",
+    emailRules: [
+      (v) => !!v || "E-mail is required",
+      (v) =>
+        /^(([^<>()[\]\\.,;:\s@']+(\.[^<>()\\[\]\\.,;:\s@']+)*)|('.+'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+          v
+        ) || "E-mail must be valid",
+    ],
+    text: "",
+    textRules: [(v) => !!v || "Email Text is required"],
+    select: null,
+    items: ["Question", "Bug", "Enhancement", "Congrats"],
+  }),
+  methods: {
+    submitForm() {
+      this.$refs.form.validate();
+    },
+  },
+};
+</script>
