@@ -11,8 +11,8 @@
         <p class="font-italic">Please feel free to send us an email:</p>
 
         <v-form ref="form" class="mx-2" v-model="valid" lazy-validation>
-          <v-row class="my-0">
-            <v-col cols="12">
+          <v-row>
+            <v-col class="my-0 py-0" cols="12">
               <v-text-field
                 tabindex="1"
                 outlined
@@ -24,8 +24,8 @@
               ></v-text-field>
             </v-col>
           </v-row>
-          <v-row class="my-0">
-            <v-col cols="12">
+          <v-row>
+            <v-col class="my-0 py-0" cols="12">
               <v-select
                 tabindex="1"
                 v-model="select"
@@ -37,8 +37,8 @@
               ></v-select>
             </v-col>
           </v-row>
-          <v-row class="my-0">
-            <v-col cols="12">
+          <v-row>
+            <v-col class="my-0 py-0" cols="12">
               <v-textarea
                 tabindex="2"
                 auto-grow
