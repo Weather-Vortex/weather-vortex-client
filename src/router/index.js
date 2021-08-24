@@ -44,7 +44,7 @@ const routes = [
         name: "Login",
         component: () => import("../views/users/Login.vue"),
       /* meta: {
-          guest: true
+          guest: true //TODO da mettere una volta fato il logout
         }*/
       },
       {
