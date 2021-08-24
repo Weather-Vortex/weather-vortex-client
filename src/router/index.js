@@ -57,19 +57,23 @@ const routes = [
       {
         path: "profile",
         component: () => import("../views/users/Profile.vue"),
-        meta: {
+       /* meta: {
           requiresAuth: true
-        }
-      },
-      {
-        path: ":id",
-        component: () => import("../views/users/PublicProfile.vue"),
+        }*/
       },
       {
 
         path: "logout",
         component: () => import("../views/users/Logout.vue"),
+       /* meta: {
+          requiresAuth: true
+        }*/
       },
+      {
+        path: ":id",
+        component: () => import("../views/users/PublicProfile.vue"),
+      },
+     
       {
         path: "/confirm/:confirmationCode",
         component: () => import("../views/users/Welcome.vue"),

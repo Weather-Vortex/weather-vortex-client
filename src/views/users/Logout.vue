@@ -1,21 +1,22 @@
 <template>
-  <button
+  <v-btn
     class="btn btn-danger btn-block"
-    v-if="$auth.isAuthenticated"
-    @click.prevent="logout"
+    color="primary"
+    @click="logout"
   >
     Log Out
-  </button>
+  </v-btn>
 </template>
 
 <script>
-  export default {
-    name: 'LogoutButton',
-    methods: {
-      logout() {
-        this.$auth.logout();
-        this.$router.push({ path: '/' });
-      },
+export default {
+  name: "LogoutButton",
+  methods: {
+    logout() {
+      localStorage.removeItem("jwt");
+      
+      this.$router.push("/user/login");
     },
-  };
+  },
+};
 </script>
