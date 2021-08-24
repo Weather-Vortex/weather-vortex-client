@@ -29,8 +29,8 @@ export default {
     return {
       items: [
         { title: "Home", route: "/home", icon: "mdi-view-dashboard" },
-        { title: "Forecasts", route: "/forecasts", icon: "mdi-view-dashboard" },
-        { title: "Feedbacks", route: "/feedbacks", icon: "mdi-view-dashboard" },
+        { title: "Forecasts", route: "/forecasts", icon: "mdi-weather-hazy" },
+        { title: "Feedbacks", route: "/feedbacks", icon: "mdi-star" },
         { title: "About", route: "/about", icon: "mdi-forum" },
       ],
     };
