@@ -43,34 +43,22 @@ const routes = [
         path: "login",
         name: "Login",
         component: () => import("../views/users/Login.vue"),
-        meta: {
-          guest: true
-        }
       },
       {
         path: "register",
         component: () => import("../views/users/Register.vue"),
-        meta: {
-          guest: true
-        }
       },
       {
-        /*Profilo privato*/
         path: "profile",
-        name: "profile",
         component: () => import("../views/users/Profile.vue"),
-        meta: {
-          requiresAuth: true
-        }
       },
-
       {
         path: ":id",
         component: () => import("../views/users/PublicProfile.vue"),
       },
       {
-        path: "/confirm/:confirmationCode",
-        component: () => import("../views/users/Welcome.vue"),
+        path:"/confirm/:confirmationCode",
+        component: ()=>import("../views/users/Welcome.vue"),
       },
     ],
   },
@@ -78,30 +66,9 @@ const routes = [
     path: "*",
     name: "Error 404",
     component: () =>
-      import("../views/Error404.vue"),
+      import( "../views/Error404.vue"),
   },
 ];
-
-/*router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (localStorage.getItem('jwt') == null) {
-      next({
-        path: '/user/login',
-        params: { nextUrl: to.fullPath }
-      })
-    } else if (to.matched.some(record => record.meta.guest)) {
-      if (localStorage.getItem('jwt') == null) {
-        next()
-      }
-      else {
-        next({ name: 'profile' })
-      }
-    } else {
-      next()
-    }
-  }
-});*/
-
 
 const router = new VueRouter({
   routes,
