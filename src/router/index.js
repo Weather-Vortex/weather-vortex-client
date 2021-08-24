@@ -43,16 +43,16 @@ const routes = [
         path: "login",
         name: "Login",
         component: () => import("../views/users/Login.vue"),
-      /* meta: {
-          guest: true //TODO da mettere una volta fato il logout
-        }*/
+        /* meta: {
+            guest: true //TODO da mettere una volta fato il logout
+          }*/
       },
       {
         path: "register",
         component: () => import("../views/users/Register.vue"),
-      /*  meta: {
-          guest: true
-        }*/
+        /*  meta: {
+            guest: true
+          }*/
       },
       {
         path: "profile",
@@ -67,12 +67,12 @@ const routes = [
       },
       {
 
-      path:"logout",
-      component: () => import("../views/users/Logout.vue"),
-    },
+        path: "logout",
+        component: () => import("../views/users/Logout.vue"),
+      },
       {
-        path:"/confirm/:confirmationCode",
-        component: ()=>import("../views/users/Welcome.vue"),
+        path: "/confirm/:confirmationCode",
+        component: () => import("../views/users/Welcome.vue"),
       },
     ],
   },
@@ -80,7 +80,7 @@ const routes = [
     path: "*",
     name: "Error 404",
     component: () =>
-      import( "../views/Error404.vue"),
+      import("../views/Error404.vue"),
   },
 ];
 
@@ -95,17 +95,17 @@ router.beforeEach((to, from, next) => {
         params: { nextUrl: to.fullPath }
       })
     }
-   } else if (to.matched.some(record => record.meta.guest)) {
-      if (localStorage.getItem('jwt') == null) {
-        next({name:'Login'})
-      }
-      else {
-        next({ name: 'profile' })
-      }
-    } else {
+  } else if (to.matched.some(record => record.meta.guest)) {
+    if (localStorage.getItem('jwt') == null) {
       next()
     }
-  
+    else {
+      next({ name: 'profile' })
+    }
+  } else {
+    next()
+  }
+
 });
 
 export default router;
