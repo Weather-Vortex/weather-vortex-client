@@ -66,6 +66,11 @@ const routes = [
         component: () => import("../views/users/PublicProfile.vue"),
       },
       {
+
+      path:"logout",
+      component: () => import("../views/users/Logout.vue"),
+    },
+      {
         path:"/confirm/:confirmationCode",
         component: ()=>import("../views/users/Welcome.vue"),
       },
