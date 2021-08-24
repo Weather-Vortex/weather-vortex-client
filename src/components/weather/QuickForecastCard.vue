@@ -92,7 +92,7 @@ export default {
       this.loading = true;
       const locality = this.message;
       try {
-        this.$router.push({ name: "Forecasts", params: { locality } });
+        this.$router.push({ name: "LocalityForecasts", params: { locality } });
       } catch (error) {
         console.error("Router navigation error:", error);
       } finally {

@@ -34,7 +34,7 @@ export default {
   }),
   computed: {
     /* Expose drawer.visible attribute value. */
-    drawerVisible: () => this.$store.state.drawer,
+    drawerVisible: () => this.$store.getters.drawerVisible,
   },
   methods: {
     toggleDrawer() {
