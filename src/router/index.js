@@ -43,14 +43,23 @@ const routes = [
         path: "login",
         name: "Login",
         component: () => import("../views/users/Login.vue"),
+      /* meta: {
+          guest: true
+        }*/
       },
       {
         path: "register",
         component: () => import("../views/users/Register.vue"),
+      /*  meta: {
+          guest: true
+        }*/
       },
       {
         path: "profile",
         component: () => import("../views/users/Profile.vue"),
+        meta: {
+          requiresAuth: true
+        }
       },
       {
         path: ":id",
@@ -72,6 +81,26 @@ const routes = [
 
 const router = new VueRouter({
   routes,
+});
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (localStorage.getItem('jwt') == null) {
+      next({
+        path: '/user/login',
+        params: { nextUrl: to.fullPath }
+      })
+    }
+   } else if (to.matched.some(record => record.meta.guest)) {
+      if (localStorage.getItem('jwt') == null) {
+        next({name:'Login'})
+      }
+      else {
+        next({ name: 'profile' })
+      }
+    } else {
+      next()
+    }
+  
 });
 
 export default router;

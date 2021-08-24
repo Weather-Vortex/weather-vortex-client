@@ -169,6 +169,7 @@ export default {
             if (this.$route.params.nextUrl != null) {
               this.$router.push(this.$route.params.nextUrl);
             } else {
+              //una volta registrato va alla home
               this.$router.push("/");
             }
           }

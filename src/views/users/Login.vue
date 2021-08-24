@@ -83,7 +83,29 @@ export default {
   }),
   methods: {
     submitForm() {
-      this.$refs.form.validate();
+      if (this.$refs.form.validate()) {
+        this.$http
+          .post("http://localhost:12000/api/login", {
+            email: this.email,
+            password: this.password,
+          })
+          .then((response) => {
+            localStorage.setItem("user", JSON.stringify(response.data.user));
+            localStorage.setItem("jwt", response.data.token);
+            if (localStorage.getItem("jwt") != null) {
+              this.$emit("loggedIn");
+              if (this.$route.params.nextUrl != null) {
+                this.$router.push(this.$route.params.nextUrl);
+              } else {
+                // una volta loggato va alla home
+                this.$router.push("/");
+              }
+            }
+          })
+          .catch(function (error) {
+            console.error(error.response);
+          });
+      }
     },
   },
 };
