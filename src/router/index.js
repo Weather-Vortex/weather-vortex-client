@@ -62,14 +62,15 @@ const routes = [
         }
       },
       {
-        path: ":id",
-        component: () => import("../views/users/PublicProfile.vue"),
-      },
-      {
 
         path: "logout",
         component: () => import("../views/users/Logout.vue"),
       },
+      {
+        path: ":id",
+        component: () => import("../views/users/PublicProfile.vue"),
+      },
+      
       {
         path: "/confirm/:confirmationCode",
         component: () => import("../views/users/Welcome.vue"),

@@ -1,11 +1,10 @@
 <template>
-  <button
-    class="btn btn-danger btn-block"
-    v-if="$auth.isAuthenticated"
-    @click.prevent="logout"
+  <v-btn
+    color="primary"
+    @click="logout"
   >
     Log Out
-  </button>
+  </v-btn>
 </template>
 
 <script>
@@ -13,8 +12,21 @@
     name: 'LogoutButton',
     methods: {
       logout() {
-        this.$auth.logout();
-        this.$router.push({ path: '/' });
+        let url = "http://localhost:12000/api/logout";
+      this.$http
+        .get(url, {
+          email: this.email,
+          password: this.password,
+        })
+        .then(() => {
+              localStorage.removeItem('jwt')
+              //una volta registrato va alla home
+              this.$router.push("/");
+          
+        })
+        .catch((error) => {
+          console.error(error);
+        });
       },
     },
   };
