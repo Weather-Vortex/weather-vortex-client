@@ -19,3 +19,5 @@ jobs:
           username: "Weather-Vortex"
           reponame: "weather-vortex-client"
           token: ${{ secrets.PAGES_TOKEN }}
+        env:
+          VUE_APP_SERVER_URL: ${{ secrets.VUE_APP_SERVER_URL }}
