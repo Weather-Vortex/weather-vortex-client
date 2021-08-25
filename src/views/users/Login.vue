@@ -109,7 +109,10 @@ export default {
                         break;
                       case 500:
                         this.$alert("Email not found")  // or here
-                        break;   
+                        break; 
+                        case 403:
+                          this.$alert("You are not verified, check your email box!")  
+                          break
                     default:
                         console.log('some other error');  // end up here all the time
                         break;
