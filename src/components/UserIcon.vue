@@ -35,8 +35,9 @@ export default {
       { title: "Login", route: "/user/login", icon: "mdi-login" },
       { title: "Register", route: "/user/register", icon: "mdi-account-plus" },
       /* TODO: Show only if logged. */
-      { title: "Account", route: "/user/account", icon: "mdi-account" },
+      { title: "Account", route: "/user/profile", icon: "mdi-account" },
       { title: "Logout", route: "/user/logout", icon: "mdi-logout" },
+      /*ps: l'account pubblico*/ 
     ],
   }),
 };

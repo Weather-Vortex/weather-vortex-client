@@ -43,32 +43,41 @@ const routes = [
         path: "login",
         name: "Login",
         component: () => import("../views/users/Login.vue"),
-        /* meta: {
+         meta: {
             guest: true //TODO da mettere una volta fato il logout
-          }*/
+          }
       },
       {
         path: "register",
         component: () => import("../views/users/Register.vue"),
-        /*  meta: {
+         meta: {
             guest: true
-          }*/
+          }
       },
       {
         path: "profile",
         component: () => import("../views/users/Profile.vue"),
         meta: {
-          requiresAuth: true
+          requiresAuth:true
         }
       },
       {
 
         path: "logout",
         component: () => import("../views/users/Logout.vue"),
+        meta: {
+          requiresAuth:true
+        }
       },
       {
-        path: ":id",
-        component: () => import("../views/users/PublicProfile.vue"),
+        path: "public",
+        children:[
+          {
+          path:":id",
+          component: () => import("../views/users/PublicProfile.vue"),
+          }
+        ],
+        
       },
       
       {
@@ -95,14 +104,16 @@ router.beforeEach((to, from, next) => {
         path: '/user/login',
         params: { nextUrl: to.fullPath }
       })
+    }else{
+      next({ name: 'profile' })
     }
   } else if (to.matched.some(record => record.meta.guest)) {
     if (localStorage.getItem('jwt') == null) {
       next()
     }
-    else {
+    /*else {
       next({ name: 'profile' })
-    }
+    }*/
   } else {
     next()
   }
