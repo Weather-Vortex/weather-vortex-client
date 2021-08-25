@@ -102,9 +102,24 @@ export default {
               }
             }
           })
-          .catch(function (error) {
-            console.error(error.response);
-          });
+           .catch(error => {
+                switch (error.response.status) {
+                    case 401:
+                        this.$alert("Password doesn't match")  // or here
+                        break;
+                      case 500:
+                        this.$alert("Email not found")  // or here
+                        break;   
+                    default:
+                        console.log('some other error');  // end up here all the time
+                        break;
+                        
+                    }
+                    
+
+            console.log('SignInForm.authenticate error: ', error);
+        });
+
       }
     },
   },

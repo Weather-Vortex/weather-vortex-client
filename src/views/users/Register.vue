@@ -175,7 +175,16 @@ export default {
           }
         })
         .catch((error) => {
-          console.error(error);
+           switch (error.response.status) {
+                    case 500:
+                        this.$alert("Error during registration or email alreasy used!")  // or here
+                        break;   
+                    default:
+                        console.log('some other error');  // end up here all the time
+                        break;
+                    }
+
+            console.log('SignInForm.authenticate error: ', error);
         });
       }
     },

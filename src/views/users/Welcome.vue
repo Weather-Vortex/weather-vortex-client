@@ -23,7 +23,7 @@
 <script>
 
 const Welcome = (props) => {
-  if (props.match.path === "/api/confirm/:confirmationCode") {
+  if (props.match.path === "/confirm/:confirmationCode") {
     this.$http
         .get("http://localhost:12000/api/confirm/:confirmationCode")
         .then((response) => {

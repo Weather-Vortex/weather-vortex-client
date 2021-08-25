@@ -82,7 +82,10 @@ const routes = [
 
       {
         path: "/confirm/:confirmationCode",
+        props: route => ({ query: route.query }),
         component: () => import("../views/users/Welcome.vue"),
+        // props: true,
+        
       },
     ],
   },
