@@ -43,22 +43,22 @@ const routes = [
         path: "login",
         name: "Login",
         component: () => import("../views/users/Login.vue"),
-         meta: {
-            guest: true //TODO da mettere una volta fato il logout
-          }
+        meta: {
+          guest: true //TODO da mettere una volta fato il logout
+        }
       },
       {
         path: "register",
         component: () => import("../views/users/Register.vue"),
-         meta: {
-            guest: true
-          }
+        meta: {
+          guest: true
+        }
       },
       {
         path: "profile",
         component: () => import("../views/users/Profile.vue"),
         meta: {
-          requiresAuth:true,
+          requiresAuth: true,
         }
       },
       {
@@ -66,20 +66,20 @@ const routes = [
         path: "logout",
         component: () => import("../views/users/Logout.vue"),
         meta: {
-          requiresAuth:true,
+          requiresAuth: true,
         }
       },
       {
         path: "public",
-        children:[
+        children: [
           {
-          path:":id",
-          component: () => import("../views/users/PublicProfile.vue"),
+            path: ":id",
+            component: () => import("../views/users/PublicProfile.vue"),
           }
         ],
-        
+
       },
-      
+
       {
         path: "/confirm/:confirmationCode",
         component: () => import("../views/users/Welcome.vue"),
@@ -98,60 +98,29 @@ const router = new VueRouter({
   routes,
 });
 router.beforeEach((to, from, next) => {
-  if(to.matched.some(record => record.meta.requiresAuth)) {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
     if (localStorage.getItem('jwt') == null) {
-        next({
-            path: '/login',
-            params: { nextUrl: to.fullPath }
-        })
+      next({
+        path: '/login',
+        params: { nextUrl: to.fullPath }
+      })
     } else {
-        
-            next()
-        
+
+      next()
+
     }
-  } else if(to.matched.some(record => record.meta.guest)) {
-    if(localStorage.getItem('jwt') == null){
-        next()
+  } else if (to.matched.some(record => record.meta.guest)) {
+    if (localStorage.getItem('jwt') == null) {
+      next()
     }
-    else{
-        next({ name: 'profile'})
+    else {
+      next({ name: 'profile' })
     }
-  }else {
+  } else {
     next()
   }
-  })
+})
 
 
-
-/*if(to.matched.some(record => record.meta.requiresAuth)) {
-  if (localStorage.getItem('jwt') == null) {
-      next({
-          path: '/login',
-          params: { nextUrl: to.fullPath }
-      })
-  } else {
-      let user = JSON.parse(localStorage.getItem('user'))
-      if(to.matched.some(record => record.meta.is_admin)) {
-          if(user.is_admin == 1){
-              next()
-          }
-          else{
-              next({ name: 'userboard'})
-          }
-      }else {
-          next()
-      }
-  }
-} else if(to.matched.some(record => record.meta.guest)) {
-  if(localStorage.getItem('jwt') == null){
-      next()
-  }
-  else{
-      next({ name: 'profile'})
-  }
-}else {
-  next()
-}
-})*/
 
 export default router;
