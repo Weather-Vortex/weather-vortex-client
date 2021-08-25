@@ -2,13 +2,13 @@
   <!-- Add menu with this tutorial: https://vuetifyjs.com/en/components/app-bars/#menu -->
   <v-menu left bottom>
     <template v-slot:activator="{ on, attrs }">
-      <v-btn icon v-bind="attrs" v-on="on">
+      <v-btn icon v-bind="attrs" v-on="on" v-on:click="LoggedIn()" >
         <!-- TODO: Add here user icon -->
         <v-icon>mdi-account-circle</v-icon>
       </v-btn>
     </template>
 
-   <v-list dense rounded nav v-if="!LoggedIn()">
+   <v-list dense rounded nav v-if="!isLogged">
       <v-list-item 
      
         v-for="item in items"
@@ -25,8 +25,8 @@
         </v-list-item-content>
       </v-list-item>
       
-    </v-list>
-    <v-list dense rounded nav v-if="LoggedIn()">
+    </v-list >
+    <v-list dense rounded nav v-if="isLogged">
       <v-list-item 
      
         v-for="item in items2" 
@@ -64,11 +64,18 @@ export default {
       { title: "Logout", route: "/user/logout", icon: "mdi-logout" },
       /*ps: l'account pubblico*/ 
     ],
+    isLogged:false,
   }),
 
   methods: {
   LoggedIn() {
-    return localStorage.getItem('jwt') != null
+    if(localStorage.getItem('jwt') != null){
+      this.isLogged=true
+    }else{
+      this.isLogged=false
+
+    }
+    
   }
 }
 
