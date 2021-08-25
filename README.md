@@ -2,6 +2,12 @@
 
 Client for Weather Vortex Project.
 
+| Branch | Status | Link |
+| --- | --- | --- |
+| `main` | [![Deploy to Github Pages](https://github.com/Weather-Vortex/weather-vortex-client/actions/workflows/deploy.yml/badge.svg?branch=main&event=push)](https://github.com/Weather-Vortex/weather-vortex-client/actions/workflows/deploy.yml) | [Weather Vortex Client](https://weather-vortex.github.io/weather-vortex-client/#/) |
+
+---
+
 **Table of Contents**
 
 - [How To](#how-to)
