@@ -105,11 +105,12 @@ export default {
            .catch(error => {
                 switch (error.response.status) {
                     case 401:
-                        this.$alert("Password doesn't match")  // or here
+                        this.$alert("Password wrong!")  // or here
                         break;
                       case 500:
                         this.$alert("Email not found")  // or here
                         break; 
+                        //da descommentare riga nel server login->isVerified e cambiare errore con 401 a 403
                         case 403:
                           this.$alert("You are not verified, check your email box!")  
                           break
