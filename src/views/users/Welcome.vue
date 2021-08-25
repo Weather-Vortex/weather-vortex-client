@@ -19,15 +19,22 @@
   </v-container>
 </template>
 
+
 <script>
 
- let url = "http://localhost:12000/api/confirm/:confirmationCode";
-      this.$http
-        .get(url)
+const Welcome = (props) => {
+  if (props.match.path === "/api/confirm/:confirmationCode") {
+    this.$http
+        .get("http://localhost:12000/api/confirm/:confirmationCode")
         .then((response) => {
           return response.data
         })
         .catch((error) => {
           console.error(error);
         });
-</script>
+  }
+}
+export default Welcome
+ </script>
+
+

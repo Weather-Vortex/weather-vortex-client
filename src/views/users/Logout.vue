@@ -1,10 +1,13 @@
 <template>
+<div>
+  <h2>Do you really want to log out?</h2>
   <v-btn
     color="primary"
     @click="logout"
   >
     Log Out
   </v-btn>
+  </div>
 </template>
 
 <script>

@@ -8,12 +8,14 @@
       </v-btn>
     </template>
 
-    <v-list dense rounded nav>
-      <v-list-item
+   <v-list dense rounded nav v-if="!LoggedIn()">
+      <v-list-item 
+     
         v-for="item in items"
         :key="item.title"
         router
         :to="item.route"
+        
       >
         <v-list-item-icon>
           <v-icon>{{ item.icon }}</v-icon>
@@ -22,6 +24,26 @@
           <v-list-item-title>{{ item.title }}</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
+      
+    </v-list>
+    <v-list dense rounded nav v-if="LoggedIn()">
+      <v-list-item 
+     
+        v-for="item in items2" 
+        
+        :key="item.title"
+        router
+        :to="item.route"
+        
+      >
+        <v-list-item-icon>
+          <v-icon>{{ item.icon }}</v-icon>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-list-item-title>{{ item.title }}</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+      
     </v-list>
   </v-menu>
 </template>
@@ -31,14 +53,24 @@ export default {
   name: "UserIcon",
   data: () => ({
     items: [
-      /* TODO: Show only if not logged. */
-      { title: "Login", route: "/user/login", icon: "mdi-login" },
-      { title: "Register", route: "/user/register", icon: "mdi-account-plus" },
-      /* TODO: Show only if logged. */
+      
+      { title: "Login", route: "/user/login", icon: "mdi-login"  },
+      { title: "Register", route: "/user/register", icon: "mdi-account-plus",   },
+      
+    ],
+    items2:[
+/* TODO: Show only if logged. */
       { title: "Account", route: "/user/profile", icon: "mdi-account" },
       { title: "Logout", route: "/user/logout", icon: "mdi-logout" },
       /*ps: l'account pubblico*/ 
     ],
   }),
+
+  methods: {
+  LoggedIn() {
+    return localStorage.getItem('jwt') != null
+  }
+}
+
 };
 </script>
