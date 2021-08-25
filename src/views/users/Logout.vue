@@ -20,7 +20,7 @@
         })
         .then(() => {
               localStorage.removeItem('jwt')
-              //una volta registrato va alla home
+              //una volta che ha fatto logout va alla home
               this.$router.push("/");
           
         })

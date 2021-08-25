@@ -58,7 +58,7 @@ const routes = [
         path: "profile",
         component: () => import("../views/users/Profile.vue"),
         meta: {
-          requiresAuth:true
+          requiresAuth:true,
         }
       },
       {
@@ -66,7 +66,7 @@ const routes = [
         path: "logout",
         component: () => import("../views/users/Logout.vue"),
         meta: {
-          requiresAuth:true
+          requiresAuth:true,
         }
       },
       {
@@ -98,26 +98,60 @@ const router = new VueRouter({
   routes,
 });
 router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.requiresAuth)) {
+  if(to.matched.some(record => record.meta.requiresAuth)) {
     if (localStorage.getItem('jwt') == null) {
-      next({
-        path: '/user/login',
-        params: { nextUrl: to.fullPath }
-      })
-    }else{
-      next({ name: 'profile' })
+        next({
+            path: '/login',
+            params: { nextUrl: to.fullPath }
+        })
+    } else {
+        
+            next()
+        
     }
-  } else if (to.matched.some(record => record.meta.guest)) {
-    if (localStorage.getItem('jwt') == null) {
-      next()
+  } else if(to.matched.some(record => record.meta.guest)) {
+    if(localStorage.getItem('jwt') == null){
+        next()
     }
-    /*else {
-      next({ name: 'profile' })
-    }*/
-  } else {
+    else{
+        next({ name: 'profile'})
+    }
+  }else {
     next()
   }
+  })
 
-});
+
+
+/*if(to.matched.some(record => record.meta.requiresAuth)) {
+  if (localStorage.getItem('jwt') == null) {
+      next({
+          path: '/login',
+          params: { nextUrl: to.fullPath }
+      })
+  } else {
+      let user = JSON.parse(localStorage.getItem('user'))
+      if(to.matched.some(record => record.meta.is_admin)) {
+          if(user.is_admin == 1){
+              next()
+          }
+          else{
+              next({ name: 'userboard'})
+          }
+      }else {
+          next()
+      }
+  }
+} else if(to.matched.some(record => record.meta.guest)) {
+  if(localStorage.getItem('jwt') == null){
+      next()
+  }
+  else{
+      next({ name: 'profile'})
+  }
+}else {
+  next()
+}
+})*/
 
 export default router;
