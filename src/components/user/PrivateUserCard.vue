@@ -9,7 +9,7 @@
 
       <v-card-title class="white--text mt-8">
         <h3 class="font-weight-bold ml-3">
-          {{ profile.firstName }} {{ profile.lastName }}
+          {{ profile }}
         </h3>
       </v-card-title>
     </v-img>
@@ -40,9 +40,9 @@
               <v-text-field
                 type="password"
                 label="Password"
-                v-model="profile.password"
+                v-model="password"
                 :disabled="!toggleDisable"
-              >
+                ><!--da mettere profile.password nel v-model-->
               </v-text-field>
             </v-list-item-title>
             <v-list-item-subtitle>Edit Password</v-list-item-subtitle>
@@ -97,10 +97,26 @@ export default {
   methods: {
     getProfile: function() {
       // TODO: this.$http.get("profilo personale utente")...
+      const server = process.env.VUE_APP_SERVER_URL;
+      let url = `${server}/api/profile`;
+      this.$http
+        .get(url)
+        .then((response) => {
+          this.profile = response.data;
+          this.$alert("Prova");
+        })
+        .catch((error) => {
+          switch (error.response.status) {
+            case 400:
+              this.$alert("Error!"); // or here
+              break;
+          }
+        });
     },
   },
   mounted() {
     // TODO: Invocare metodo getProfile
+    this.getProfile;
   },
 };
 </script>
