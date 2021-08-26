@@ -34,10 +34,11 @@ export default {
   },
   methods: {
     sendConfirmation() {
+      const server = process.env.VUE_APP_SERVER_URL;
       this.loading = true;
       this.$http
 
-        .get(`http://localhost:12000/api/confirm/${this.name}`)
+        .get(`${server}/api/confirm/${this.name}`)
 
         .then((response) => {
           const { confirmed } = response.data;

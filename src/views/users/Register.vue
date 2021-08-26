@@ -123,10 +123,7 @@ export default {
     show2: false,
     firstname: "",
     lastname: "",
-    nameRules: [
-      (v) => !!v || "Name is required",
-
-    ],
+    nameRules: [(v) => !!v || "Name is required"],
     email: "",
     emailRules: [
       (v) => !!v || "E-mail is required",
@@ -151,41 +148,52 @@ export default {
 
   methods: {
     submitForm() {
-      if(this.$refs.form.validate()){
-      let url = "http://localhost:12000/api/register";
-      this.$http
-        .post(url, {
-          firstName: this.firstname,
-          lastName: this.lastname,
-          email: this.email,
-          password: this.password,
-        })
-        .then((response) => {
-          localStorage.setItem("user", JSON.stringify(response.data.user));
-          localStorage.setItem("jwt", response.data.token);
+      if (this.$refs.form.validate()) {
+        const server = process.env.VUE_APP_SERVER_URL;
+        let url = `${server}/api/register`;
+        this.$http
+          .post(url, {
+            firstName: this.firstname,
+            lastName: this.lastname,
+            email: this.email,
+            password: this.password,
+          })
+          .then((response) => {
+            // TODO: Rimuovere dal server l'invio dei dati sensibili dell'utente, ritornare solo il firstname e lastname
+            localStorage.setItem("user", JSON.stringify(response.data.user));
+            //localStorage.setItem("jwt", response.data.token);
 
-          if (localStorage.getItem("jwt") != null) {
-            this.$emit("loggedIn");
-            if (this.$route.params.nextUrl != null) {
-              this.$router.push(this.$route.params.nextUrl);
-            } else {
-              //una volta registrato va alla home
-              this.$router.push("/");
+            //localStorage.setItem("registered", response.data.register);
+
+            //if (localStorage.getItem("jwt") != null) {
+            if (response.data.user.isVerified == false) {
+              this.$emit("registered");
+
+              // TODO: Controllare nei query non nei params.
+              // TODO: Spostare questo controllo nel Login.
+              this.$alert(
+                "You are registered, check your mailbox to confirm your account."
+              );
+              if (this.$route.params.nextUrl != null) {
+                this.$router.push(this.$route.params.nextUrl);
+              } else {
+                //una volta registrato va alla home
+                this.$router.push("/");
+              }
             }
-          }
-        })
-        .catch((error) => {
-           switch (error.response.status) {
-                    case 500:
-                        this.$alert("Error during registration or email alreasy used!")  // or here
-                        break;   
-                    default:
-                        console.log('some other error');  // end up here all the time
-                        break;
-                    }
+          })
+          .catch((error) => {
+            switch (error.response.status) {
+              case 500:
+                this.$alert("Error during registration or email already used!"); // or here
+                break;
+              default:
+                console.log("some other error"); // end up here all the time
+                break;
+            }
 
-            console.log('SignInForm.authenticate error: ', error);
-        });
+            console.log("SignInForm.authenticate error: ", error);
+          });
       }
     },
     validatePassword2(value) {

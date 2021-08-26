@@ -47,7 +47,7 @@
           </v-row>
 
           <v-btn
-            tabindex=3
+            tabindex="3"
             class="rounded-0"
             color="#000000"
             x-large
@@ -77,15 +77,15 @@ export default {
         ) || "E-mail must be valid",
     ],
     password: "",
-    passwordRules: [
-      (v) => !!v || "Password is required",
-    ],
+    passwordRules: [(v) => !!v || "Password is required"],
   }),
   methods: {
     submitForm() {
       if (this.$refs.form.validate()) {
+        const server = process.env.VUE_APP_SERVER_URL;
+        let url = `${server}/api/login`;
         this.$http
-          .post("http://localhost:12000/api/login", {
+          .post(url, {
             email: this.email,
             password: this.password,
           })
@@ -102,28 +102,25 @@ export default {
               }
             }
           })
-           .catch(error => {
-                switch (error.response.status) {
-                    case 401:
-                        this.$alert("Password wrong!")  // or here
-                        break;
-                      case 500:
-                        this.$alert("Email not found")  // or here
-                        break; 
-                        //da descommentare riga nel server login->isVerified e mettergli 403 come errore codice
-                        case 403:
-                          this.$alert("You are not verified, check your email box!")  
-                          break
-                    default:
-                        console.log('some other error');  // end up here all the time
-                        break;
-                        
-                    }
-                    
+          .catch((error) => {
+            switch (error.response.status) {
+              case 401:
+                this.$alert("Password wrong!"); // or here
+                break;
+              case 500:
+                this.$alert("Email not found"); // or here
+                break;
+              //da descommentare riga nel server login->isVerified e mettergli 403 come errore codice
+              case 403:
+                this.$alert("You are not verified, check your email box!");
+                break;
+              default:
+                console.log("some other error"); // end up here all the time
+                break;
+            }
 
-            console.log('SignInForm.authenticate error: ', error);
-        });
-
+            console.log("SignInForm.authenticate error: ", error);
+          });
       }
     },
   },
