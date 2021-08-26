@@ -1,40 +1,57 @@
-
 <template>
-  <v-container fluid>
-    <v-row :align="center" :justify="center">
-      <v-spacer> </v-spacer>
-      <v-col cols="12" sm="8" md="4" xs="4">
-        <v-img src="@/assets/vortex.png"> </v-img>
-        <h3>
-          <strong>Account confirmed!</strong>
-        </h3>
-        <router-link to="../views/users/Login.vue">
-          <v-btn color="white" flat value="profile">
-            <span>Profile</span>
-            <v-icon>person</v-icon>
-          </v-btn>
-        </router-link>
-      </v-col>
-    </v-row>
-  </v-container>
+  <div class="main">
+    <h3 v-if="loading">
+      <strong>Loading</strong>
+    </h3>
+    <h3 v-if="!loading">
+      <h3 v-if="confirmed">
+        <strong>Account confirmed!</strong>
+        <p>
+          Please, <a router to="/user/login">login</a> to use your new account.
+        </p>
+      </h3>
+      <h3 v-else>
+        <strong>Account not confirmed!</strong>
+      </h3>
+    </h3>
+    <!--<v-btn @click="sendConfirmation"> confirm account </v-btn>-->
+  </div>
 </template>
 
-
 <script>
+export default {
+  name: "Confirm",
+  data() {
+    return {
+      confirmed: null,
+      loading: null,
+      name: "",
+    };
+  },
+  mounted() {
+    this.name = this.$route.query.name;
+    this.sendConfirmation();
+  },
+  methods: {
+    sendConfirmation() {
+      this.loading = true;
+      this.$http
 
-const Welcome = (props) => {
-  if (props.match.path === "/confirm/:confirmationCode") {
-    this.$http
-        .get("http://localhost:12000/api/confirm/:confirmationCode")
+        .get(`http://localhost:12000/api/confirm/${this.name}`)
+
         .then((response) => {
-          return response.data
+          const { confirmed } = response.data;
+          this.confirmed = confirmed;
         })
+
         .catch((error) => {
           console.error(error);
+          this.confirmed = false;
+        })
+        .finally(() => {
+          this.loading = false;
         });
-  }
-}
-export default Welcome
- </script>
-
-
+    },
+  },
+};
+</script>
