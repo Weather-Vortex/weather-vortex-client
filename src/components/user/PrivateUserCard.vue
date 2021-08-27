@@ -9,7 +9,7 @@
 
       <v-card-title class="white--text mt-8">
         <h3 class="font-weight-bold ml-3">
-          {{ profile }}
+          {{ this.profile }}
         </h3>
       </v-card-title>
     </v-img>
@@ -94,6 +94,10 @@ export default {
     show2: false,
     profile: null,
   }),
+  mounted() {
+    this.getProfile();
+    this.$alert(this.getProfile());
+  },
   methods: {
     getProfile: function() {
       // TODO: this.$http.get("profilo personale utente")...
@@ -103,7 +107,8 @@ export default {
         .get(url)
         .then((response) => {
           this.profile = response.data;
-          this.$alert("Prova");
+          //this.profile-> response.data.name
+          //this.email-> response.data.email
         })
         .catch((error) => {
           switch (error.response.status) {
@@ -113,10 +118,6 @@ export default {
           }
         });
     },
-  },
-  mounted() {
-    // TODO: Invocare metodo getProfile
-    this.getProfile;
   },
 };
 </script>
