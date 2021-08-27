@@ -19,7 +19,7 @@
           Please complete this form to create an account
         </p>
 
-        <v-form ref="form" class="mx-2" v-model="valid" lazy-validation>
+        <v-form ref="form" class="mx-2" lazy-validation>
           <v-row>
             <v-col cols="6">
               <v-text-field

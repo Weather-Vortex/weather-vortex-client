@@ -88,10 +88,12 @@ export default {
   name: "privateProfileCard",
   computed: {
     firstName: function() {
-      return this.profile.firstName;
+      if (this.profile) return this.profile.firstName;
+      return "";
     },
     lastName: function() {
-      return this.profile.lastName;
+      if (this.profile) return this.profile.lastName;
+      return "";
     },
     /*
     {
