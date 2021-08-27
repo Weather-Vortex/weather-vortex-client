@@ -22,7 +22,13 @@
       </v-col>
       <v-spacer></v-spacer>
     </v-row>
-
+    <v-row>
+      <v-spacer></v-spacer>
+      <v-col>
+        <AccountButtons />
+      </v-col>
+      <v-spacer></v-spacer>
+    </v-row>
     <!-- Functionality presentation -->
     <InfoMain />
 
@@ -44,6 +50,7 @@ import CheckStatus from "@/components/info/CheckStatus.vue";
 import HelloWorld from "@/components/HelloWorld.vue";
 import InfoMain from "@/components/info/InfoMain.vue";
 import QuickForecastCard from "@/components/weather/QuickForecastCard.vue";
+import AccountButtons from "@/components/AccountButtons.vue";
 
 export default {
   name: "Home",
@@ -52,6 +59,7 @@ export default {
     HelloWorld,
     InfoMain,
     QuickForecastCard,
+    AccountButtons,
   },
   data() {
     return {
