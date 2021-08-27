@@ -96,17 +96,20 @@ export default {
   }),
   mounted() {
     this.getProfile();
-    this.$alert(this.getProfile());
   },
   methods: {
     getProfile: function() {
       // TODO: this.$http.get("profilo personale utente")...
+
       const server = process.env.VUE_APP_SERVER_URL;
       let url = `${server}/api/profile`;
       this.$http
         .get(url)
         .then((response) => {
-          this.profile = response.data;
+          localStorage.setItem("jwt", response.data.token);
+          if (localStorage.getItem("jwt") != null) {
+            this.profile = response.data;
+          }
           //this.profile-> response.data.name
           //this.email-> response.data.email
         })

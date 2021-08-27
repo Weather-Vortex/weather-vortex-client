@@ -161,12 +161,9 @@ export default {
           .then((response) => {
             // TODO: Rimuovere dal server l'invio dei dati sensibili dell'utente, ritornare solo il firstname e lastname
             localStorage.setItem("user", JSON.stringify(response.data.user));
-            //localStorage.setItem("jwt", response.data.token);
 
-            //localStorage.setItem("registered", response.data.register);
-
-            //if (localStorage.getItem("jwt") != null) {
-            if (response.data.user.isVerified == false) {
+            //E' stato creato, registered
+            if (response.data.user.createdDate != null) {
               this.$emit("registered");
 
               // TODO: Controllare nei query non nei params.
