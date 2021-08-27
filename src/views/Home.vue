@@ -31,17 +31,12 @@
         <CheckStatus v-bind="service" />
       </v-col>
     </v-row>
-
-    <div class="home">
-      <img alt="Vue logo" src="../assets/logo.png" />
-      <HelloWorld msg="Welcome to Your Vue.js App" /></div
-  ></v-container>
+  </v-container>
 </template>
 
 <script>
 // @ is an alias to /src
 import CheckStatus from "@/components/info/CheckStatus.vue";
-import HelloWorld from "@/components/HelloWorld.vue";
 import InfoMain from "@/components/info/InfoMain.vue";
 import QuickForecastCard from "@/components/weather/QuickForecastCard.vue";
 
@@ -49,7 +44,6 @@ export default {
   name: "Home",
   components: {
     CheckStatus,
-    HelloWorld,
     InfoMain,
     QuickForecastCard,
   },
