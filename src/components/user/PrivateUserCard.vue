@@ -24,7 +24,7 @@
           </v-list-item-icon>
 
           <v-list-item-content>
-            <v-list-item-title>silvia@gmail.com</v-list-item-title>
+            <v-list-item-title>{{ this.email }}</v-list-item-title>
             <v-list-item-subtitle>Personal Email</v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
@@ -95,6 +95,10 @@ export default {
       if (this.profile) return this.profile.lastName;
       return "";
     },
+    email: function() {
+      if (this.profile) return this.profile.email;
+      return "";
+    },
     /*
     {
       TODO: Add those data too.
@@ -106,7 +110,7 @@ export default {
   },
   data: () => ({
     position: "Cesena",
-    password: "Password",
+    password: "password",
     toggleDisable: false,
     show2: false,
     profile: null,
