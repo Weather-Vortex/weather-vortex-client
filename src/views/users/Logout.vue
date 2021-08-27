@@ -15,11 +15,13 @@ export default {
       const server = process.env.VUE_APP_SERVER_URL;
       let url = `${server}/api/logout`;
       this.$http
-        .get(url)
+        .get(url, { withCredentials: true })
         .then(() => {
-          this.$cookies.remove("auth");
-          //una volta che ha fatto logout va alla home
-          this.$router.push("/");
+          this.$alert("You are logged out").then(() => {
+            this.$cookies.remove("auth");
+            //una volta che ha fatto logout va alla home
+            this.$router.push("/");
+          });
         })
         .catch((error) => {
           console.error(error);
