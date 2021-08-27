@@ -67,7 +67,7 @@ export default {
 
   methods: {
     LoggedIn() {
-      if (localStorage.getItem("jwt") != null) {
+      if (this.$cookies.get("auth")) {
         this.isLogged = true;
       } else {
         this.isLogged = false;

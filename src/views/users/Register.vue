@@ -159,24 +159,14 @@ export default {
             password: this.password,
           })
           .then((response) => {
-            // TODO: Rimuovere dal server l'invio dei dati sensibili dell'utente, ritornare solo il firstname e lastname
             localStorage.setItem("user", JSON.stringify(response.data.user));
 
             //E' stato creato, registered
             if (response.data.user.createdDate != null) {
               this.$emit("registered");
-
-              // TODO: Controllare nei query non nei params.
-              // TODO: Spostare questo controllo nel Login.
               this.$alert(
                 "You are registered, check your mailbox to confirm your account."
               );
-              if (this.$route.params.nextUrl != null) {
-                this.$router.push(this.$route.params.nextUrl);
-              } else {
-                //una volta registrato va alla home
-                this.$router.push("/");
-              }
             }
           })
           .catch((error) => {

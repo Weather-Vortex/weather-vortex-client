@@ -17,7 +17,7 @@
         ></v-img>
         <p class="font-italic">Please complete this form to login</p>
 
-        <v-form ref="form" class="mx-2" v-model="valid" lazy-validation>
+        <v-form ref="form" class="mx-2" lazy-validation>
           <v-row>
             <v-col cols="12">
               <v-text-field
@@ -85,22 +85,28 @@ export default {
         const server = process.env.VUE_APP_SERVER_URL;
         let url = `${server}/api/login`;
         this.$http
-          .post(url, {
-            email: this.email,
-            password: this.password,
-          })
+          .post(
+            url,
+            {
+              email: this.email,
+              password: this.password,
+            },
+            {
+              withCredentials: true,
+            }
+          )
           .then((response) => {
+            this.$emit("loggedIn");
             localStorage.setItem("user", JSON.stringify(response.data.user));
-            localStorage.setItem("jwt", response.data.token);
-            if (localStorage.getItem("jwt") != null) {
-              this.$emit("loggedIn");
+            console.log("Data:", response);
+            this.$alert("You are authenticated").then(() => {
               if (this.$route.params.nextUrl != null) {
                 this.$router.push(this.$route.params.nextUrl);
               } else {
                 // una volta loggato va alla home
                 this.$router.push("/");
               }
-            }
+            });
           })
           .catch((error) => {
             switch (error.response.status) {
@@ -115,6 +121,7 @@ export default {
                 this.$alert("You are not verified, check your email box!");
                 break;
               default:
+                this.$alert("Unknown error, contact the support.");
                 console.log("some other error"); // end up here all the time
                 break;
             }

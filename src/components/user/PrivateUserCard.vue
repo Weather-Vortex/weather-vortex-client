@@ -9,7 +9,7 @@
 
       <v-card-title class="white--text mt-8">
         <h3 class="font-weight-bold ml-3">
-          {{ this.profile }}
+          {{ this.lastName }} {{ this.firstName }}
         </h3>
       </v-card-title>
     </v-img>
@@ -86,7 +86,22 @@
 <script>
 export default {
   name: "privateProfileCard",
-
+  computed: {
+    firstName: function() {
+      return this.profile.firstName;
+    },
+    lastName: function() {
+      return this.profile.lastName;
+    },
+    /*
+    {
+      TODO: Add those data too.
+      email: res.email,
+      registrationDate: res.registrationDate,
+      preferred: res.preferred,
+      }
+      */
+  },
   data: () => ({
     position: "Cesena",
     password: "Password",
@@ -99,24 +114,29 @@ export default {
   },
   methods: {
     getProfile: function() {
-      // TODO: this.$http.get("profilo personale utente")...
-
+      const auth = this.$cookies.get("auth");
+      if (!auth) {
+        this.$router.push("/user/login");
+      }
       const server = process.env.VUE_APP_SERVER_URL;
       let url = `${server}/api/profile`;
       this.$http
-        .get(url)
+        .get(url, { withCredentials: true })
         .then((response) => {
-          localStorage.setItem("jwt", response.data.token);
-          if (localStorage.getItem("jwt") != null) {
+          if (response.data) {
             this.profile = response.data;
           }
-          //this.profile-> response.data.name
-          //this.email-> response.data.email
         })
         .catch((error) => {
           switch (error.response.status) {
             case 400:
               this.$alert("Error!"); // or here
+              break;
+            case 401:
+              this.$alert("Missing authentication info.").then(() =>
+                this.$router.push("/user/login")
+              );
+              console.log(error.response);
               break;
           }
         });

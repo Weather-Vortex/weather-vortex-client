@@ -15,12 +15,9 @@ export default {
       const server = process.env.VUE_APP_SERVER_URL;
       let url = `${server}/api/logout`;
       this.$http
-        .get(url, {
-          email: this.email,
-          password: this.password,
-        })
+        .get(url)
         .then(() => {
-          localStorage.removeItem("jwt");
+          this.$cookies.remove("auth");
           //una volta che ha fatto logout va alla home
           this.$router.push("/");
         })
