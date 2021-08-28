@@ -4,13 +4,12 @@
       <v-container align="center" justify="center">
         <v-row class="bg-img" justify="space-around">
           <v-col md="6" offset-md="3">
-           <PrivateUserCard/>
+            <PrivateUserCard />
           </v-col>
         </v-row>
       </v-container>
 
-      <v-container
-        ><v-div></v-div>
+      <v-container>
         <v-row class="mb-3" no-gutters>
           <v-col md="4" class="pa-md-10 mx-lg-auto">
             <h2 class="pa-md-8 sm-10 mx-lg-auto">
@@ -49,13 +48,10 @@
 <script>
 import PrivateUserControlUnits from "@/components/user/PrivateUserControlUnits";
 import PrivateUserReviews from "@/components/user/PrivateUserReviews";
-import PrivateUserCard from "@/components/user/PrivateUserCard"
+import PrivateUserCard from "@/components/user/PrivateUserCard";
 export default {
   name: "privateProfile",
   components: { PrivateUserControlUnits, PrivateUserReviews, PrivateUserCard },
-  data: () => ({
-
-  }),
+  data: () => ({}),
 };
 </script>
-

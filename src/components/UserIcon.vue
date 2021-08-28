@@ -2,7 +2,7 @@
   <!-- Add menu with this tutorial: https://vuetifyjs.com/en/components/app-bars/#menu -->
   <v-menu left bottom>
     <template v-slot:activator="{ on, attrs }">
-      <v-btn icon v-bind="attrs" v-on="on">
+      <v-btn icon v-bind="attrs" v-on="on" v-on:click="LoggedIn()">
         <!-- TODO: Add here user icon -->
         <v-icon>mdi-account-circle</v-icon>
       </v-btn>
@@ -10,7 +10,7 @@
 
     <v-list dense rounded nav>
       <v-list-item
-        v-for="item in items"
+        v-for="item in menuItems"
         :key="item.title"
         router
         :to="item.route"
@@ -29,15 +29,50 @@
 <script>
 export default {
   name: "UserIcon",
+  computed: {
+    menuItems: function() {
+      return this.items.filter((f) => f.logged === this.isLogged);
+    },
+  },
   data: () => ({
     items: [
-      /* TODO: Show only if not logged. */
-      { title: "Login", route: "/user/login", icon: "mdi-login" },
-      { title: "Register", route: "/user/register", icon: "mdi-account-plus" },
+      {
+        title: "Login",
+        route: "/user/login",
+        icon: "mdi-login",
+        logged: false,
+      },
+      {
+        title: "Register",
+        route: "/user/register",
+        icon: "mdi-account-plus",
+        logged: false,
+      },
       /* TODO: Show only if logged. */
-      { title: "Account", route: "/user/account", icon: "mdi-account" },
-      { title: "Logout", route: "/user/logout", icon: "mdi-logout" },
+      {
+        title: "Account",
+        route: "/user/profile",
+        icon: "mdi-account",
+        logged: true,
+      },
+      {
+        title: "Logout",
+        route: "/user/logout",
+        icon: "mdi-logout",
+        logged: true,
+      },
     ],
+    isLogged: false,
   }),
+
+  methods: {
+    LoggedIn() {
+      if (this.$cookies.get("auth")) {
+        this.isLogged = true;
+      } else {
+        this.isLogged = false;
+      }
+    },
+  },
 };
 </script>

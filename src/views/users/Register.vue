@@ -19,7 +19,7 @@
           Please complete this form to create an account
         </p>
 
-        <v-form ref="form" class="mx-2" v-model="valid" lazy-validation>
+        <v-form ref="form" class="mx-2" lazy-validation>
           <v-row>
             <v-col cols="6">
               <v-text-field
@@ -123,10 +123,7 @@ export default {
     show2: false,
     firstname: "",
     lastname: "",
-    nameRules: [
-      (v) => !!v || "Name is required",
-      (v) => (v && v.length <= 10) || "Name must be less than 10 characters",
-    ],
+    nameRules: [(v) => !!v || "Name is required"],
     email: "",
     emailRules: [
       (v) => !!v || "E-mail is required",
@@ -135,7 +132,7 @@ export default {
           v
         ) || "E-mail must be valid",
     ],
-    
+
     password: "",
     retypepassword: "",
     passwordRules: [
@@ -144,19 +141,51 @@ export default {
         /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/.test(v) ||
         "Password must contain at least lowercase letter, one number, a special character and one uppercase letter",
     ],
-  
+
     firstcheckbox: false,
     seccheckbox: false,
   }),
 
   methods: {
     submitForm() {
-      this.$refs.form.validate();
+      if (this.$refs.form.validate()) {
+        const server = process.env.VUE_APP_SERVER_URL;
+        let url = `${server}/api/register`;
+        this.$http
+          .post(url, {
+            firstName: this.firstname,
+            lastName: this.lastname,
+            email: this.email,
+            password: this.password,
+          })
+          .then((response) => {
+            localStorage.setItem("user", JSON.stringify(response.data.user));
+
+            //E' stato creato, registered
+            if (response.data.user.createdDate != null) {
+              this.$emit("registered");
+              this.$alert(
+                "You are registered, check your mailbox to confirm your account."
+              );
+            }
+          })
+          .catch((error) => {
+            switch (error.response.status) {
+              case 500:
+                this.$alert("Error during registration or email already used!"); // or here
+                break;
+              default:
+                console.log("some other error"); // end up here all the time
+                break;
+            }
+
+            console.log("SignInForm.authenticate error: ", error);
+          });
+      }
     },
     validatePassword2(value) {
-      return value === this.password || "Passwords don't match."
+      return value === this.password || "Passwords don't match.";
     },
   },
-
 };
 </script>
