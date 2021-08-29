@@ -67,6 +67,7 @@ export default {
     ],
     isLogged: false,
   }),
+  created() {},
   methods: {
     getNameIcon() {
       let firstName = this.$cookies.get("firstName");
