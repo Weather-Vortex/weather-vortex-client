@@ -4,7 +4,7 @@
       <v-container align="center" justify="center">
         <v-row class="bg-img" justify="space-around">
           <v-col md="6" offset-md="3">
-            <PrivateUserCard />
+            <PrivateUserCard @profile="getProfile" />
           </v-col>
         </v-row>
       </v-container>
@@ -31,6 +31,11 @@
           </v-col>
         </v-row>
       </v-container>
+      <v-container>
+        <v-btn class="ma-2" outlined color="indigo">
+          Delete your account!
+        </v-btn>
+      </v-container>
     </v-main>
   </v-app>
 </template>
@@ -53,5 +58,32 @@ export default {
   name: "privateProfile",
   components: { PrivateUserControlUnits, PrivateUserReviews, PrivateUserCard },
   data: () => ({}),
+
+  methods: {
+    getProfile(profile) {
+      console.log(profile);
+      return profile;
+    },
+    /* deleteUser() {
+      const auth = this.$cookies.get("auth");
+      const server = process.env.VUE_APP_SERVER_URL;
+      const id = auth._id;
+      this.$alert(id);
+      let url = `${server}/api/${auth}`;
+      let indexOfArrayItem = this.profile.findIndex((i) => i._id === id);
+
+      if (window.confirm("Do you really want to delete?")) {
+        this.$http
+          .delete(url)
+          .then(() => {
+            this.profile.splice(indexOfArrayItem, 1);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+    }, //rifare quello che hai fatto nel logout, togliere il cookie e
+    //reindirizzare alla home*/
+  },
 };
 </script>

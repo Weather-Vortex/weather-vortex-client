@@ -127,6 +127,8 @@ export default {
         .then((response) => {
           if (response.data) {
             this.profile = response.data;
+            console.log("Resnponse", response.data);
+            this.$emit("profile", this.profile);
           }
         })
         .catch((error) => {
