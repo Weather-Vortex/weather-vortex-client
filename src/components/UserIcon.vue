@@ -4,7 +4,10 @@
     <template v-slot:activator="{ on, attrs }">
       <v-btn icon v-bind="attrs" v-on="on" v-on:click="LoggedIn()">
         <!-- TODO: Add here user icon -->
-        <v-icon>mdi-account-circle</v-icon>
+        <v-icon v-if="!isLogged">mdi-account-circle</v-icon>
+        <v-avatar v-else color="primary" size="36">{{
+          getNameIcon()
+        }}</v-avatar>
       </v-btn>
     </template>
 
@@ -66,6 +69,11 @@ export default {
   }),
 
   methods: {
+    getNameIcon() {
+      let firstName = this.$cookies.get("firstName");
+      let lastName = this.$cookies.get("lastName");
+      return firstName.charAt(0) + lastName.charAt(0);
+    },
     LoggedIn() {
       if (this.$cookies.get("auth")) {
         this.isLogged = true;

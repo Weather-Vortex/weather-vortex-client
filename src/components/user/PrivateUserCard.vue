@@ -127,7 +127,9 @@ export default {
         .then((response) => {
           if (response.data) {
             this.profile = response.data;
-            console.log("Resnponse", response.data);
+            this.$cookies.set("firstName", response.data.firstName);
+            this.$cookies.set("lastName", response.data.lastName);
+            this.$cookies.set("id", response.data.id);
             this.$emit("profile", this.profile);
           }
         })
