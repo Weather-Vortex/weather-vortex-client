@@ -2,17 +2,20 @@
   <v-container fluid class="aboutPage">
     <v-row justify="center" align="center" class="row">
       <v-spacer class="d-none d-md-block"></v-spacer>
-      <v-sheet class="mx-md-4 pa-4" color="white" elevation="4">
-        <h1>About</h1>
-        Weather Vortex is a project that aims to provide the user a unique
-        service to check all the weather forecasts and paragonate them.<br />
-        Starting from this need, this platform was created. Here it's possible
-        to semplify everyday decisions that are weather-based- <br />
-        This can lead to a huge amount of time saved and to a better
-        organization <br />
-        On the other hand, the user can also customize his experience adding Iot
-        device to "trust" and leave feedbacks to all the services available.
-      </v-sheet>
+      <v-container>
+        <v-sheet class="mx-md-4 pa-4" color="white" elevation="4">
+          <h1>About</h1>
+          Weather Vortex is a project that aims to provide the user a unique
+          service to check all the weather forecasts and paragonate them.<br />
+          Starting from this need, this platform was created. Here it's possible
+          to semplify everyday decisions that are weather-based- <br />
+          This can lead to a huge amount of time saved and to a better
+          organization <br />
+          On the other hand, the user can also customize his experience adding
+          Iot device to "trust" and leave feedbacks to all the services
+          available.
+        </v-sheet></v-container
+      >
       <v-spacer class="d-none d-md-block"></v-spacer>
 
       <v-container>
