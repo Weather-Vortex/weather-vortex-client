@@ -32,7 +32,7 @@
         </v-row>
       </v-container>
       <v-container>
-        <v-btn class="ma-2" outlined color="indigo">
+        <v-btn class="ma-2" outlined color="indigo" @click="deleteUser()">
           Delete your account!
         </v-btn>
       </v-container>
@@ -64,19 +64,19 @@ export default {
       console.log(profile);
       return profile;
     },
-    /* deleteUser() {
-      const auth = this.$cookies.get("auth");
+    deleteUser() {
+      const id = this.$cookies.get("id");
       const server = process.env.VUE_APP_SERVER_URL;
-      const id = auth._id;
       this.$alert(id);
-      let url = `${server}/api/${auth}`;
-      let indexOfArrayItem = this.profile.findIndex((i) => i._id === id);
+      let url = `${server}/api/${id}`;
+      //let indexOfArrayItem = this.profile.findIndex((i) => i._id === id);
 
       if (window.confirm("Do you really want to delete?")) {
         this.$http
           .delete(url)
           .then(() => {
-            this.profile.splice(indexOfArrayItem, 1);
+            //this.profile.splice(indexOfArrayItem, 1);
+            this.$router.push("/");
           })
           .catch((error) => {
             console.log(error);
