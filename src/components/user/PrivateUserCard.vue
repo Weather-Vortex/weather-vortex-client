@@ -1,4 +1,4 @@
-<template v-slot:activator="{ on, attrs }">
+<template>
   <v-card width="400" class="blue lighten-5">
     <v-img height="200px" src="@/assets/lavender.jpg">
       <v-app-bar class="mt-8" flat color="rgba(0, 0, 0, 0)">
@@ -87,18 +87,20 @@
         </v-list-item>
         </v-list>-->
       </v-list>
-      <!--<v-btn class="ml-3" :color="indigo" outlined>
-       
-      </v-btn>-->
-      <v-btn color="primary" outlined v-bind="attrs" v-on="on">
-        <v-icon> mdi-pencil </v-icon> Edit
-      </v-btn>
+      <!--<v-btn class="ml-3" :color="indigo" outlined></v-btn>-->
+
+      <!--<v-btn color="primary" outlined>
+        <v-icon> mdi-pencil </v-icon> Edit </v-btn
+      >-->
+      <v-container><EditDialog /></v-container>
     </v-card-text>
   </v-card>
 </template>
 
 <script>
+import EditDialog from "@/components/user/EditDialog";
 export default {
+  components: { EditDialog },
   name: "privateProfileCard",
   computed: {
     firstName: function() {
@@ -124,8 +126,6 @@ export default {
     /*
     {
       TODO: Add those data too.
-
-      preferred: res.preferred,
       }
       */
   },
@@ -135,7 +135,6 @@ export default {
     toggleDisable: false,
     show2: false,
     profile: null,
-    dialog: false,
   }),
   mounted() {
     this.getProfile();
