@@ -19,9 +19,9 @@ export default {
         .then(() => {
           this.$alert("You are logged out").then(() => {
             this.$cookies.remove("auth");
-            this.$cookies.remove("firstName");
-            this.$cookies.remove("lastName");
-            this.$cookies.remove("id");
+            //this.$cookies.remove("firstName");
+            //this.$cookies.remove("lastName");
+            //this.$cookies.remove("id");
             //una volta che ha fatto logout va alla home
             this.$router.push("/");
           });

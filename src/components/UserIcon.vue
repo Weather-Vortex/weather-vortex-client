@@ -78,9 +78,7 @@ export default {
       if (this.$cookies.get("auth")) {
         this.isLogged = true;
       } else {
-        this.$nextTick(() => {
-          this.isLogged = false;
-        });
+        this.isLogged = false;
       }
     },
   },
