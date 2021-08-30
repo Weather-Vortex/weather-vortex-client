@@ -68,30 +68,7 @@
             <v-list-item-subtitle>Position Preferred</v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
-        <!--<v-list-item>
-          <v-list-item-icon>
-            <v-icon color="indigo"> mdi-map-marker-radius </v-icon>
-          </v-list-item-icon>
-
-          <v-list-item-content>
-            <v-list-item-title>
-              <v-text-field
-                label="Position"
-                :append-icon="show2 ? 'mdi-map-marker-off' : 'mdi-map-marker'"
-                @click:append="show2 = !show2"
-                >{{ this.preferred }}
-              </v-text-field>
-            </v-list-item-title>
-            <v-list-item-subtitle>Position Preferred</v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
-        </v-list>-->
       </v-list>
-      <!--<v-btn class="ml-3" :color="indigo" outlined></v-btn>-->
-
-      <!--<v-btn color="primary" outlined>
-        <v-icon> mdi-pencil </v-icon> Edit </v-btn
-      >-->
       <v-container><EditDialog /></v-container>
     </v-card-text>
   </v-card>
@@ -152,8 +129,6 @@ export default {
         .then((response) => {
           if (response.data) {
             this.profile = response.data;
-            this.$cookies.set("firstName", response.data.firstName);
-            this.$cookies.set("lastName", response.data.lastName);
             this.$cookies.set("id", response.data.id);
             this.$emit("profile", this.profile);
           }

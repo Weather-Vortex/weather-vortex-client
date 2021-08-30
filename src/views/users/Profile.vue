@@ -71,19 +71,21 @@ export default {
       let url = `${server}/api/${id}`;
       //let indexOfArrayItem = this.profile.findIndex((i) => i._id === id);
 
-      if (window.confirm("Do you really want to delete?")) {
+      if (this.$confirm("Do you really want to delete?")) {
         this.$http
           .delete(url)
           .then(() => {
             //this.profile.splice(indexOfArrayItem, 1);
+            this.$cookies.remove("auth");
+            this.$cookies.remove("id");
+            //una volta che ho eliminato va alla home
             this.$router.push("/");
           })
           .catch((error) => {
             console.log(error);
           });
       }
-    }, //rifare quello che hai fatto nel logout, togliere il cookie e
-    //reindirizzare alla home*/
+    },
   },
 };
 </script>
