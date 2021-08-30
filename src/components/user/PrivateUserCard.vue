@@ -1,4 +1,4 @@
-<template>
+<template v-slot:activator="{ on, attrs }">
   <v-card width="400" class="blue lighten-5">
     <v-img height="200px" src="@/assets/lavender.jpg">
       <v-app-bar class="mt-8" flat color="rgba(0, 0, 0, 0)">
@@ -46,18 +46,14 @@
           </v-list-item-icon>
 
           <v-list-item-content>
-            <v-list-item-title>
-              <v-text-field
+            <v-list-item-title
+              ><v-text-field
                 type="password"
-                label="Password"
                 v-model="password"
-                :disabled="!toggleDisable"
-                ><!--da mettere profile.password nel v-model-->
-              </v-text-field>
-            </v-list-item-title>
-            <v-list-item-subtitle>Edit Password</v-list-item-subtitle>
-
-            <!--Campo modificabile-> al click del bottoncino disabilitare -->
+                disabled
+              ></v-text-field
+            ></v-list-item-title>
+            <v-list-item-subtitle>Password</v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
 
@@ -68,26 +64,33 @@
           </v-list-item-icon>
 
           <v-list-item-content>
+            <v-list-item-title>{{ this.preferred }}</v-list-item-title>
+            <v-list-item-subtitle>Position Preferred</v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+        <!--<v-list-item>
+          <v-list-item-icon>
+            <v-icon color="indigo"> mdi-map-marker-radius </v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
             <v-list-item-title>
               <v-text-field
                 label="Position"
-                v-model="position"
-                :disabled="!toggleDisable"
                 :append-icon="show2 ? 'mdi-map-marker-off' : 'mdi-map-marker'"
                 @click:append="show2 = !show2"
-              >
+                >{{ this.preferred }}
               </v-text-field>
             </v-list-item-title>
-            <v-list-item-subtitle>Edit Position</v-list-item-subtitle>
+            <v-list-item-subtitle>Position Preferred</v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
+        </v-list>-->
       </v-list>
-      <v-btn
-        class="ml-3"
-        :color="toggleDisable ? 'indigo' : 'accent'"
-        @click="toggleDisable = !toggleDisable"
-        outlined
-      >
+      <!--<v-btn class="ml-3" :color="indigo" outlined>
+       
+      </v-btn>-->
+      <v-btn color="primary" outlined v-bind="attrs" v-on="on">
         <v-icon> mdi-pencil </v-icon> Edit
       </v-btn>
     </v-card-text>
@@ -121,18 +124,18 @@ export default {
     /*
     {
       TODO: Add those data too.
-      email: res.email,
-      registrationDate: res.registrationDate,
+
       preferred: res.preferred,
       }
       */
   },
   data: () => ({
-    position: "Cesena",
+    //position: "Cesena",
     password: "Password",
     toggleDisable: false,
     show2: false,
     profile: null,
+    dialog: false,
   }),
   mounted() {
     this.getProfile();
