@@ -10,7 +10,7 @@
       <v-spacer></v-spacer>
     </v-row>
     <v-row>
-      <v-spacer></v-spacer>
+      <v-spacer class="d-none d-lg-block"></v-spacer>
       <v-col>
         <QuickForecastCard />
         <!--<v-form ref="form" lazy-validation>
@@ -20,7 +20,7 @@
           </v-btn>
         </v-form>-->
       </v-col>
-      <v-spacer></v-spacer>
+      <v-spacer class="d-none d-lg-block"></v-spacer>
     </v-row>
 
     <!-- Functionality presentation -->
