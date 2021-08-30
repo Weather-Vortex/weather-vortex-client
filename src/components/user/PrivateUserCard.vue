@@ -24,7 +24,7 @@
           </v-list-item-icon>
 
           <v-list-item-content>
-            <v-list-item-title>silvia@gmail.com</v-list-item-title>
+            <v-list-item-title>{{ this.email }}</v-list-item-title>
             <v-list-item-subtitle>Personal Email</v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
@@ -94,6 +94,10 @@ export default {
     },
     lastName: function() {
       if (this.profile) return this.profile.lastName;
+      return "";
+    },
+    email: function() {
+      if (this.profile) return this.profile.email;
       return "";
     },
     /*
