@@ -28,6 +28,16 @@
             <v-list-item-subtitle>Personal Email</v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
+        <v-list-item>
+          <v-list-item-icon>
+            <v-icon color="indigo"> mdi-timetable </v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>{{ this.creationDate }}</v-list-item-title>
+            <v-list-item-subtitle>Creation Date</v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
 
         <v-divider inset></v-divider>
         <v-list-item>
@@ -98,6 +108,10 @@ export default {
     },
     email: function() {
       if (this.profile) return this.profile.email;
+      return "";
+    },
+    creationDate: function() {
+      if (this.profile) return this.profile.createdDate;
       return "";
     },
     /*
