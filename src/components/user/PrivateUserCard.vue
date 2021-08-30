@@ -74,8 +74,9 @@
       </v-list>
       <v-btn
         class="ml-3"
-        :color="toggleDisable ? 'primary' : 'accent'"
+        :color="toggleDisable ? 'indigo' : 'accent'"
         @click="toggleDisable = !toggleDisable"
+        outlined
       >
         <v-icon> mdi-pencil </v-icon> Edit
       </v-btn>
