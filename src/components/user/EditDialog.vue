@@ -16,6 +16,7 @@
             <v-row>
               <v-col cols="12" sm="6">
                 <v-text-field
+                  tabindex="1"
                   v-model="password"
                   :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
                   :type="show1 ? 'text' : 'password'"
@@ -27,6 +28,7 @@
               </v-col>
               <v-col cols="12" sm="6">
                 <v-text-field
+                  tabindex="2"
                   v-model="retypepassword"
                   :rules="passwordRules.concat(validatePassword2)"
                   :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
@@ -38,6 +40,7 @@
               </v-col>
               <v-col cols="12">
                 <v-text-field
+                  tabindex="3"
                   label="Position Preferred"
                   prepend-inner-icon="mdi-map-marker"
                 ></v-text-field>

@@ -8,7 +8,7 @@
           v-if="isLogged"
           color="primary"
           size="36"
-          src="@/assets/user.png"
+          src="./assets/user.png"
           alt="User"
         ></v-avatar>
         <v-icon v-else>mdi-account-circle</v-icon>
