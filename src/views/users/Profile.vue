@@ -67,15 +67,13 @@ export default {
     deleteUser() {
       const id = this.$cookies.get("id");
       const server = process.env.VUE_APP_SERVER_URL;
-      this.$alert(id);
       let url = `${server}/api/${id}`;
-      //let indexOfArrayItem = this.profile.findIndex((i) => i._id === id);
 
-      if (this.$confirm("Do you really want to delete?")) {
+      // if (this.$confirm("Do you really want to delete?")) {
+      if (window.confirm("Do you really want to delete?")) {
         this.$http
           .delete(url)
           .then(() => {
-            //this.profile.splice(indexOfArrayItem, 1);
             this.$cookies.remove("auth");
             this.$cookies.remove("id");
             //una volta che ho eliminato va alla home
