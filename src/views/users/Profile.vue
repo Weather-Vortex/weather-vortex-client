@@ -65,17 +65,15 @@ export default {
       return profile;
     },
     deleteUser() {
-      const id = this.$cookies.get("id");
       const server = process.env.VUE_APP_SERVER_URL;
-      let url = `${server}/api/${id}`;
+      let url = `${server}/api/`;
 
       // if (this.$confirm("Do you really want to delete?")) {
       if (window.confirm("Do you really want to delete?")) {
         this.$http
-          .delete(url)
+          .delete(url, { withCredentials: true })
           .then(() => {
             this.$cookies.remove("auth");
-            this.$cookies.remove("id");
             //una volta che ho eliminato va alla home
             this.$router.push("/");
           })
