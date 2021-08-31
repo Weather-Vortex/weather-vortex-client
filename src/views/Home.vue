@@ -23,11 +23,9 @@
       <v-spacer class="d-none d-lg-block"></v-spacer>
     </v-row>
     <v-row>
-      <v-spacer></v-spacer>
       <v-col>
         <AccountButtons />
       </v-col>
-      <v-spacer></v-spacer>
     </v-row>
     <!-- Functionality presentation -->
     <InfoMain />

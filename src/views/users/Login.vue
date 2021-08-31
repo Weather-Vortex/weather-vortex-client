@@ -46,16 +46,8 @@
             </v-col>
           </v-row>
 
-          <v-btn
-            tabindex="3"
-            class="rounded-0"
-            color="#000000"
-            x-large
-            block
-            dark
-            @click="submitForm"
-          >
-            Log In
+          <v-btn tabindex="3" color="primary" x-large block @click="submitForm">
+            <b>Log In</b>
           </v-btn>
         </v-form>
       </v-col>

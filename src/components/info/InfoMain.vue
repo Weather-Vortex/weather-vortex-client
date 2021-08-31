@@ -3,7 +3,7 @@
     <v-row class="text-center">
       <!-- Weather Forecasting Agrgegation Informations -->
       <v-col class="mb-5" cols="12">
-        <h2 class="headline font-weight-bold mb-3">
+        <h2 class="headline font-weight-bold mb-5">
           Weather Forecasting Aggregation!
         </h2>
 
