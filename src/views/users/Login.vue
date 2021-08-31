@@ -46,16 +46,8 @@
             </v-col>
           </v-row>
 
-          <v-btn
-            tabindex="3"
-            class="rounded-0"
-            color="#000000"
-            x-large
-            block
-            dark
-            @click="submitForm"
-          >
-            Log In
+          <v-btn tabindex="3" color="primary" x-large block @click="submitForm">
+            <b>Log In</b>
           </v-btn>
         </v-form>
       </v-col>
@@ -97,7 +89,9 @@ export default {
           )
           .then((response) => {
             this.$emit("loggedIn");
-            localStorage.setItem("user", JSON.stringify(response.data.user));
+            console.log("LOGIN RETURN: ", response.data.user);
+            this.$store.commit("login", response.data.user);
+            // localStorage.setItem("user", JSON.stringify(response.data.user));
             this.$alert("You are authenticated").then(() => {
               if (this.$route.params.nextUrl != null) {
                 this.$router.push(this.$route.params.nextUrl);

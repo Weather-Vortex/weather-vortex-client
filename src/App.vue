@@ -10,26 +10,24 @@
 
     <v-main>
       <!-- Provides the application the proper gutter -->
-      <v-container fluid>
+      <v-container fluid class="px-0">
         <!-- If using vue-router -->
         <router-view></router-view>
       </v-container>
     </v-main>
     <!-- Is always placed at the bottom of an application with a lower priority than v-bottom-navigation. -->
-    <v-footer app>
-      <!-- -->
-      Weather Vortex Project
-    </v-footer>
+    <Footer />
   </v-app>
 </template>
 
 <script>
 import AppBar from "@/components/AppBar.vue";
 import NavigationDrawer from "@/components/NavigationDrawer.vue";
+import Footer from "@/components/Footer.vue";
 
 export default {
   name: "App",
-  components: { AppBar, NavigationDrawer },
+  components: { AppBar, NavigationDrawer, Footer },
   data: () => ({}),
 };
 </script>

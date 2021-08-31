@@ -12,11 +12,37 @@ const routes = [
     path: "/",
     name: "Home",
     component: Home,
+    alias: "/home",
   },
   {
-    path: "/forecasts/:locality",
-    name: "Forecasts",
+    path: "/forecasts",
     component: Forecasts,
+    children: [
+      {
+        path: ":locality/current",
+        name: "Current",
+        component: () =>
+          import(
+            /* webpackChunkName: "current-forecast" */ "../components/forecasts/CurrentForecast.vue"
+          ),
+      },
+      {
+        path: ":locality/threedays",
+        name: "Three Days",
+        component: () =>
+          import(
+            /* webpackChunkName: "three-days-forecast" */ "../components/forecasts/ThreeDaysForecast.vue"
+          ),
+      },
+      {
+        path: "",
+        name: "Forecasts",
+        component: () =>
+          import(
+            /* webpackChunkName: "empty-forecast" */ "../components/forecasts/EmptyForecast.vue"
+          ),
+      },
+    ],
   },
   {
     path: "/feedbacks",

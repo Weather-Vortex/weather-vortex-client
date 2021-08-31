@@ -1,6 +1,6 @@
 <template>
   <!-- Can be placed on the left or right side of an application and can be configured to sit next to or below v-app-bar. -->
-  <v-navigation-drawer app v-model="drawerVisible" absolute temporary clipped>
+  <v-navigation-drawer app v-model="drawerVisible" fixed temporary>
     <!-- -->
     <v-list dense rounded nav>
       <v-list-item
@@ -29,8 +29,8 @@ export default {
     return {
       items: [
         { title: "Home", route: "/home", icon: "mdi-view-dashboard" },
-        { title: "Forecasts", route: "/forecasts", icon: "mdi-view-dashboard" },
-        { title: "Feedbacks", route: "/feedbacks", icon: "mdi-view-dashboard" },
+        { title: "Forecasts", route: "/forecasts", icon: "mdi-weather-hazy" },
+        { title: "Feedbacks", route: "/feedbacks", icon: "mdi-star" },
         { title: "About", route: "/about", icon: "mdi-forum" },
       ],
     };

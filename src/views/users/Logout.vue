@@ -19,7 +19,11 @@ export default {
         .then(() => {
           this.$alert("You are logged out").then(() => {
             this.$cookies.remove("auth");
+<<<<<<< HEAD
             this.$cookies.remove("id");
+=======
+            this.$store.commit("logout");
+>>>>>>> dev
             //una volta che ha fatto logout va alla home
             this.$router.push("/");
           });
