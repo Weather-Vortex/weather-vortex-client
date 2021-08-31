@@ -18,21 +18,6 @@
           {{ item.title }}
         </v-btn>
       </div>
-      <!--<v-list dense rounded nav>
-        <v-list-item
-          v-for="item in items"
-          :key="item.title"
-          router
-          :to="item.route"
-        >
-          <v-list-item-icon>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>-->
     </v-row>
   </v-container>
 </template>

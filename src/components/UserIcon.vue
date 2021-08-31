@@ -3,8 +3,6 @@
   <v-menu left bottom>
     <template v-slot:activator="{ on, attrs }">
       <v-btn icon v-bind="attrs" v-on="on">
-        <!-- v-on:click="LoggedIn()" -->
-        <!-- TODO: Add here user icon -->
         <v-icon>mdi-account-circle</v-icon>
       </v-btn>
     </template>
@@ -66,17 +64,6 @@ export default {
         logged: true,
       },
     ],
-    // isLogged: false,
   }),
-
-  methods: {
-    /*LoggedIn() {
-      if (this.$cookies.get("auth")) {
-        this.isLogged = true;
-      } else {
-        this.isLogged = false;
-      }
-    },*/
-  },
 };
 </script>
