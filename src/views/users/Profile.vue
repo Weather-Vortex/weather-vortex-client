@@ -43,7 +43,7 @@
 <style>
 .bg-img {
   /*al momento non ho messo clouds di jpg in assets perchè non mi riconosce il percors*/
-  /*background-image: url("clouds.jpg");*/
+  background-image: url("clouds.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center top;
@@ -69,6 +69,7 @@ export default {
           .delete(url, { withCredentials: true })
           .then(() => {
             this.$cookies.remove("auth");
+            this.$store.commit("logout");
             // una volta che ho eliminato va alla home
             this.$router.push("/");
           })
