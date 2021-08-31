@@ -4,7 +4,7 @@
       <v-container align="center" justify="center">
         <v-row class="bg-img" justify="space-around">
           <v-col md="6" offset-md="3">
-            <PrivateUserCard @profile="getProfile" />
+            <PrivateUserCard />
           </v-col>
         </v-row>
       </v-container>
@@ -43,7 +43,7 @@
 <style>
 .bg-img {
   /*al momento non ho messo clouds di jpg in assets perchè non mi riconosce il percors*/
-  background-image: url("clouds.jpg");
+  /*background-image: url("clouds.jpg");*/
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center top;
@@ -58,12 +58,7 @@ export default {
   name: "privateProfile",
   components: { PrivateUserControlUnits, PrivateUserReviews, PrivateUserCard },
   data: () => ({}),
-
   methods: {
-    getProfile(profile) {
-      console.log(profile);
-      return profile;
-    },
     deleteUser() {
       const server = process.env.VUE_APP_SERVER_URL;
       let url = `${server}/api/`;
@@ -74,7 +69,7 @@ export default {
           .delete(url, { withCredentials: true })
           .then(() => {
             this.$cookies.remove("auth");
-            //una volta che ho eliminato va alla home
+            // una volta che ho eliminato va alla home
             this.$router.push("/");
           })
           .catch((error) => {

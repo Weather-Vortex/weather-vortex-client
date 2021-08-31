@@ -26,6 +26,30 @@ new Vue({
   render: (h) => h(App),
   created: function() {
     // Load authentication before the first isAuthentication request.
-    this.$store.commit("loadAuthentication");
+    const auth = this.$cookies.get("auth");
+    if(auth !== null) {
+      const server = process.env.VUE_APP_SERVER_URL;
+      let url = `${server}/api/profile`;
+      this.$http
+        .get(url, { withCredentials: true })
+        .then((response) => {
+          if (response.data) {
+            this.$store.commit("login", response.data);
+          }
+        })
+        .catch((error) => {
+          switch (error.response.status) {
+            case 400:
+              this.$alert("Error!"); // or here
+              break;
+            case 401:
+              this.$alert("Missing authentication info.").then(() =>
+                this.$router.push("/user/login")
+              );
+              console.log(error.response);
+              break;
+          }
+        });
+    }
   }
 }).$mount("#app");

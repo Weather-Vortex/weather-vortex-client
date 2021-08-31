@@ -65,7 +65,7 @@
 
           <v-list-item-content>
             <v-list-item-title>{{ this.preferred }}</v-list-item-title>
-            <v-list-item-subtitle>Position Preferred</v-list-item-subtitle>
+            <v-list-item-subtitle>Preferred Position</v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -100,17 +100,14 @@ export default {
       return "";
     },
     preferred: function() {
-      if (this.profile) return this.profile.preferred;
+      if (this.profile) {
+        if (this.profile.location) return this.profile.preferred.location;
+        else return this.profile.preferred.position;
+      }
       return "";
     },
-    /*
-    {
-      TODO: Add those data too.
-      }
-      */
   },
   data: () => ({
-    //position: "Cesena",
     password: "Password",
     toggleDisable: false,
     show2: false,
@@ -132,8 +129,6 @@ export default {
         .then((response) => {
           if (response.data) {
             this.profile = response.data;
-            this.$cookies.set("id", response.data.id);
-            this.$emit("profile", this.profile);
           }
         })
         .catch((error) => {

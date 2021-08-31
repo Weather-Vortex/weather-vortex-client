@@ -1,4 +1,3 @@
-
 <template>
   <v-app>
     <v-main class="blue lighten-5">
@@ -31,7 +30,7 @@
 <style>
 .bg-img {
   /*l'immagine è anche in assets (clouds.jpg) ma non riesco a fargli riconoscere il percorso*/
-  background-image: url("clouds.jpg");
+  /*background-image: url("clouds.jpg");*/
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center top;

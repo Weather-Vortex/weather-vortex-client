@@ -2,21 +2,16 @@
   <!-- Add menu with this tutorial: https://vuetifyjs.com/en/components/app-bars/#menu -->
   <v-menu left bottom>
     <template v-slot:activator="{ on, attrs }">
-<<<<<<< HEAD
-      <v-btn icon v-bind="attrs" v-on="on" v-on:click="LoggedIn()">
+      <v-btn icon v-bind="attrs" v-on="on">
         <!-- TODO: Add here user icon -->
         <v-avatar
-          v-if="isLogged"
+          v-if="authenticated"
           color="primary"
           size="36"
           src="./assets/user.png"
           alt="User"
         ></v-avatar>
         <v-icon v-else>mdi-account-circle</v-icon>
-=======
-      <v-btn icon v-bind="attrs" v-on="on">
-        <v-icon>mdi-account-circle</v-icon>
->>>>>>> dev
       </v-btn>
     </template>
 
@@ -78,23 +73,5 @@ export default {
       },
     ],
   }),
-<<<<<<< HEAD
-  created() {},
-  methods: {
-    /* getNameIcon() {
-      let firstName = this.$cookies.get("firstName");
-      let lastName = this.$cookies.get("lastName");
-      return firstName.charAt(0) + lastName.charAt(0);
-    },*/
-    LoggedIn() {
-      if (this.$cookies.get("auth")) {
-        this.isLogged = true;
-      } else {
-        this.isLogged = false;
-      }
-    },
-  },
-=======
->>>>>>> dev
 };
 </script>

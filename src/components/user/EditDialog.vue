@@ -40,6 +40,7 @@
               </v-col>
               <v-col cols="12">
                 <v-text-field
+                  v-model="editPreferred"
                   tabindex="3"
                   label="Position Preferred"
                   prepend-inner-icon="mdi-map-marker"
@@ -53,7 +54,7 @@
           <v-btn color="blue darken-1" text @click="dialog = false">
             Close
           </v-btn>
-          <v-btn color="blue darken-1" text @click="dialog = false">
+          <v-btn color="blue darken-1" text @click="updateUser()">
             Save
           </v-btn>
         </v-card-actions>
@@ -69,6 +70,7 @@ export default {
     dialog: false,
     password: "",
     retypepassword: "",
+    editPreferred: this.preferred,
     passwordRules: [
       (v) =>
         /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/.test(v) ||
@@ -78,6 +80,29 @@ export default {
   methods: {
     validatePassword2(value) {
       return value === this.password || "Passwords don't match.";
+    },
+    updateUser() {
+      const server = process.env.VUE_APP_SERVER_URL;
+      let url = `${server}/api/`;
+
+      // if (this.$confirm("Do you really want to delete?")) {
+      let content = { password: this.password, preferred: this.editPreferred };
+      this.$http
+        .put(url, content, { withCredentials: true })
+        .then((response) => {
+          if (response.data.user) {
+            this.$alert("Data updated correctly.", "Edit", "success").then(
+              () => {
+                this.editPreferred = response.data.preferred;
+                this.dialog = false; // Hide this edit dialog.
+              }
+            );
+          }
+        })
+        .catch((error) => {
+          /*{ success: false, message: "Update user error", error: err }*/
+          console.error(error.data);
+        });
     },
   },
 };

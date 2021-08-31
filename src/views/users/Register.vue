@@ -151,8 +151,6 @@ export default {
             password: this.password,
           })
           .then((response) => {
-            localStorage.setItem("user", JSON.stringify(response.data.user));
-
             //E' stato creato, registered
             if (response.data.user.createdDate != null) {
               this.$emit("registered");
