@@ -27,7 +27,7 @@
           <v-row>
             <v-col class="my-0 py-0" cols="12">
               <v-select
-                tabindex="1"
+                tabindex="2"
                 v-model="select"
                 :items="items"
                 outlined
@@ -40,7 +40,7 @@
           <v-row>
             <v-col class="my-0 py-0" cols="12">
               <v-textarea
-                tabindex="2"
+                tabindex="3"
                 auto-grow
                 outlined
                 v-model="text"
@@ -54,9 +54,9 @@
           </v-row>
 
           <v-btn
-            tabindex="3"
-            class="rounded-0"
-            color="#000000"
+            tabindex="4"
+            class="rounded my-4"
+            color="primary"
             x-large
             block
             dark

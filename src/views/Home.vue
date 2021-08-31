@@ -10,7 +10,7 @@
       <v-spacer></v-spacer>
     </v-row>
     <v-row>
-      <v-spacer></v-spacer>
+      <v-spacer class="d-none d-lg-block"></v-spacer>
       <v-col>
         <QuickForecastCard />
         <!--<v-form ref="form" lazy-validation>
@@ -20,7 +20,7 @@
           </v-btn>
         </v-form>-->
       </v-col>
-      <v-spacer></v-spacer>
+      <v-spacer class="d-none d-lg-block"></v-spacer>
     </v-row>
     <v-row>
       <v-spacer></v-spacer>
@@ -37,17 +37,12 @@
         <CheckStatus v-bind="service" />
       </v-col>
     </v-row>
-
-    <div class="home">
-      <img alt="Vue logo" src="../assets/logo.png" />
-      <HelloWorld msg="Welcome to Your Vue.js App" /></div
-  ></v-container>
+  </v-container>
 </template>
 
 <script>
 // @ is an alias to /src
 import CheckStatus from "@/components/info/CheckStatus.vue";
-import HelloWorld from "@/components/HelloWorld.vue";
 import InfoMain from "@/components/info/InfoMain.vue";
 import QuickForecastCard from "@/components/weather/QuickForecastCard.vue";
 import AccountButtons from "@/components/AccountButtons.vue";
@@ -56,7 +51,6 @@ export default {
   name: "Home",
   components: {
     CheckStatus,
-    HelloWorld,
     InfoMain,
     QuickForecastCard,
     AccountButtons,
