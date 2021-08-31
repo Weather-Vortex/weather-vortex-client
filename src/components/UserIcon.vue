@@ -2,7 +2,8 @@
   <!-- Add menu with this tutorial: https://vuetifyjs.com/en/components/app-bars/#menu -->
   <v-menu left bottom>
     <template v-slot:activator="{ on, attrs }">
-      <v-btn icon v-bind="attrs" v-on="on" v-on:click="LoggedIn()">
+      <v-btn icon v-bind="attrs" v-on="on">
+        <!-- v-on:click="LoggedIn()" -->
         <!-- TODO: Add here user icon -->
         <v-icon>mdi-account-circle</v-icon>
       </v-btn>
@@ -30,8 +31,11 @@
 export default {
   name: "UserIcon",
   computed: {
+    authenticated: function() {
+      return this.$store.getters.isAuthenticated;
+    },
     menuItems: function() {
-      return this.items.filter((f) => f.logged === this.isLogged);
+      return this.items.filter((f) => f.logged === this.authenticated);
     },
   },
   data: () => ({
@@ -62,17 +66,17 @@ export default {
         logged: true,
       },
     ],
-    isLogged: false,
+    // isLogged: false,
   }),
 
   methods: {
-    LoggedIn() {
+    /*LoggedIn() {
       if (this.$cookies.get("auth")) {
         this.isLogged = true;
       } else {
         this.isLogged = false;
       }
-    },
+    },*/
   },
 };
 </script>

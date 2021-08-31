@@ -5,13 +5,29 @@ Vue.use(Vuex);
 
 const state = {
   drawer: null,
+  user: null
 };
 
 const getters = {
   drawerVisible: (state) => state.drawer,
+  initials: (state) => {
+    //if(this.isAuthenticated(state)) {
+      const firstName = state.user.firstName.charAt(0);
+      const lastName = state.user.lastName.charAt(0);
+      return `${firstName}${lastName}`
+    // } else {
+    //   return ""
+    // }
+  },
+  isAuthenticated: (state) => state.user !== null
 };
 
 const mutations = {
+  login: (state, value) => {
+    state.user = value;
+    console.log("LOGIN MUTATION: ", value);
+  },
+  logout: (state) => state.user = null,
   setDrawerVisibility: (state, value) => (state.drawer = value),
   toggleDrawer: (state) => (state.drawer = !state.drawer),
 };

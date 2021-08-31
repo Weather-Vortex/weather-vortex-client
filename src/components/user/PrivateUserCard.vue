@@ -9,7 +9,7 @@
 
       <v-card-title class="white--text mt-8">
         <h3 class="font-weight-bold ml-3">
-          {{ this.lastName }} {{ this.firstName }}
+          [{{ this.userInit }}] {{ this.lastName }} {{ this.firstName }}
         </h3>
       </v-card-title>
     </v-img>
@@ -87,6 +87,9 @@
 export default {
   name: "privateProfileCard",
   computed: {
+    userInit: function() {
+      return this.$store.getters.initials;
+    },
     firstName: function() {
       if (this.profile) return this.profile.firstName;
       return "";

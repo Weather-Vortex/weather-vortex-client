@@ -97,7 +97,9 @@ export default {
           )
           .then((response) => {
             this.$emit("loggedIn");
-            localStorage.setItem("user", JSON.stringify(response.data.user));
+            console.log("LOGIN RETURN: ", response.data.user);
+            this.$store.commit("login", response.data.user);
+            // localStorage.setItem("user", JSON.stringify(response.data.user));
             this.$alert("You are authenticated").then(() => {
               if (this.$route.params.nextUrl != null) {
                 this.$router.push(this.$route.params.nextUrl);
