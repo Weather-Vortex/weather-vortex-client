@@ -70,7 +70,7 @@ export default {
     dialog: false,
     password: "",
     retypepassword: "",
-    editPreferred: this.preferred,
+    editPreferred: "",
     passwordRules: [
       (v) =>
         /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/.test(v) ||
