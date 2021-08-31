@@ -24,4 +24,8 @@ new Vue({
   router,
   store,
   render: (h) => h(App),
+  created: function() {
+    // Load authentication before the first isAuthentication request.
+    this.$store.commit("loadAuthentication");
+  }
 }).$mount("#app");
