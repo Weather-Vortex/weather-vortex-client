@@ -3,7 +3,12 @@
   <v-menu left bottom>
     <template v-slot:activator="{ on, attrs }">
       <v-btn icon v-bind="attrs" v-on="on">
-        <v-icon>mdi-account-circle</v-icon>
+        <v-avatar v-if="authenticated" color="primary" size="48" alt="User">
+          <span class="white--text text-h5">
+            {{ initials }}
+          </span>
+        </v-avatar>
+        <v-icon v-else>mdi-account-circle</v-icon>
       </v-btn>
     </template>
 
@@ -31,6 +36,9 @@ export default {
   computed: {
     authenticated: function() {
       return this.$store.getters.isAuthenticated;
+    },
+    initials: function() {
+      return this.$store.getters.initials;
     },
     menuItems: function() {
       return this.items.filter((f) => f.logged === this.authenticated);

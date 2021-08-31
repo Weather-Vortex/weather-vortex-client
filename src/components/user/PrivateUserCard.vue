@@ -24,8 +24,18 @@
           </v-list-item-icon>
 
           <v-list-item-content>
-            <v-list-item-title>silvia@gmail.com</v-list-item-title>
+            <v-list-item-title>{{ this.email }}</v-list-item-title>
             <v-list-item-subtitle>Personal Email</v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item>
+          <v-list-item-icon>
+            <v-icon color="indigo"> mdi-timetable </v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>{{ this.creationDate }}</v-list-item-title>
+            <v-list-item-subtitle>Registration Date</v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
 
@@ -36,55 +46,38 @@
           </v-list-item-icon>
 
           <v-list-item-content>
-            <v-list-item-title>
-              <v-text-field
+            <v-list-item-title
+              ><v-text-field
                 type="password"
-                label="Password"
                 v-model="password"
-                :disabled="!toggleDisable"
-                ><!--da mettere profile.password nel v-model-->
-              </v-text-field>
-            </v-list-item-title>
-            <v-list-item-subtitle>Edit Password</v-list-item-subtitle>
-
-            <!--Campo modificabile-> al click del bottoncino disabilitare -->
+                disabled
+              ></v-text-field
+            ></v-list-item-title>
+            <v-list-item-subtitle>Password</v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
 
         <v-divider inset></v-divider>
         <v-list-item>
           <v-list-item-icon>
-            <v-icon color="indigo"> mdi-map-marker </v-icon>
+            <v-icon color="indigo"> mdi-map-marker-radius </v-icon>
           </v-list-item-icon>
 
           <v-list-item-content>
-            <v-list-item-title>
-              <v-text-field
-                label="Position"
-                v-model="position"
-                :disabled="!toggleDisable"
-                :append-icon="show2 ? 'mdi-map-marker-off' : 'mdi-map-marker'"
-                @click:append="show2 = !show2"
-              >
-              </v-text-field>
-            </v-list-item-title>
-            <v-list-item-subtitle>Edit Position</v-list-item-subtitle>
+            <v-list-item-title>{{ this.preferred }}</v-list-item-title>
+            <v-list-item-subtitle>Preferred Position</v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
       </v-list>
-      <v-btn
-        class="ml-3"
-        :color="toggleDisable ? 'primary' : 'accent'"
-        @click="toggleDisable = !toggleDisable"
-      >
-        <v-icon> mdi-pencil </v-icon> Edit
-      </v-btn>
+      <v-container><EditDialog /></v-container>
     </v-card-text>
   </v-card>
 </template>
 
 <script>
+import EditDialog from "@/components/user/EditDialog";
 export default {
+  components: { EditDialog },
   name: "privateProfileCard",
   computed: {
     userInit: function() {
@@ -98,17 +91,23 @@ export default {
       if (this.profile) return this.profile.lastName;
       return "";
     },
-    /*
-    {
-      TODO: Add those data too.
-      email: res.email,
-      registrationDate: res.registrationDate,
-      preferred: res.preferred,
+    email: function() {
+      if (this.profile) return this.profile.email;
+      return "";
+    },
+    creationDate: function() {
+      if (this.profile) return this.profile.createdDate;
+      return "";
+    },
+    preferred: function() {
+      if (this.profile) {
+        if (this.profile.location) return this.profile.preferred.location;
+        else return this.profile.preferred.position;
       }
-      */
+      return "";
+    },
   },
   data: () => ({
-    position: "Cesena",
     password: "Password",
     toggleDisable: false,
     show2: false,

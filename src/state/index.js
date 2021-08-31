@@ -26,12 +26,6 @@ const getters = {
 };
 
 const mutations = {
-  loadAuthentication: (state) => {
-    const auth = Vue.prototype.$cookies.get("auth");
-    if(auth !== null) {
-      state.user = auth;
-    }
-  },
   login: (state, value) => {
     state.user = value;
     console.log("LOGIN MUTATION: ", value);
