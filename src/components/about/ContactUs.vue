@@ -55,14 +55,15 @@
 
           <v-btn
             tabindex="4"
-            class="rounded my-4"
+            class=" my-4"
             color="primary"
             x-large
             block
-            dark
             @click="submitForm"
           >
-            Send
+            <v-icon class="mb-1 mr-2"> mdi-email-send </v-icon>
+
+            <b>Send</b>
           </v-btn>
         </v-form>
       </v-col>

@@ -11,7 +11,12 @@
     <v-spacer></v-spacer>
 
     <v-toolbar-title>
-      Weather Vortex
+      <router-link
+        class="text-h4 text-decoration-none font-weight-medium white--text "
+        to="/home"
+      >
+        Weather Vortex</router-link
+      >
       <!--
           TODO: Improving following this tutorial: https://vuetifyjs.com/en/components/app-bars/#v-app-bar-title
           -->
