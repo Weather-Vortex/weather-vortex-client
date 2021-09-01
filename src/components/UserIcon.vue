@@ -3,14 +3,18 @@
   <v-menu left bottom>
     <template v-slot:activator="{ on, attrs }">
       <v-btn icon v-bind="attrs" v-on="on">
-        <!-- TODO: Add here user icon -->
-        <v-icon>mdi-account-circle</v-icon>
+        <v-avatar v-if="authenticated" color="primary" size="48" alt="User">
+          <span class="white--text text-h5">
+            {{ initials }}
+          </span>
+        </v-avatar>
+        <v-icon v-else>mdi-account-circle</v-icon>
       </v-btn>
     </template>
 
     <v-list dense rounded nav>
       <v-list-item
-        v-for="item in items"
+        v-for="item in menuItems"
         :key="item.title"
         router
         :to="item.route"
@@ -29,14 +33,44 @@
 <script>
 export default {
   name: "UserIcon",
+  computed: {
+    authenticated: function() {
+      return this.$store.getters.isAuthenticated;
+    },
+    initials: function() {
+      return this.$store.getters.initials;
+    },
+    menuItems: function() {
+      return this.items.filter((f) => f.logged === this.authenticated);
+    },
+  },
   data: () => ({
     items: [
-      /* TODO: Show only if not logged. */
-      { title: "Login", route: "/user/login", icon: "mdi-login" },
-      { title: "Register", route: "/user/register", icon: "mdi-account-plus" },
+      {
+        title: "Login",
+        route: "/user/login",
+        icon: "mdi-login",
+        logged: false,
+      },
+      {
+        title: "Register",
+        route: "/user/register",
+        icon: "mdi-account-plus",
+        logged: false,
+      },
       /* TODO: Show only if logged. */
-      { title: "Account", route: "/user/account", icon: "mdi-account" },
-      { title: "Logout", route: "/user/logout", icon: "mdi-logout" },
+      {
+        title: "Account",
+        route: "/user/profile",
+        icon: "mdi-account",
+        logged: true,
+      },
+      {
+        title: "Logout",
+        route: "/user/logout",
+        icon: "mdi-logout",
+        logged: true,
+      },
     ],
   }),
 };

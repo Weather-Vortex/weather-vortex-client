@@ -17,7 +17,7 @@
         ></v-img>
         <p class="font-italic">Please complete this form to login</p>
 
-        <v-form ref="form" class="mx-2" v-model="valid" lazy-validation>
+        <v-form ref="form" class="mx-2" lazy-validation>
           <v-row>
             <v-col cols="12">
               <v-text-field
@@ -46,16 +46,8 @@
             </v-col>
           </v-row>
 
-          <v-btn
-            tabindex=3
-            class="rounded-0"
-            color="#000000"
-            x-large
-            block
-            dark
-            @click="submitForm"
-          >
-            Log In
+          <v-btn tabindex="3" color="primary" x-large block @click="submitForm">
+            <b>Log In</b>
           </v-btn>
         </v-form>
       </v-col>
@@ -77,13 +69,59 @@ export default {
         ) || "E-mail must be valid",
     ],
     password: "",
-    passwordRules: [
-      (v) => !!v || "Password is required",
-    ],
+    passwordRules: [(v) => !!v || "Password is required"],
   }),
   methods: {
     submitForm() {
-      this.$refs.form.validate();
+      if (this.$refs.form.validate()) {
+        const server = process.env.VUE_APP_SERVER_URL;
+        let url = `${server}/api/login`;
+        this.$http
+          .post(
+            url,
+            {
+              email: this.email,
+              password: this.password,
+            },
+            {
+              withCredentials: true,
+            }
+          )
+          .then((response) => {
+            this.$emit("loggedIn");
+            console.log("LOGIN RETURN: ", response.data.user);
+            this.$store.commit("login", response.data.user);
+            // localStorage.setItem("user", JSON.stringify(response.data.user));
+            this.$alert("You are authenticated").then(() => {
+              if (this.$route.params.nextUrl != null) {
+                this.$router.push(this.$route.params.nextUrl);
+              } else {
+                // una volta loggato va alla home
+                this.$router.push("/");
+              }
+            });
+          })
+          .catch((error) => {
+            switch (error.response.status) {
+              case 401:
+                this.$alert("Password wrong!"); // or here
+                break;
+              case 500:
+                this.$alert("Email not found"); // or here
+                break;
+              //da descommentare riga nel server login->isVerified e mettergli 403 come errore codice
+              case 403:
+                this.$alert("You are not verified, check your email box!");
+                break;
+              default:
+                this.$alert("Unknown error, contact the support.");
+                console.log("some other error"); // end up here all the time
+                break;
+            }
+
+            console.log("SignInForm.authenticate error: ", error);
+          });
+      }
     },
   },
 };

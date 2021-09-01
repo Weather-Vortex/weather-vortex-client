@@ -1,4 +1,3 @@
-
 <template>
   <v-app>
     <v-main class="blue lighten-5">
