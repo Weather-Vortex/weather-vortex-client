@@ -10,7 +10,7 @@
       <v-spacer></v-spacer>
     </v-row>
     <v-row>
-      <v-spacer></v-spacer>
+      <v-spacer class="d-none d-lg-block"></v-spacer>
       <v-col>
         <QuickForecastCard />
         <!--<v-form ref="form" lazy-validation>
@@ -20,9 +20,13 @@
           </v-btn>
         </v-form>-->
       </v-col>
-      <v-spacer></v-spacer>
+      <v-spacer class="d-none d-lg-block"></v-spacer>
     </v-row>
-
+    <v-row>
+      <v-col>
+        <AccountButtons />
+      </v-col>
+    </v-row>
     <!-- Functionality presentation -->
     <InfoMain />
 
@@ -39,6 +43,7 @@
 import CheckStatus from "@/components/info/CheckStatus.vue";
 import InfoMain from "@/components/info/InfoMain.vue";
 import QuickForecastCard from "@/components/weather/QuickForecastCard.vue";
+import AccountButtons from "@/components/AccountButtons.vue";
 
 export default {
   name: "Home",
@@ -46,6 +51,7 @@ export default {
     CheckStatus,
     InfoMain,
     QuickForecastCard,
+    AccountButtons,
   },
   data() {
     return {
