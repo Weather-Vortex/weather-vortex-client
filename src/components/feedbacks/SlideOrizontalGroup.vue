@@ -1,17 +1,21 @@
 <template>
   <v-sheet elevation="5" max-width="95%">
-    <v-slide-group v-model="model" class="pa-4" center-active show-arrows>
-      <v-slide-item v-for="n in 10" :key="n" v-slot="{ active, toggle }">
+    <v-slide-group v-model="model" class="pa-2" center-active show-arrows>
+      <v-slide-item
+        height="500"
+        v-for="n in 8"
+        :key="n"
+        v-slot="{ active, toggle }"
+      >
         <v-card
           :color="active ? 'primary' : 'grey lighten-1'"
-          class="ma-4"
-          height="500"
-          width="300"
+          class="ma-3"
           @click="toggle"
         >
-          <v-row class="fill-height" align="center" justify="center">
-            <ServiceRatingsList />
-          </v-row>
+          <ServiceRatingsList />
+          <v-btn color="primary" block x-large>
+            <b>Give Feedback</b>
+          </v-btn>
         </v-card>
       </v-slide-item>
     </v-slide-group>

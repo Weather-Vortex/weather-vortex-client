@@ -1,18 +1,23 @@
 <template>
   <v-card class="mx-auto" max-width="500">
     <h1>Service Name</h1>
-    <v-list>
-      <v-list-item-group v-model="model">
-        <v-list-item
-          v-for="(item, i) in items"
-          :key="i"
-          :disabled="item.disabled"
-          class="d-flex"
-        >
-          <UserIcon />
+
+    <v-virtual-scroll
+      :items="items"
+      height="500"
+      min-width="300"
+      :item-height="50"
+    >
+      <template v-slot:default="{ item }">
+        <v-list-item class="pa-0 ma-1">
+          <v-list-item-avatar class="pa-0 ma-1">
+            <v-avatar :color="item.color" size="40" class="white--text">
+              {{ item.initials }}
+            </v-avatar>
+          </v-list-item-avatar>
 
           <v-list-item-content>
-            <v-list-item-title v-text="item.text"></v-list-item-title>
+            <v-list-item-title>{{ item.fullName }}</v-list-item-title>
           </v-list-item-content>
 
           <v-rating
@@ -28,30 +33,70 @@
             v-model="item.rating"
           ></v-rating>
         </v-list-item>
-      </v-list-item-group>
-    </v-list>
+      </template>
+    </v-virtual-scroll>
   </v-card>
 </template>
 <script>
-import UserIcon from "@/components/UserIcon";
 export default {
-  components: { UserIcon },
+  components: {},
   data: () => ({
-    items: [
-      {
-        text: "Name 1",
-        rating: 3,
-      },
-      {
-        text: "Name 2",
-        rating: 5,
-      },
-      {
-        text: "Name 3",
-        rating: 2,
-      },
+    colors: [
+      "primary",
+      "primary lighten-1",
+      "primary lighten-2",
+      "primary darken-1",
     ],
-    model: 0,
+    names: [
+      "Mario",
+      "Luigi",
+      "Igor",
+      "Matteo",
+      "Silvia",
+      "Sara",
+      "Alessandro",
+      "Daniele",
+    ],
+    surnames: [
+      "Smith",
+      "Anderson",
+      "Clark",
+      "Wright",
+      "Scott",
+      "Thompson",
+      "Allen",
+      "Baker",
+      "Taylor",
+      "Robinson",
+      "King",
+      "Carter",
+      "Collins",
+    ],
   }),
+
+  computed: {
+    items() {
+      const namesLength = this.names.length;
+      const surnamesLength = this.surnames.length;
+      const colorsLength = this.colors.length;
+
+      return Array.from({ length: 10000 }, () => {
+        const name = this.names[this.genRandomIndex(namesLength)];
+        const surname = this.surnames[this.genRandomIndex(surnamesLength)];
+
+        return {
+          color: this.colors[this.genRandomIndex(colorsLength)],
+          fullName: `${name} ${surname}`,
+          initials: `${name[0]} ${surname[0]}`,
+          rating: this.genRandomIndex(5),
+        };
+      });
+    },
+  },
+  methods: {
+    genRandomIndex(length) {
+      return Math.ceil(Math.random() * (length - 1));
+    },
+  },
 };
 </script>
