@@ -1,7 +1,7 @@
 <template>
   <v-card class="mx-auto" max-width="500">
     <h1>Service Name</h1>
-
+    <v-divider></v-divider>
     <v-virtual-scroll
       :items="items"
       height="500"
@@ -58,19 +58,13 @@ export default {
       "Daniele",
     ],
     surnames: [
-      "Smith",
-      "Anderson",
-      "Clark",
-      "Wright",
-      "Scott",
-      "Thompson",
-      "Allen",
-      "Baker",
-      "Taylor",
-      "Robinson",
-      "King",
-      "Carter",
-      "Collins",
+      "Rossi",
+      "Bianchi",
+      "Verdi",
+      "De Vito",
+      "Allegri",
+      "Neri",
+      "Michelangeli",
     ],
   }),
 
@@ -80,7 +74,7 @@ export default {
       const surnamesLength = this.surnames.length;
       const colorsLength = this.colors.length;
 
-      return Array.from({ length: 10000 }, () => {
+      return Array.from({ length: 50 }, () => {
         const name = this.names[this.genRandomIndex(namesLength)];
         const surname = this.surnames[this.genRandomIndex(surnamesLength)];
 
@@ -88,7 +82,7 @@ export default {
           color: this.colors[this.genRandomIndex(colorsLength)],
           fullName: `${name} ${surname}`,
           initials: `${name[0]} ${surname[0]}`,
-          rating: this.genRandomIndex(5),
+          rating: this.genRandomIndex(6),
         };
       });
     },
