@@ -1,23 +1,29 @@
 <template>
-  <div class="aboutPage">
-    <div class="about my-4">
-      <v-row justify="center">
-        <v-spacer class="d-none d-md-block"></v-spacer>
-        <v-sheet class="mx-md-4 pa-4" color="white" elevation="4">
-          <h1>About</h1>
+  <v-container>
+    <v-row>
+      <v-spacer></v-spacer>
+      <v-col cols="12" class="mx-md-4 py-4" color="white" elevation="4">
+        <h2 class="display-2 font-weight-bold mb-4">About</h2>
+        <p>
           Weather Vortex is a project that aims to provide the user a unique
-          service to check all the weather forecasts and paragonate them.<br />
+          service to check all the weather forecasts and paragonate them.
+        </p>
+        <p>
           Starting from this need, this platform was created. Here it's possible
-          to semplify everyday decisions that are weather-based- <br />
+          to semplify everyday decisions that are weather-based.
+        </p>
+        <p>
           This can lead to a huge amount of time saved and to a better
-          organization <br />
+          organization.
+        </p>
+        <p>
           On the other hand, the user can also customize his experience adding
           Iot device to "trust" and leave feedbacks to all the services
           available.
-        </v-sheet>
-        <v-spacer class="d-none d-md-block"></v-spacer>
-      </v-row>
-    </div>
+        </p>
+      </v-col>
+      <v-spacer></v-spacer>
+    </v-row>
 
     <v-parallax class="my-3" height="300" dark src="../assets/clouds.jpg">
       <v-row align="center" justify="center">
@@ -35,10 +41,14 @@
       </v-row>
     </v-parallax>
 
-    <div class="timeline">
-      <h1>Timeline</h1>
-      <Timeline />
-    </div>
+    <v-row class="timeline">
+      <v-spacer></v-spacer>
+      <v-col cols="12">
+        <h3 class="display-1 font-weight-bold my-4">Timeline</h3>
+        <Timeline />
+      </v-col>
+      <v-spacer></v-spacer>
+    </v-row>
 
     <v-parallax class="my-3" height="300" dark src="../assets/clouds.jpg">
       <v-row align="center" justify="center">
@@ -56,10 +66,14 @@
       </v-row>
     </v-parallax>
 
-    <div class="meet my-3">
-      <h1>Meet the Team</h1>
-      <MeetTeam />
-    </div>
+    <v-row class="meet my-3">
+      <v-spacer></v-spacer>
+      <v-col cols="12">
+        <h3 class="display-1 font-weight-bold my-4">Meet the Team</h3>
+        <MeetTeam />
+      </v-col>
+      <v-spacer></v-spacer>
+    </v-row>
 
     <v-parallax class="my-3" height="300" dark src="../assets/clouds.jpg">
       <v-row align="center" justify="center">
@@ -78,11 +92,17 @@
       </v-row>
     </v-parallax>
 
-    <div class="contact">
-      <h1 id="contact-us">Contact Us</h1>
-      <ContactUs />
-    </div>
-  </div>
+    <v-row class="contact">
+      <v-spacer></v-spacer>
+      <v-col cols="12">
+        <h3 class="display-1 font-weight-bold my-4" id="contact-us">
+          Contact Us
+        </h3>
+        <ContactUs />
+      </v-col>
+      <v-spacer></v-spacer>
+    </v-row>
+  </v-container>
 </template>
 
 <script>

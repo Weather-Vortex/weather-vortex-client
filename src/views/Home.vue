@@ -11,25 +11,25 @@
       <v-spacer></v-spacer>
     </v-row>
     <v-row>
-      <v-spacer class="d-none d-lg-block"></v-spacer>
-      <v-col>
+      <v-spacer></v-spacer>
+      <v-col cols="12" md="6">
         <QuickForecastCard />
       </v-col>
-      <v-spacer class="d-none d-lg-block"></v-spacer>
+      <v-spacer></v-spacer>
     </v-row>
     <v-row>
-      <v-col>
+      <v-col cols="12">
         <AccountButtons />
       </v-col>
     </v-row>
     <!-- Functionality presentation -->
     <v-row>
-      <v-col>
+      <v-col cols="12">
         <InfoMain />
       </v-col>
     </v-row>
     <v-row>
-      <v-col v-for="(service, i) in services" :key="i">
+      <v-col v-for="(service, i) in services" :key="i" cols="12" md="4">
         <CheckStatus v-bind="service" />
       </v-col>
     </v-row>

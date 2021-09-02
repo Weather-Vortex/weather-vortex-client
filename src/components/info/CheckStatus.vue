@@ -89,7 +89,6 @@ export default {
   },
   methods: {
     async checkStatus() {
-      console.log("Check", this.status);
       this.loading = true;
       this.status = null;
       try {

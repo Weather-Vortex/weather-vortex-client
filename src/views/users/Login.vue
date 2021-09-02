@@ -90,10 +90,11 @@ export default {
           .then((response) => {
             this.$emit("loggedIn");
             this.$store.commit("login", response.data.user);
-            this.$alert({
-              message: "You are authenticated",
-              type: "success",
-            }).then(() => {
+            this.$alert(
+              "You are authenticated",
+              "<strong>Login</strong>&nbsp;success!",
+              "success"
+            ).then(() => {
               if (this.$route.params.nextUrl != null) {
                 this.$router.push(this.$route.params.nextUrl);
               } else {
@@ -103,32 +104,35 @@ export default {
             });
           })
           .catch((error) => {
+            const title = "<strong>Login</strong>&nbsp;error";
             if (error.response) {
               switch (error.response.status) {
                 case 401:
-                  this.$alert({ text: "Password wrong!", type: "error" }); // or here
-                  break;
-                case 500:
-                  this.$alert({ text: "Email not found", type: "error" }); // or here
+                  this.$alert("Password wrong!", title, "error"); // or here
                   break;
                 //da descommentare riga nel server login->isVerified e mettergli 403 come errore codice
                 case 403:
-                  this.$alert({
-                    message: "You are not verified, check your email box!",
-                    type: "error",
-                  });
+                  this.$alert(
+                    "You are not verified, check your email box!",
+                    title,
+                    "error"
+                  );
+                  break;
+                case 500:
+                  this.$alert("Email not found", title, "error"); // or here
                   break;
                 default:
-                  this.$alert({
-                    message: "Unknown error, contact the support.",
-                    type: "error",
-                  });
-                  console.log("some other error"); // end up here all the time
+                  this.$alert(
+                    "Unknown error, contact the support.",
+                    title,
+                    "error"
+                  );
+                  console.log("Some other error:", error.response); // end up here all the time
                   break;
               }
             } else if (error.request) {
               this.$fire({
-                title: "<strong>Login</strong>&nbsp;error",
+                title,
                 text: `Server had response with an error: ${error.message}. You could retry the login or contact the support from the about page.`,
                 footer:
                   '<a href="https://weather-vortex.github.io/weather-vortex-client/#/about#contact-us">Contact us</a>',

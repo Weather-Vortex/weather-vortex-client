@@ -1,14 +1,8 @@
 <template>
-  <v-container fluid>
-    <v-row justify="center" align="center" class="row">
-      <v-col
-        cols="12"
-        sm="8"
-        md="4"
-        xs="4"
-        class="text-center"
-        style="height: 100vh"
-      >
+  <v-container>
+    <v-row justify="center" align="center">
+      <v-spacer></v-spacer>
+      <v-col cols="12" sm="8" md="4">
         <v-img
           src="@/assets/vortex.png"
           alt="Weather Vortex logo"
@@ -19,7 +13,7 @@
           Please complete this form to create an account
         </p>
 
-        <v-form ref="form" class="mx-2" lazy-validation>
+        <v-form ref="form" lazy-validation>
           <v-row>
             <v-col cols="6">
               <v-text-field
@@ -55,7 +49,7 @@
             </v-col>
           </v-row>
           <v-row>
-            <v-col cols="6">
+            <v-col cols="12" md="6">
               <v-text-field
                 tabindex="4"
                 v-model="password"
@@ -68,7 +62,7 @@
                 required
               ></v-text-field>
             </v-col>
-            <v-col cols="6">
+            <v-col cols="12" md="6">
               <v-text-field
                 tabindex="5"
                 v-model="retypepassword"
@@ -105,6 +99,7 @@
           </v-btn>
         </v-form>
       </v-col>
+      <v-spacer></v-spacer>
     </v-row>
   </v-container>
 </template>
@@ -163,21 +158,23 @@ export default {
             }
           })
           .catch((error) => {
+            const title = "<strong>Register</strong>&nbsp;error";
             if (error.response) {
               switch (error.response.status) {
                 case 500:
-                  this.$alert({
-                    message: "Error during registration or email already used!",
-                    type: "error",
-                  }); // or here
+                  this.$alert(
+                    "Error during registration or email already used!",
+                    title,
+                    "error"
+                  ); // or here
                   break;
                 default:
-                  console.log("some other error"); // end up here all the time
+                  console.log("Some other error:", error.response); // end up here all the time
                   break;
               }
             } else if (error.request) {
               this.$fire({
-                title: "<strong>Register</strong>&nbsp;error",
+                title,
                 text: `Server had response with an error: ${error.message}. You could retry the registration or contact the support from the about page.`,
                 footer:
                   '<a href="https://weather-vortex.github.io/weather-vortex-client/#/about#contact-us">Contact us</a>',
