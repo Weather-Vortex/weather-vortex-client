@@ -123,7 +123,7 @@ export default {
         this.$router.push("/user/login");
       }
       const server = process.env.VUE_APP_SERVER_URL;
-      let url = `${server}/api/profile`;
+      let url = `${server}/auth/profile`;
       this.$http
         .get(url, { withCredentials: true })
         .then((response) => {
