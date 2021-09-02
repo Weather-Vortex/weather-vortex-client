@@ -155,22 +155,37 @@ export default {
             //E' stato creato, registered
             if (response.data.user.createdDate != null) {
               this.$emit("registered");
-              this.$alert(
-                "You are registered, check your mailbox to confirm your account."
-              );
+              this.$alert({
+                message:
+                  "You are registered, check your mailbox to confirm your account.",
+                type: "success",
+              });
             }
           })
           .catch((error) => {
-            switch (error.response.status) {
-              case 500:
-                this.$alert("Error during registration or email already used!"); // or here
-                break;
-              default:
-                console.log("some other error"); // end up here all the time
-                break;
+            if (error.response) {
+              switch (error.response.status) {
+                case 500:
+                  this.$alert({
+                    message: "Error during registration or email already used!",
+                    type: "error",
+                  }); // or here
+                  break;
+                default:
+                  console.log("some other error"); // end up here all the time
+                  break;
+              }
+            } else if (error.request) {
+              this.$fire({
+                title: "<strong>Register</strong>&nbsp;error",
+                text: `Server had response with an error: ${error.message}. You could retry the registration or contact the support from the about page.`,
+                footer:
+                  'If you think is a developer error, open an&nbsp;<a href="https://github.com/Weather-Vortex/weather-vortex-client/issues/new">issue on Github</a>',
+                type: "error",
+              });
             }
 
-            console.log("SignInForm.authenticate error: ", error);
+            console.log("SignUpForm.authenticate error: ", error);
           });
       }
     },
