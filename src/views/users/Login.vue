@@ -134,7 +134,6 @@ export default {
                   'If you think is a developer error, open an&nbsp;<a href="https://github.com/Weather-Vortex/weather-vortex-client/issues/new">issue on Github</a>',
                 type: "error",
               });
-              console.log(error.message);
             }
 
             console.log("SignInForm.authenticate error: ", error);
