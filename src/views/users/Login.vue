@@ -89,10 +89,11 @@ export default {
           )
           .then((response) => {
             this.$emit("loggedIn");
-            console.log("LOGIN RETURN: ", response.data.user);
             this.$store.commit("login", response.data.user);
-            // localStorage.setItem("user", JSON.stringify(response.data.user));
-            this.$alert("You are authenticated").then(() => {
+            this.$alert({
+              message: "You are authenticated",
+              type: "success",
+            }).then(() => {
               if (this.$route.params.nextUrl != null) {
                 this.$router.push(this.$route.params.nextUrl);
               } else {
@@ -105,23 +106,29 @@ export default {
             if (error.response) {
               switch (error.response.status) {
                 case 401:
-                  this.$alert("Password wrong!"); // or here
+                  this.$alert({ text: "Password wrong!", type: "error" }); // or here
                   break;
                 case 500:
-                  this.$alert("Email not found"); // or here
+                  this.$alert({ text: "Email not found", type: "error" }); // or here
                   break;
                 //da descommentare riga nel server login->isVerified e mettergli 403 come errore codice
                 case 403:
-                  this.$alert("You are not verified, check your email box!");
+                  this.$alert({
+                    message: "You are not verified, check your email box!",
+                    type: "error",
+                  });
                   break;
                 default:
-                  this.$alert("Unknown error, contact the support.");
+                  this.$alert({
+                    message: "Unknown error, contact the support.",
+                    type: "error",
+                  });
                   console.log("some other error"); // end up here all the time
                   break;
               }
             } else if (error.request) {
               this.$fire({
-                title: "<strong>Login</strong> &nbsp; error",
+                title: "<strong>Login</strong>&nbsp;error",
                 text: `Server had response with an error: ${error.message}. You could retry the login or contact the support from the about page.`,
                 footer:
                   'If you think is a developer error, open an&nbsp;<a href="https://github.com/Weather-Vortex/weather-vortex-client/issues/new">issue on Github</a>',
