@@ -13,7 +13,7 @@ export default {
   methods: {
     logout() {
       const server = process.env.VUE_APP_SERVER_URL;
-      let url = `${server}/api/logout`;
+      let url = `${server}/auth/logout`;
       this.$http
         .get(url, { withCredentials: true })
         .then(() => {

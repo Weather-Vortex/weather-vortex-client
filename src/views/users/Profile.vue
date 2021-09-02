@@ -61,7 +61,7 @@ export default {
   methods: {
     deleteUser() {
       const server = process.env.VUE_APP_SERVER_URL;
-      let url = `${server}/api/`;
+      let url = `${server}/auth/`;
 
       // if (this.$confirm("Do you really want to delete?")) {
       if (window.confirm("Do you really want to delete?")) {

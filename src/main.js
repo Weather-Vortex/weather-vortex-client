@@ -29,7 +29,7 @@ new Vue({
     const auth = this.$cookies.get("auth");
     if(auth !== null) {
       const server = process.env.VUE_APP_SERVER_URL;
-      let url = `${server}/api/profile`;
+      let url = `${server}/auth/profile`;
       this.$http
         .get(url, { withCredentials: true })
         .then((response) => {

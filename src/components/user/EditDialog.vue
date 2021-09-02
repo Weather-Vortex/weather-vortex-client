@@ -21,7 +21,7 @@
                   :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
                   :type="show1 ? 'text' : 'password'"
                   @click:append="show1 = !show1"
-                  :rules="passwordRules"
+                  :rules="passwordRules.concat(validateLength)"
                   label="Password"
                   prepend-inner-icon="mdi-lock"
                 ></v-text-field>
@@ -30,7 +30,11 @@
                 <v-text-field
                   tabindex="2"
                   v-model="retypepassword"
-                  :rules="passwordRules.concat(validatePassword2)"
+                  :rules="
+                    passwordRules
+                      .concat(validatePassword2)
+                      .concat(validateLength)
+                  "
                   :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
                   :type="show2 ? 'text' : 'password'"
                   @click:append="show2 = !show2"
@@ -81,9 +85,12 @@ export default {
     validatePassword2(value) {
       return value === this.password || "Passwords don't match.";
     },
+    validateLength(value) {
+      return value.length > 8 || "Password must have more of 8 characters";
+    },
     updateUser() {
       const server = process.env.VUE_APP_SERVER_URL;
-      let url = `${server}/api/`;
+      let url = `${server}/auth/`;
 
       // if (this.$confirm("Do you really want to delete?")) {
       let content = { password: this.password, preferred: this.editPreferred };

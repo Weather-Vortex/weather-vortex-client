@@ -75,7 +75,7 @@ export default {
     submitForm() {
       if (this.$refs.form.validate()) {
         const server = process.env.VUE_APP_SERVER_URL;
-        let url = `${server}/api/login`;
+        let url = `${server}/auth/login`;
         this.$http
           .post(
             url,
