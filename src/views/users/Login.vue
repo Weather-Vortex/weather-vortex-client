@@ -131,7 +131,7 @@ export default {
                 title: "<strong>Login</strong>&nbsp;error",
                 text: `Server had response with an error: ${error.message}. You could retry the login or contact the support from the about page.`,
                 footer:
-                  'If you think is a developer error, open an&nbsp;<a href="https://github.com/Weather-Vortex/weather-vortex-client/issues/new">issue on Github</a>',
+                  '<a href="https://weather-vortex.github.io/weather-vortex-client/#/about#contact-us">Contact us</a>',
                 type: "error",
               });
             }

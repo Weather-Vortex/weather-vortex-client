@@ -21,14 +21,14 @@
 
     <v-parallax class="my-3" height="300" dark src="../assets/clouds.jpg">
       <v-row align="center" justify="center">
-        <v-col class="text-center " cols="12">
+        <v-col class="text-center" cols="12">
           <h1
             class="text-h4 font-weight-thin mb-4"
-            style="text-shadow: 1px 1px 2px black;"
+            style="text-shadow: 1px 1px 2px black"
           >
             Weather Vortex <br />Comparison
           </h1>
-          <h4 class="subheading" style="text-shadow: 1px 1px 2px black;">
+          <h4 class="subheading" style="text-shadow: 1px 1px 2px black">
             Take the right decision, today!
           </h4>
         </v-col>
@@ -42,14 +42,14 @@
 
     <v-parallax class="my-3" height="300" dark src="../assets/clouds.jpg">
       <v-row align="center" justify="center">
-        <v-col class="text-center " cols="12">
+        <v-col class="text-center" cols="12">
           <h1
             class="text-h4 font-weight-thin mb-4"
-            style="text-shadow: 1px 1px 2px black;"
+            style="text-shadow: 1px 1px 2px black"
           >
             Weather Vortex <br />Feedbacks
           </h1>
-          <h4 class="subheading" style="text-shadow: 1px 1px 2px black;">
+          <h4 class="subheading" style="text-shadow: 1px 1px 2px black">
             Choose who to trust!
           </h4>
         </v-col>
@@ -63,14 +63,14 @@
 
     <v-parallax class="my-3" height="300" dark src="../assets/clouds.jpg">
       <v-row align="center" justify="center">
-        <v-col class="text-center " cols="12">
+        <v-col class="text-center" cols="12">
           <h1
             class="text-h4 font-weight-thin mb-4"
-            style="text-shadow: 1px 1px 2px black;"
+            style="text-shadow: 1px 1px 2px black"
           >
             Weather Vortex <br />Iot
           </h1>
-          <h4 class="subheading" style="text-shadow: 1px 1px 2px black;">
+          <h4 class="subheading" style="text-shadow: 1px 1px 2px black">
             Full customizable experience! <br />
             Add your Iot stations, choose your favourite position, get notified!
           </h4>
@@ -79,7 +79,7 @@
     </v-parallax>
 
     <div class="contact">
-      <h1>Contact Us</h1>
+      <h1 id="contact-us">Contact Us</h1>
       <ContactUs />
     </div>
   </div>
