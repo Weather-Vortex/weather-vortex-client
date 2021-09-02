@@ -25,9 +25,8 @@
           @click="toggle"
         >
           <ServiceRatingsList :title="ser" />
-          <v-btn color="primary" block x-large>
-            <b>Give Feedback</b>
-          </v-btn>
+
+          <LeaveFeedbackDialog />
         </v-card>
       </v-slide-item>
     </v-slide-group>
@@ -35,8 +34,9 @@
 </template>
 <script>
 import ServiceRatingsList from "@/components/feedbacks/ServiceRatingsList";
+import LeaveFeedbackDialog from "@/components/feedbacks/LeaveFeedbackDialog";
 export default {
-  components: { ServiceRatingsList },
+  components: { ServiceRatingsList, LeaveFeedbackDialog },
   data: () => ({
     model: null,
     services: [
