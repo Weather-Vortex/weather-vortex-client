@@ -2,7 +2,7 @@
   <!-- Can be placed on the left or right side of an application and can be configured to sit next to or below v-app-bar. -->
   <v-navigation-drawer app v-model="drawerVisible" fixed temporary>
     <!-- -->
-    <v-list dense rounded nav>
+    <v-list rounded nav>
       <v-list-item
         v-for="item in items"
         :key="item.title"
