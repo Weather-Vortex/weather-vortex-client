@@ -6,6 +6,10 @@ on:
       - "main"
     paths-ignore:
       - "**/*.[mM][dD]"
+  workflow_dispatch:
+    inputs:
+      tags:
+        description: 'Environment variables reloading'
 
 jobs:
   Deploy:
