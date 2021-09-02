@@ -16,106 +16,111 @@
               <h2>Rating</h2>
             </v-col>
 
-            <v-col cols="12" sm="12" md="12" class="pt-0">
-              <v-rating
-                background-color="grey lighten-1"
-                color="primary"
-                dense
-                empty-icon="mdi-star-outline"
-                full-icon="mdi-star"
-                half-icon="mdi-star-half-full"
-                hover
-                required
-                length="5"
-                size="48"
-              ></v-rating>
-            </v-col>
+            <v-form ref="form" v-model="valid">
+              <v-col cols="12" sm="12" md="12" class="pt-0">
+                <v-rating
+                  v-model="rating"
+                  background-color="grey lighten-1"
+                  color="primary"
+                  dense
+                  empty-icon="mdi-star-outline"
+                  full-icon="mdi-star"
+                  half-icon="mdi-star-half-full"
+                  hover
+                  required
+                  length="5"
+                  size="48"
+                ></v-rating>
+              </v-col>
 
-            <v-col cols="12" sm="12" class="pt-0">
-              <v-btn class="ma-2" color="primary" @click="expand = !expand">
-                <v-icon left v-show="!expand">
-                  mdi-chevron-down
-                </v-icon>
-                <v-icon left v-show="expand">
-                  mdi-chevron-up
-                </v-icon>
-                Altro
-              </v-btn>
-            </v-col>
+              <v-col cols="12" sm="12" class="pt-0">
+                <v-btn class="ma-2" color="primary" @click="expand = !expand">
+                  <v-icon left v-show="!expand">
+                    mdi-chevron-down
+                  </v-icon>
+                  <v-icon left v-show="expand">
+                    mdi-chevron-up
+                  </v-icon>
+                  Altro
+                </v-btn>
+              </v-col>
 
-            <v-expand-transition>
-              <v-row v-show="expand">
-                <v-col cols="12" sm="12" class="pt-0">
-                  <v-select
-                    :items="[
-                      'Weather',
-                      'Temperature',
-                      'TempMin',
-                      'TempMax',
-                      'Pressure',
-                      'Humidity',
-                      'Clouds',
-                      'Rain',
-                    ]"
-                    label="Forecast Field *"
-                  ></v-select>
-                </v-col>
+              <v-expand-transition>
+                <v-row v-show="expand">
+                  <v-col cols="12" sm="12" class="pt-0">
+                    <v-select
+                      v-model="field"
+                      :items="[
+                        'Weather',
+                        'Temperature',
+                        'TempMin',
+                        'TempMax',
+                        'Pressure',
+                        'Humidity',
+                        'Clouds',
+                        'Rain',
+                      ]"
+                      label="Forecast Field *"
+                    ></v-select>
+                  </v-col>
 
-                <v-col cols="12" sm="12" class="pt-0">
-                  <v-menu
-                    ref="menu"
-                    v-model="menu"
-                    :close-on-content-click="false"
-                    transition="scale-transition"
-                    offset-y
-                    min-width="auto"
-                  >
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-text-field
+                  <v-col cols="12" sm="12" class="pt-0">
+                    <v-menu
+                      ref="menu"
+                      v-model="menu"
+                      :close-on-content-click="false"
+                      transition="scale-transition"
+                      offset-y
+                      min-width="auto"
+                    >
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-text-field
+                          v-model="date"
+                          label="Forecast date *"
+                          prepend-icon="mdi-calendar"
+                          @click:prepend="on"
+                          readonly
+                          v-bind="attrs"
+                          v-on="on"
+                        ></v-text-field>
+                      </template>
+                      <v-date-picker
                         v-model="date"
-                        label="Forecast date *"
-                        prepend-icon="mdi-calendar"
-                        @click:prepend="on"
-                        readonly
-                        v-bind="attrs"
-                        v-on="on"
-                      ></v-text-field>
-                    </template>
-                    <v-date-picker
-                      v-model="date"
-                      :active-picker.sync="activePicker"
-                      :max="
-                        new Date(
-                          Date.now() - new Date().getTimezoneOffset() * 60000
-                        )
-                          .toISOString()
-                          .substr(0, 10)
-                      "
-                      min="1990-01-01"
-                      @change="save"
-                    ></v-date-picker>
-                  </v-menu>
-                </v-col>
-                <v-col cols="12" sm="12" class="pt-0">
-                  <v-textarea
-                    counter
-                    label="Description *"
-                    :rules="rules"
-                    :value="value"
-                  ></v-textarea>
-                </v-col>
-              </v-row>
-            </v-expand-transition>
+                        :active-picker.sync="activePicker"
+                        :max="
+                          new Date(
+                            Date.now() - new Date().getTimezoneOffset() * 60000
+                          )
+                            .toISOString()
+                            .substr(0, 10)
+                        "
+                        min="1990-01-01"
+                        @change="save"
+                      ></v-date-picker>
+                    </v-menu>
+                  </v-col>
+                  <v-col cols="12" sm="12" class="pt-0">
+                    <v-textarea
+                      v-model="descritpion"
+                      counter
+                      label="Description *"
+                      :rules="rules"
+                      :value="value"
+                    ></v-textarea>
+                  </v-col>
+                </v-row>
+              </v-expand-transition>
+            </v-form>
           </v-row>
         </v-container>
         <small v-show="expand">*optional</small>
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="blue darken-1" text @click="dialog = false">
+        <v-btn color="primary" outlined text @click="dialog = false">
           Close
         </v-btn>
-        <v-btn color="blue darken-1" text @click="dialog = false">
+        <v-btn color="green" dark @click="submitFeedback">
           Send
         </v-btn>
       </v-card-actions>
@@ -125,6 +130,7 @@
 <script>
 export default {
   data: () => ({
+    valid: true,
     dialog: false,
     activePicker: null,
     date: null,
@@ -140,6 +146,11 @@ export default {
   methods: {
     save(date) {
       this.$refs.menu.save(date);
+    },
+    submitFeedback() {
+      console.log("FORM: ", this.description);
+      this.$refs.form.validate();
+      this.dialog = false;
     },
   },
 };
