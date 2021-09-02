@@ -102,21 +102,32 @@ export default {
             });
           })
           .catch((error) => {
-            switch (error.response.status) {
-              case 401:
-                this.$alert("Password wrong!"); // or here
-                break;
-              case 500:
-                this.$alert("Email not found"); // or here
-                break;
-              //da descommentare riga nel server login->isVerified e mettergli 403 come errore codice
-              case 403:
-                this.$alert("You are not verified, check your email box!");
-                break;
-              default:
-                this.$alert("Unknown error, contact the support.");
-                console.log("some other error"); // end up here all the time
-                break;
+            if (error.response) {
+              switch (error.response.status) {
+                case 401:
+                  this.$alert("Password wrong!"); // or here
+                  break;
+                case 500:
+                  this.$alert("Email not found"); // or here
+                  break;
+                //da descommentare riga nel server login->isVerified e mettergli 403 come errore codice
+                case 403:
+                  this.$alert("You are not verified, check your email box!");
+                  break;
+                default:
+                  this.$alert("Unknown error, contact the support.");
+                  console.log("some other error"); // end up here all the time
+                  break;
+              }
+            } else if (error.request) {
+              this.$fire({
+                title: "<strong>Login</strong> &nbsp; error",
+                text: `Server had response with an error: ${error.message}. You could retry the login or contact the support from the about page.`,
+                footer:
+                  'If you think is a developer error, open an&nbsp;<a href="https://github.com/Weather-Vortex/weather-vortex-client/issues/new">issue on Github</a>',
+                type: "error",
+              });
+              console.log(error.message);
             }
 
             console.log("SignInForm.authenticate error: ", error);

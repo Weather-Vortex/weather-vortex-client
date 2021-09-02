@@ -27,7 +27,7 @@ new Vue({
   created: function() {
     // Load authentication before the first isAuthentication request.
     const auth = this.$cookies.get("auth");
-    if(auth !== null) {
+    if (auth !== null) {
       const server = process.env.VUE_APP_SERVER_URL;
       let url = `${server}/auth/profile`;
       this.$http
@@ -38,6 +38,7 @@ new Vue({
           }
         })
         .catch((error) => {
+          console.log(error);
           switch (error.response.status) {
             case 400:
               this.$alert("Error!"); // or here
@@ -51,5 +52,5 @@ new Vue({
           }
         });
     }
-  }
+  },
 }).$mount("#app");
