@@ -10,7 +10,7 @@
 
     <v-main>
       <!-- Provides the application the proper gutter -->
-      <v-container fluid class="px-0">
+      <v-container fluid>
         <!-- If using vue-router -->
         <router-view></router-view>
       </v-container>
