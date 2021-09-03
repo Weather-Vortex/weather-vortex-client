@@ -157,16 +157,19 @@ export default {
       let url = `${server}/feedbacks/`;
       let content = {
         rating: this.rating,
-        provider: "Cipp",
+        provider: this.provider,
         user: this.user,
         forecastDate: this.date,
+        fields: this.field,
         description: this.description,
       };
       this.$http
         .post(url, content, { withCredentials: true })
         .then((response) => {
           console.log("Response.data" + response.data);
-          this.dialog = false;
+          if (response.data.feedback) {
+            this.dialog = false;
+          }
         })
         .catch((error) => {
           console.error(error.data);
