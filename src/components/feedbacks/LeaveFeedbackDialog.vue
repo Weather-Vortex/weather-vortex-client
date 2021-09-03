@@ -101,7 +101,7 @@
                   </v-col>
                   <v-col cols="12" sm="12" class="pt-0">
                     <v-textarea
-                      v-model="descritpion"
+                      v-model="description"
                       counter
                       label="Description *"
                       :rules="rules"
@@ -120,7 +120,7 @@
         <v-btn color="primary" outlined text @click="dialog = false">
           Close
         </v-btn>
-        <v-btn color="green" dark @click="submitFeedback">
+        <v-btn color="green" dark @click="submitFeedback()">
           Send
         </v-btn>
       </v-card-actions>
@@ -130,6 +130,9 @@
 <script>
 export default {
   data: () => ({
+    rating: "",
+    field: "",
+    description: "",
     valid: true,
     dialog: false,
     activePicker: null,
@@ -148,9 +151,26 @@ export default {
       this.$refs.menu.save(date);
     },
     submitFeedback() {
-      console.log("FORM: ", this.description);
-      this.$refs.form.validate();
-      this.dialog = false;
+      //console.log("FORM: ", this.description);
+      //this.$refs.form.validate();
+      const server = process.env.VUE_APP_SERVER_URL;
+      let url = `${server}/feedbacks/`;
+      let content = {
+        rating: this.rating,
+        provider: "Cipp",
+        user: this.user,
+        forecastDate: this.date,
+        description: this.description,
+      };
+      this.$http
+        .post(url, content, { withCredentials: true })
+        .then((response) => {
+          console.log("Response.data" + response.data);
+          this.dialog = false;
+        })
+        .catch((error) => {
+          console.error(error.data);
+        });
     },
   },
 };
