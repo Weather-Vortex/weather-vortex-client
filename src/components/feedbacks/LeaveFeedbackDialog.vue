@@ -158,7 +158,7 @@ export default {
       let content = {
         rating: this.rating,
         provider: this.provider,
-        user: this.user,
+        //user: this.user,
         forecastDate: this.date,
         fields: this.field,
         description: this.description,
@@ -168,8 +168,13 @@ export default {
         .then((response) => {
           console.log("Response.data" + response.body.feedback.rating);
           if (response.body.feedback) {
-          //this.rating = response.body.feedback.rating;
-          this.dialog = false;
+            this.$alert("Feedback added correctly.", "Edit", "success").then(
+              () => {
+                //this.rating = response.body.feedback.rating;
+                this.dialog = false; // Hide this edit dialog.
+              }
+            );
+            //this.dialog = false;
           }
         })
         .catch((error) => {
