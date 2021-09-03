@@ -42,7 +42,7 @@ export default {
     services: [
       "OpenWeather",
       "DarkSky",
-      "Throposphere",
+      "Troposphere",
       "Cesena Centro IoT",
       "Cesena Barriera IoT",
       "Cesena Università IoT",
