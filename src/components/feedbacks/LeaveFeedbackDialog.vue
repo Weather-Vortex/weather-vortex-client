@@ -166,9 +166,10 @@ export default {
       this.$http
         .post(url, content, { withCredentials: true })
         .then((response) => {
-          console.log("Response.data" + response.data);
-          if (response.data.feedback) {
-            this.dialog = false;
+          console.log("Response.data" + response.body.feedback.rating);
+          if (response.body.feedback) {
+          //this.rating = response.body.feedback.rating;
+          this.dialog = false;
           }
         })
         .catch((error) => {
