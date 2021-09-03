@@ -7,7 +7,7 @@
     </template>
     <v-card>
       <v-card-title>
-        <span class="text-h5">Please Rate this Service</span>
+        <span class="text-h5">Please Rate {{ provider }} Service</span>
       </v-card-title>
       <v-card-text lass="pa-0">
         <v-container>
@@ -129,6 +129,7 @@
 </template>
 <script>
 export default {
+  props: ["provider"],
   data: () => ({
     rating: "",
     field: "",

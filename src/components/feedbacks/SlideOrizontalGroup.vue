@@ -26,7 +26,7 @@
         >
           <ServiceRatingsList :title="ser" />
 
-          <LeaveFeedbackDialog />
+          <LeaveFeedbackDialog :provider="ser" />
         </v-card>
       </v-slide-item>
     </v-slide-group>
