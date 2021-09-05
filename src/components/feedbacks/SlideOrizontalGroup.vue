@@ -26,10 +26,8 @@
         >
           <ServiceRatingsList :title="ser" />
 
-<<<<<<< HEAD
           <!--bisogna passargli anche l'id per creare poi un feedback-->
-=======
->>>>>>> parent of d480d18 (it shows providers and create feedbacks correctly)
+
           <LeaveFeedbackDialog :provider="ser" />
         </v-card>
       </v-slide-item>
