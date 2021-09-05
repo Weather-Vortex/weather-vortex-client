@@ -15,7 +15,7 @@
     <v-slide-group v-model="model" class="pa-2" center-active show-arrows>
       <v-slide-item
         height="500"
-        v-for="ser in services"
+        v-for="ser in providers"
         :key="ser"
         v-slot="{ active, toggle }"
       >
@@ -37,21 +37,24 @@ import ServiceRatingsList from "@/components/feedbacks/ServiceRatingsList";
 import LeaveFeedbackDialog from "@/components/feedbacks/LeaveFeedbackDialog";
 export default {
   components: { ServiceRatingsList, LeaveFeedbackDialog },
+  created() {
+    const server = process.env.VUE_APP_SERVER_URL;
+    let url = `${server}/feedbacks/`;
+    this.$http
+      .get(url)
+      .then((response) => {
+        this.providers = response.data.results;
+        console.log(this.providers);
+      })
+      .catch((error) => {
+        console.error(error.data);
+      });
+  },
   data: () => ({
     model: null,
-    services: [
-      "OpenWeather",
-      "DarkSky",
-      "Troposphere",
-      "Cesena Centro IoT",
-      "Cesena Barriera IoT",
-      "Cesena Università IoT",
-      "Bologna Stazione-1",
-      "Bologna Università-1",
-      "Centralina di Ciccio",
-      "Rimini-Iot",
-    ],
+    providers: [],
   }),
+
   methods: {
     searchMethod() {
       const elem = this.services.find((elem) =>

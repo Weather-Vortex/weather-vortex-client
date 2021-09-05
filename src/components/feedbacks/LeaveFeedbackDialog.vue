@@ -164,8 +164,7 @@ export default {
         fields: this.field,
         description: this.description,
       };
-      console.log("contenuto " + content);
-      //this.$alert(this.provider);
+      this.$alert(this.provider);
       this.$http
         .post(url, content, { withCredentials: true })
         .then((response) => {
