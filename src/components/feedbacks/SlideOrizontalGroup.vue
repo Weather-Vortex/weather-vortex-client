@@ -16,7 +16,7 @@
       <v-slide-item
         height="500"
         v-for="ser in providers"
-        v-bind:key="ser"
+        :key="ser"
         v-slot="{ active, toggle }"
       >
         <v-card
@@ -24,7 +24,7 @@
           class="ma-1 pa-1"
           @click="toggle"
         >
-          <ServiceRatingsList :title="ser.name" />
+          <ServiceRatingsList :title="ser" />
 
           <LeaveFeedbackDialog :provider="ser" />
         </v-card>

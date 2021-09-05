@@ -158,7 +158,7 @@ export default {
       let url = `${server}/feedbacks/`;
       let content = {
         rating: this.rating,
-        provider: this.provider,
+        provider: this.provider._id,
         //user: this.user,
         forecastDate: this.date,
         fields: this.field,
@@ -178,7 +178,12 @@ export default {
           }
         })
         .catch((error) => {
-          this.$alert("Feedback not added correctly!", "error").then(() => {
+          const title = "<strong>Add Feedback</strong>&nbsp;error";
+          this.$alert(
+            "Feedback not added correctly or user not authenticated!",
+            title,
+            "error"
+          ).then(() => {
             console.error(error.data);
           });
         });
