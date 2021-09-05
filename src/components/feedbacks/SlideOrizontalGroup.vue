@@ -26,8 +26,6 @@
         >
           <ServiceRatingsList :title="ser" />
 
-          <!--bisogna passargli anche l'id per creare poi un feedback-->
-
           <LeaveFeedbackDialog :provider="ser" />
         </v-card>
       </v-slide-item>
