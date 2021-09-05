@@ -7,7 +7,7 @@
     </template>
     <v-card>
       <v-card-title>
-        <span class="text-h5">Please Rate {{ provider }} Service</span>
+        <span class="text-h5">Please Rate {{ provider.name }} Service</span>
       </v-card-title>
       <v-card-text lass="pa-0">
         <v-container>
@@ -178,8 +178,9 @@ export default {
           }
         })
         .catch((error) => {
-          console.log("contenuto " + content);
-          console.error(error.data);
+          this.$alert("Feedback not added correctly!", "error").then(() => {
+            console.error(error.data);
+          });
         });
     },
   },
