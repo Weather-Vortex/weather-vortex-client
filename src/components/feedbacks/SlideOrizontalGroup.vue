@@ -24,9 +24,9 @@
           class="ma-1 pa-1"
           @click="toggle"
         >
-          <ServiceRatingsList :title="ser.name" />
+          <ServiceRatingsList :title="ser" />
 
-          <!--bisogna passargli l'id per creare poi un feedback-->
+          <!--bisogna passargli anche l'id per creare poi un feedback-->
           <LeaveFeedbackDialog :provider="ser" />
         </v-card>
       </v-slide-item>

@@ -1,6 +1,6 @@
 <template>
   <v-card class="mx-auto" max-width="500">
-    <h1>{{ title }}</h1>
+    <h1>{{ title.name }}</h1>
     <v-divider></v-divider>
     <v-virtual-scroll
       :items="items"

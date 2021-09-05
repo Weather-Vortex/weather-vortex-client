@@ -24,6 +24,7 @@
                   :rules="passwordRules.concat(validateLength)"
                   label="Password"
                   prepend-inner-icon="mdi-lock"
+                  required
                 ></v-text-field>
               </v-col>
               <v-col cols="12" sm="6">
@@ -40,6 +41,7 @@
                   @click:append="show2 = !show2"
                   label="Re-type Password"
                   prepend-inner-icon="mdi-lock"
+                  required
                 ></v-text-field>
               </v-col>
               <v-col cols="12">
@@ -107,6 +109,7 @@ export default {
           }
         })
         .catch((error) => {
+          this.$alert("Update user error", "success:false");
           /*{ success: false, message: "Update user error", error: err }*/
           console.error(error.data);
         });
