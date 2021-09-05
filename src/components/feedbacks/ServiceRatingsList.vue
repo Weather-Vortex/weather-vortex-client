@@ -41,6 +41,20 @@
 export default {
   components: {},
   props: ["title"],
+  created() {
+    const server = process.env.VUE_APP_SERVER_URL;
+    //get some feedbacks getting the name of the provider
+    let url = `${server}/feedbacks/${this.title.name}`;
+    this.$http
+      .get(url)
+      .then((response) => {
+        this.providers = response.data.results;
+        console.log("ID: " + this.providers);
+      })
+      .catch((error) => {
+        console.error(error.data);
+      });
+  },
   data: () => ({
     colors: [
       "primary",

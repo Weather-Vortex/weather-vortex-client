@@ -168,7 +168,6 @@ export default {
       this.$http
         .post(url, content, { withCredentials: true })
         .then((response) => {
-          console.log("Response.data" + response.data.feedback.rating);
           if (response.data.feedback) {
             this.$alert("Feedback added correctly.", "Edit", "success").then(
               () => {
