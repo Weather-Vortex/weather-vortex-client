@@ -2,6 +2,9 @@
   <v-data-table
     :headers="headers"
     :items="reviews"
+    :v-for="review in reviews"
+    :key="review"
+    :row="row"
     :items-per-page="5"
     class="elevation-1"
   ></v-data-table>
@@ -9,7 +12,22 @@
 
 <script>
 export default {
-  name:"PrivateUserReviews",
+  //VUETIFY COMPONENT DATA TABLE CRUD OPERATIONS FOR DELETING REVIEWS
+  name: "PrivateUserReviews",
+  created() {
+    const server = process.env.VUE_APP_SERVER_URL;
+    let url = `${server}/feedbacks/`;
+    this.$http
+      .get(url)
+      .then((response) => {
+        this.reviews = response.data.results;
+        //this.feedbacks = response.data.results[0].feedbacks[0].rating;
+        //console.log("rating:" + this.feedbacks);
+      })
+      .catch((error) => {
+        console.error(error.data);
+      });
+  },
   data() {
     return {
       headers: [
@@ -23,7 +41,7 @@ export default {
         { text: "Comment", value: "comment" },
       ],
       reviews: [
-        {
+        /*  {
           name: "OpenWeatherMap",
           vote: "5 stelle",
           comment: "wonderfu7l",
@@ -37,7 +55,7 @@ export default {
           name: "Arcobaleno",
           vote: "5 stelle",
           comment: "wonderfu7l",
-        },
+        },*/
       ],
     };
   },
@@ -67,6 +85,6 @@ tbody tr:nth-of-type(odd) {
 }
 .v-data-table-header th {
   text-transform: uppercase;
-  text-decoration:bold;
+  text-decoration: bold;
 }
 </style>
