@@ -168,15 +168,13 @@ export default {
       this.$http
         .post(url, content, { withCredentials: true })
         .then((response) => {
-          console.log("Response.data" + response.body.feedback.rating);
-          if (response.body.feedback) {
+          console.log("Response.data" + response.data.feedback.rating);
+          if (response.data.feedback) {
             this.$alert("Feedback added correctly.", "Edit", "success").then(
               () => {
-                //this.rating = response.body.feedback.rating;
                 this.dialog = false; // Hide this edit dialog.
               }
             );
-            //this.dialog = false;
           }
         })
         .catch((error) => {

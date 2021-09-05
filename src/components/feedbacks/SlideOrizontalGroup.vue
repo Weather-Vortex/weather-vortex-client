@@ -16,7 +16,7 @@
       <v-slide-item
         height="500"
         v-for="ser in providers"
-        :key="ser"
+        :key="ser.name"
         v-slot="{ active, toggle }"
       >
         <v-card
