@@ -41,7 +41,7 @@
         mdi-delete
       </v-icon>
       <v-icon @click="goTo()">
-        mdi-arrow-right
+        mdi-chevron-right
       </v-icon>
     </template>
     <template v-slot:no-data>
