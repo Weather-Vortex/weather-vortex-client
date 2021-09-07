@@ -7,64 +7,64 @@
           Edit
         </v-btn>
       </template>
-      <v-card>
-        <v-card-title>
-          <span class="text-h5">Edit some info</span>
-        </v-card-title>
-        <v-card-text>
-          <v-container>
-            <v-row>
-              <v-col cols="12" sm="6">
-                <v-text-field
-                  tabindex="1"
-                  v-model="password"
-                  :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-                  :type="show1 ? 'text' : 'password'"
-                  @click:append="show1 = !show1"
-                  :rules="passwordRules.concat(validateLength)"
-                  label="Password"
-                  prepend-inner-icon="mdi-lock"
-                  required
-                ></v-text-field>
-              </v-col>
-              <v-col cols="12" sm="6">
-                <v-text-field
-                  tabindex="2"
-                  v-model="retypepassword"
-                  :rules="
-                    passwordRules
-                      .concat(validatePassword2)
-                      .concat(validateLength)
-                  "
-                  :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
-                  :type="show2 ? 'text' : 'password'"
-                  @click:append="show2 = !show2"
-                  label="Re-type Password"
-                  prepend-inner-icon="mdi-lock"
-                  required
-                ></v-text-field>
-              </v-col>
-              <v-col cols="12">
-                <v-text-field
-                  v-model="editPreferred"
-                  tabindex="3"
-                  label="Position Preferred"
-                  prepend-inner-icon="mdi-map-marker"
-                ></v-text-field>
-              </v-col>
-            </v-row>
-          </v-container>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="dialog = false">
-            Close
-          </v-btn>
-          <v-btn color="blue darken-1" text @click="updateUser()">
-            Save
-          </v-btn>
-        </v-card-actions>
-      </v-card>
+      <v-form ref="form" lazy-validation>
+        <v-card>
+          <v-card-title>
+            <span class="text-h5">Edit some info</span>
+          </v-card-title>
+          <v-card-text>
+            <v-container>
+              <v-row>
+                <v-col cols="12" sm="6">
+                  <v-text-field
+                    tabindex="1"
+                    v-model="password"
+                    :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                    :type="show1 ? 'text' : 'password'"
+                    @click:append="show1 = !show1"
+                    :rules="passwordRules.concat(validateLength)"
+                    label="Password"
+                    prepend-inner-icon="mdi-lock"
+                  ></v-text-field>
+                </v-col>
+                <v-col cols="12" sm="6">
+                  <v-text-field
+                    tabindex="2"
+                    v-model="retypepassword"
+                    :rules="
+                      passwordRules
+                        .concat(validatePassword2)
+                        .concat(validateLength)
+                    "
+                    :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
+                    :type="show2 ? 'text' : 'password'"
+                    @click:append="show2 = !show2"
+                    label="Re-type Password"
+                    prepend-inner-icon="mdi-lock"
+                  ></v-text-field>
+                </v-col>
+                <v-col cols="12">
+                  <v-text-field
+                    v-model="editPreferred"
+                    tabindex="3"
+                    label="Position Preferred"
+                    prepend-inner-icon="mdi-map-marker"
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+            </v-container>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="blue darken-1" text @click="dialog = false">
+              Close
+            </v-btn>
+            <v-btn color="blue darken-1" text @click="updateUser()">
+              Save
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-form>
     </v-dialog>
   </v-row>
 </template>
@@ -91,6 +91,10 @@ export default {
       return value.length > 8 || "Password must have more of 8 characters";
     },
     updateUser() {
+      /*if (!this.$refs.form.validate()) {
+        this.$alert("Invalid form, check fields", "Error", "error");
+        return;
+      }*/
       const server = process.env.VUE_APP_SERVER_URL;
       let url = `${server}/auth/`;
 

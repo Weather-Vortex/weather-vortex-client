@@ -2,86 +2,138 @@
   <v-data-table
     :headers="headers"
     :items="reviews"
-    :items-per-page="5"
+    sort-by="calories"
     class="elevation-1"
-  ></v-data-table>
+  >
+    <template v-slot:top>
+      <v-toolbar flat>
+        <v-toolbar-title>My feedbacks</v-toolbar-title>
+        <v-divider class="mx-4" inset vertical></v-divider>
+        <v-spacer></v-spacer>
+
+        <template>
+          <v-btn color="primary" dark class="mb-2" @click="goTo()">
+            Go to feedbacks page
+          </v-btn>
+        </template>
+
+        <v-dialog v-model="dialogDelete" max-width="500px">
+          <v-card>
+            <v-card-title class="text-h5"
+              >Are you sure you want to delete this item?</v-card-title
+            >
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="blue darken-1" text @click="closeDelete"
+                >Cancel</v-btn
+              >
+              <v-btn color="blue darken-1" text @click="deleteItemConfirm"
+                >OK</v-btn
+              >
+              <v-spacer></v-spacer>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </v-toolbar>
+    </template>
+    <template v-slot:item.actions="{ item }">
+      <v-icon @click="deleteItem(item)">
+        mdi-delete
+      </v-icon>
+      <v-icon @click="goTo()">
+        mdi-arrow-right
+      </v-icon>
+    </template>
+    <template v-slot:no-data>
+      <v-btn color="primary" @click="initialize">
+        Reset
+      </v-btn>
+    </template>
+  </v-data-table>
 </template>
 
 <script>
 export default {
-  //VUETIFY COMPONENT DATA TABLE CRUD OPERATIONS FOR DELETING REVIEWS
-  name: "PrivateUserReviews",
-  created() {
-    const server = process.env.VUE_APP_SERVER_URL;
-    let url = `${server}/feedbacks/`;
-    this.$http
-      .get(url)
-      .then((response) => {
-        this.reviews = response.data.results;
-        //this.feedbacks = response.data.results[0].feedbacks[0].rating;
-        //console.log("rating:" + this.feedbacks);
-      })
-      .catch((error) => {
-        console.error(error.data);
-      });
+  data: () => ({
+    dialog: false,
+    dialogDelete: false,
+    headers: [
+      {
+        text: "Provider",
+        align: "start",
+        sortable: true,
+        value: "name",
+      },
+      { text: "Vote", value: "rating" },
+      { text: "Comment", value: "description" },
+      { text: "Actions", value: "actions", sortable: false },
+    ],
+    reviews: [],
+    editedIndex: -1,
+    editedItem: {
+      name: "",
+      rating: 0,
+      description: "",
+    },
+    defaultItem: {
+      name: "",
+      rating: 0,
+      description: "",
+    },
+  }),
+  watch: {
+    dialog(val) {
+      val || this.close();
+    },
+    dialogDelete(val) {
+      val || this.closeDelete();
+    },
   },
-  data() {
-    return {
-      headers: [
+  created() {
+    this.initialize();
+  },
+  methods: {
+    initialize() {
+      this.reviews = [
         {
-          text: "Provider",
-          align: "start",
-          sortable: true,
-          value: "name",
-        },
-        { text: "Id", value: "_id" },
-        { text: "Comment", value: "comment" },
-      ],
-      reviews: [
-        /*  {
-          name: "OpenWeatherMap",
-          vote: "5 stelle",
-          comment: "wonderfu7l",
+          name: "Tropos",
+          rating: 4,
+          description: "Eì stato bello",
         },
         {
-          name: "Arcobaleno",
-          vote: "5 stelle",
-          comment: "wonderfu7l",
+          name: "ErClare",
+          rating: 1,
+          description: "Schifo",
         },
-        {
-          name: "Arcobaleno",
-          vote: "5 stelle",
-          comment: "wonderfu7l",
-        },*/
-      ],
-    };
+      ];
+    },
+
+    deleteItem(item) {
+      this.editedIndex = this.reviews.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+      this.dialogDelete = true;
+    },
+    deleteItemConfirm() {
+      this.reviews.splice(this.editedIndex, 1);
+      this.closeDelete();
+    },
+    close() {
+      this.dialog = false;
+      this.$nextTick(() => {
+        this.editedItem = Object.assign({}, this.defaultItem);
+        this.editedIndex = -1;
+      });
+    },
+    closeDelete() {
+      this.dialogDelete = false;
+      this.$nextTick(() => {
+        this.editedItem = Object.assign({}, this.defaultItem);
+        this.editedIndex = -1;
+      });
+    },
+    goTo() {
+      this.$router.push("/feedbacks/");
+    },
   },
 };
 </script>
-
-<style>
-tbody tr:nth-of-type(even) {
-  background-color: rgb(189, 230, 230);
-}
-
-tbody tr:nth-of-type(odd) {
-  background-color: rgb(161, 225, 241);
-}
-
-.v-data-table-header {
-  background-color: rgb(153, 166, 221);
-  color: white;
-}
-
-.v-data-footer {
-  background-color: rgb(250, 250, 250);
-}
-
-.theme--light.v-data-table thead tr th {
-  color: white;
-}
-.v-data-table-header th {
-  text-transform: uppercase;
-  text-decoration: bold;
-}
-</style>

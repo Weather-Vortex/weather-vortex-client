@@ -23,9 +23,6 @@
           <v-col md="4" offset-md="4" class="pa-md-10 mx-lg-auto">
             <h2 class="pa-md-8 sm-10 mx-lg-auto">
               Reviews
-              <v-btn class="mx-2" small fab dark color="indigo"
-                ><v-icon>mdi-plus</v-icon></v-btn
-              >
             </h2>
             <PrivateUserReviews />
           </v-col>
