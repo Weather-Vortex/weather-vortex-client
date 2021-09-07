@@ -17,7 +17,10 @@
           </v-list-item-avatar>
 
           <v-list-item-content>
-            <v-list-item-title>{{ item.user.firstName }}</v-list-item-title>
+            <v-list-item-title
+              >{{ item.user.firstName
+              }}{{ " " + item.user.lastName }}</v-list-item-title
+            >
           </v-list-item-content>
 
           <v-rating
@@ -102,7 +105,7 @@ export default {
         };
       });
     },*/
-    feedbacks: function () {
+    feedbacks: function() {
       return this.title.feedbacks.map((mapped) => {
         const firstName = mapped.user.firstName.charAt(0);
         const lastName = mapped.user.lastName.charAt(0);
