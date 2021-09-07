@@ -3,7 +3,7 @@
     <h1>{{ title.name }}</h1>
     <v-divider></v-divider>
     <v-virtual-scroll
-      :items="items"
+      :items="feedbacks"
       height="500"
       min-width="300"
       :item-height="50"
@@ -17,7 +17,7 @@
           </v-list-item-avatar>
 
           <v-list-item-content>
-            <v-list-item-title>{{ item.fullName }}</v-list-item-title>
+            <v-list-item-title>{{ item.user.firstName }}</v-list-item-title>
           </v-list-item-content>
 
           <v-rating
@@ -42,7 +42,8 @@ export default {
   components: {},
   props: ["title"],
   created() {
-    const server = process.env.VUE_APP_SERVER_URL;
+    console.log(this.title.feedbacks);
+    /*const server = process.env.VUE_APP_SERVER_URL;
     //get some feedbacks getting the name of the provider
     let url = `${server}/feedbacks/${this.title.name}`;
     this.$http
@@ -53,7 +54,7 @@ export default {
       })
       .catch((error) => {
         console.error(error.data);
-      });
+      });*/
   },
   data: () => ({
     colors: [
@@ -84,21 +85,32 @@ export default {
   }),
 
   computed: {
-    items() {
+    /*items() {
       const namesLength = this.names.length;
       const surnamesLength = this.surnames.length;
-      const colorsLength = this.colors.length;
+      
 
       return Array.from({ length: 50 }, () => {
         const name = this.names[this.genRandomIndex(namesLength)];
         const surname = this.surnames[this.genRandomIndex(surnamesLength)];
 
         return {
-          color: this.colors[this.genRandomIndex(colorsLength)],
+          ,
           fullName: `${name} ${surname}`,
           initials: `${name[0]} ${surname[0]}`,
           rating: this.genRandomIndex(6),
         };
+      });
+    },*/
+    feedbacks: function () {
+      return this.title.feedbacks.map((mapped) => {
+        const firstName = mapped.user.firstName.charAt(0);
+        const lastName = mapped.user.lastName.charAt(0);
+        const initials = `${firstName}${lastName}`;
+        mapped.initials = initials;
+        const colorsLength = this.colors.length;
+        mapped.color = this.colors[this.genRandomIndex(colorsLength)];
+        return mapped;
       });
     },
   },

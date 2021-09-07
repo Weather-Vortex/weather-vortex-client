@@ -2,9 +2,6 @@
   <v-data-table
     :headers="headers"
     :items="reviews"
-    :v-for="review in reviews"
-    :key="review"
-    :row="row"
     :items-per-page="5"
     class="elevation-1"
   ></v-data-table>
@@ -34,10 +31,10 @@ export default {
         {
           text: "Provider",
           align: "start",
-          sortable: false,
+          sortable: true,
           value: "name",
         },
-        { text: "Vote", value: "vote" },
+        { text: "Id", value: "_id" },
         { text: "Comment", value: "comment" },
       ],
       reviews: [

@@ -16,7 +16,7 @@
       <v-slide-item
         height="500"
         v-for="ser in providers"
-        :key="ser"
+        :key="ser._id"
         v-slot="{ active, toggle }"
       >
         <v-card
@@ -53,15 +53,16 @@ export default {
   data: () => ({
     model: null,
     providers: [],
+    searchContent: null,
   }),
 
   methods: {
     searchMethod() {
-      const elem = this.services.find((elem) =>
-        elem.includes(this.searchContent)
+      const elem = this.providers.find((elem) =>
+        elem.name.includes(this.searchContent)
       );
       console.log("Found: ", elem);
-      this.model = this.services.indexOf(elem);
+      this.model = this.providers.indexOf(elem);
       //this.clearMessage();
     },
     clearMessage() {

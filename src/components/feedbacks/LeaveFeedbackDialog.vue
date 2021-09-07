@@ -35,12 +35,8 @@
 
               <v-col cols="12" sm="12" class="pt-0">
                 <v-btn class="ma-2" color="primary" @click="expand = !expand">
-                  <v-icon left v-show="!expand">
-                    mdi-chevron-down
-                  </v-icon>
-                  <v-icon left v-show="expand">
-                    mdi-chevron-up
-                  </v-icon>
+                  <v-icon left v-show="!expand"> mdi-chevron-down </v-icon>
+                  <v-icon left v-show="expand"> mdi-chevron-up </v-icon>
                   Altro
                 </v-btn>
               </v-col>
@@ -105,7 +101,6 @@
                       counter
                       label="Description *"
                       :rules="rules"
-                      :value="value"
                     ></v-textarea>
                   </v-col>
                 </v-row>
@@ -120,9 +115,7 @@
         <v-btn color="primary" outlined text @click="dialog = false">
           Close
         </v-btn>
-        <v-btn color="green" dark @click="submitFeedback()">
-          Send
-        </v-btn>
+        <v-btn color="green" dark @click="submitFeedback()"> Send </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -131,7 +124,7 @@
 export default {
   props: ["provider"],
   data: () => ({
-    rating: "",
+    rating: 0,
     field: "",
     description: "",
     valid: true,
@@ -152,6 +145,11 @@ export default {
       this.$refs.menu.save(date);
     },
     submitFeedback() {
+      if (!this.$refs.form.validate()) {
+        this.$alert("Invalid form, check fields", "Error", "error");
+        return;
+      }
+
       //console.log("FORM: ", this.description);
       //this.$refs.form.validate();
       const server = process.env.VUE_APP_SERVER_URL;
@@ -164,7 +162,6 @@ export default {
         fields: this.field,
         description: this.description,
       };
-      this.$alert(this.provider);
       this.$http
         .post(url, content, { withCredentials: true })
         .then((response) => {
