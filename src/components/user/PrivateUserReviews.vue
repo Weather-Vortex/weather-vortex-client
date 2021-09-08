@@ -44,11 +44,6 @@
         mdi-chevron-right
       </v-icon>
     </template>
-    <template v-slot:no-data>
-      <v-btn color="primary" @click="initialize">
-        Reset
-      </v-btn>
-    </template>
   </v-data-table>
 </template>
 
@@ -90,6 +85,7 @@ export default {
     },
   },
   created() {
+    //populate the table
     const server = process.env.VUE_APP_SERVER_URL;
     const user = this.$store.getters.getId;
     console.log("user: " + user);
@@ -145,16 +141,15 @@ export default {
         },*/
       ];
     },
-    //TODO Cancellazione da fare
+    //delete a feedback
     deleteItem(item) {
       const server = process.env.VUE_APP_SERVER_URL;
       this.editedIndex = this.reviews.indexOf(item);
-      const id = this.reviews.feedId;
       this.editedItem = Object.assign({}, item);
       this.dialogDelete = true;
-      let url = `${server}/feedbacks/${id}`;
-      this.$http
+      let url = `${server}/feedbacks/${this.editedItem.feedId}`;
 
+      this.$http
         .delete(url, { withCredentials: true })
         .then((response) => {
           this.feedbacks = response.data.feedbacks;
