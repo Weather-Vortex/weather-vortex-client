@@ -75,7 +75,7 @@ export default {
     submitForm() {
       if (this.$refs.form.validate()) {
         const server = process.env.VUE_APP_SERVER_URL;
-        let url = `${server}/api/login`;
+        let url = `${server}/auth/login`;
         this.$http
           .post(
             url,
@@ -89,10 +89,12 @@ export default {
           )
           .then((response) => {
             this.$emit("loggedIn");
-            console.log("LOGIN RETURN: ", response.data.user);
             this.$store.commit("login", response.data.user);
-            // localStorage.setItem("user", JSON.stringify(response.data.user));
-            this.$alert("You are authenticated").then(() => {
+            this.$alert(
+              "You are authenticated",
+              "<strong>Login</strong>&nbsp;success!",
+              "success"
+            ).then(() => {
               if (this.$route.params.nextUrl != null) {
                 this.$router.push(this.$route.params.nextUrl);
               } else {
@@ -102,21 +104,40 @@ export default {
             });
           })
           .catch((error) => {
-            switch (error.response.status) {
-              case 401:
-                this.$alert("Password wrong!"); // or here
-                break;
-              case 500:
-                this.$alert("Email not found"); // or here
-                break;
-              //da descommentare riga nel server login->isVerified e mettergli 403 come errore codice
-              case 403:
-                this.$alert("You are not verified, check your email box!");
-                break;
-              default:
-                this.$alert("Unknown error, contact the support.");
-                console.log("some other error"); // end up here all the time
-                break;
+            const title = "<strong>Login</strong>&nbsp;error";
+            if (error.response) {
+              switch (error.response.status) {
+                case 401:
+                  this.$alert("Password wrong!", title, "error"); // or here
+                  break;
+                //da descommentare riga nel server login->isVerified e mettergli 403 come errore codice
+                case 403:
+                  this.$alert(
+                    "You are not verified, check your email box!",
+                    title,
+                    "error"
+                  );
+                  break;
+                case 500:
+                  this.$alert("Email not found", title, "error"); // or here
+                  break;
+                default:
+                  this.$alert(
+                    "Unknown error, contact the support.",
+                    title,
+                    "error"
+                  );
+                  console.log("Some other error:", error.response); // end up here all the time
+                  break;
+              }
+            } else if (error.request) {
+              this.$fire({
+                title,
+                text: `Server had response with an error: ${error.message}. You could retry the login or contact the support from the about page.`,
+                footer:
+                  '<a href="https://weather-vortex.github.io/weather-vortex-client/#/about#contact-us">Contact us</a>',
+                type: "error",
+              });
             }
 
             console.log("SignInForm.authenticate error: ", error);

@@ -56,20 +56,16 @@
 <script>
 export default {
   name: "QuickForecastCard",
-
-  data: () => ({
-    message: null,
-    loading: false,
-
-  }),
   computed: {
     isLoading() {
       return this.loading === true;
     },
   },
-
+  data: () => ({
+    message: null,
+    loading: false,
+  }),
   methods: {
-
     getPosition: function () {
       navigator.geolocation.getCurrentPosition(this.showPosition, this.error);
     },
@@ -79,15 +75,14 @@ export default {
       this.message = "{" + this.lat + "," + this.lon + "}";
     },
     error: function (error) {
-      if(error.code == error.PERMISSION_DENIED){
-      this.$alert("You have to turn on the permission to access your location!");
-      }
-      else{
-        this.$alert("Geolocation error")
+      if (error.code == error.PERMISSION_DENIED) {
+        this.$alert(
+          "You have to turn on the permission to access your location!"
+        );
+      } else {
+        this.$alert("Geolocation error");
       }
     },
-   
-
     navigate() {
       this.loading = true;
       const locality = this.message;

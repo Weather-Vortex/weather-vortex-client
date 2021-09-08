@@ -1,14 +1,8 @@
 <template>
-  <v-container fluid>
-    <v-row justify="center" align="center" class="row">
-      <v-col
-        cols="12"
-        sm="8"
-        md="4"
-        xs="4"
-        class="text-center"
-        style="height: 100vh"
-      >
+  <v-container>
+    <v-row justify="center" align="center">
+      <v-spacer></v-spacer>
+      <v-col cols="12" sm="8" md="4">
         <v-img
           src="@/assets/vortex.png"
           alt="Weather Vortex logo"
@@ -19,7 +13,7 @@
           Please complete this form to create an account
         </p>
 
-        <v-form ref="form" class="mx-2" lazy-validation>
+        <v-form ref="form" lazy-validation>
           <v-row>
             <v-col cols="6">
               <v-text-field
@@ -55,24 +49,26 @@
             </v-col>
           </v-row>
           <v-row>
-            <v-col cols="6">
+            <v-col cols="12" md="6">
               <v-text-field
                 tabindex="4"
                 v-model="password"
                 :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
                 :type="show1 ? 'text' : 'password'"
                 @click:append="show1 = !show1"
-                :rules="passwordRules"
+                :rules="passwordRules.concat(validateLength)"
                 label="Password"
                 prepend-inner-icon="mdi-lock"
                 required
               ></v-text-field>
             </v-col>
-            <v-col cols="6">
+            <v-col cols="12" md="6">
               <v-text-field
                 tabindex="5"
                 v-model="retypepassword"
-                :rules="passwordRules.concat(validatePassword2)"
+                :rules="
+                  passwordRules.concat(validatePassword2).concat(validateLength)
+                "
                 :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
                 :type="show2 ? 'text' : 'password'"
                 @click:append="show2 = !show2"
@@ -103,6 +99,7 @@
           </v-btn>
         </v-form>
       </v-col>
+      <v-spacer></v-spacer>
     </v-row>
   </v-container>
 </template>
@@ -133,7 +130,6 @@ export default {
         /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/.test(v) ||
         "Password must contain at least lowercase letter, one number, a special character and one uppercase letter",
     ],
-
     firstcheckbox: false,
     seccheckbox: false,
   }),
@@ -142,7 +138,7 @@ export default {
     submitForm() {
       if (this.$refs.form.validate()) {
         const server = process.env.VUE_APP_SERVER_URL;
-        let url = `${server}/api/register`;
+        let url = `${server}/auth/register`;
         this.$http
           .post(url, {
             firstName: this.firstname,
@@ -154,27 +150,47 @@ export default {
             //E' stato creato, registered
             if (response.data.user.createdDate != null) {
               this.$emit("registered");
-              this.$alert(
-                "You are registered, check your mailbox to confirm your account."
-              );
+              this.$alert({
+                message:
+                  "You are registered, check your mailbox to confirm your account.",
+                type: "success",
+              });
             }
           })
           .catch((error) => {
-            switch (error.response.status) {
-              case 500:
-                this.$alert("Error during registration or email already used!"); // or here
-                break;
-              default:
-                console.log("some other error"); // end up here all the time
-                break;
+            const title = "<strong>Register</strong>&nbsp;error";
+            if (error.response) {
+              switch (error.response.status) {
+                case 500:
+                  this.$alert(
+                    "Error during registration or email already used!",
+                    title,
+                    "error"
+                  ); // or here
+                  break;
+                default:
+                  console.log("Some other error:", error.response); // end up here all the time
+                  break;
+              }
+            } else if (error.request) {
+              this.$fire({
+                title,
+                text: `Server had response with an error: ${error.message}. You could retry the registration or contact the support from the about page.`,
+                footer:
+                  '<a href="https://weather-vortex.github.io/weather-vortex-client/#/about#contact-us">Contact us</a>',
+                type: "error",
+              });
             }
 
-            console.log("SignInForm.authenticate error: ", error);
+            console.log("SignUpForm.authenticate error: ", error);
           });
       }
     },
     validatePassword2(value) {
       return value === this.password || "Passwords don't match.";
+    },
+    validateLength(value) {
+      return value.length > 8 || "Password must have more of 8 characters";
     },
   },
 };

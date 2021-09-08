@@ -3,8 +3,8 @@
   <v-menu left bottom>
     <template v-slot:activator="{ on, attrs }">
       <v-btn icon v-bind="attrs" v-on="on">
-        <v-avatar v-if="authenticated" color="primary" size="48" alt="User">
-          <span class="white--text text-h5">
+        <v-avatar v-if="authenticated" color="primary" size="40" alt="User">
+          <span class="white--text text-h6">
             {{ initials }}
           </span>
         </v-avatar>
@@ -34,13 +34,13 @@
 export default {
   name: "UserIcon",
   computed: {
-    authenticated: function() {
+    authenticated: function () {
       return this.$store.getters.isAuthenticated;
     },
-    initials: function() {
+    initials: function () {
       return this.$store.getters.initials;
     },
-    menuItems: function() {
+    menuItems: function () {
       return this.items.filter((f) => f.logged === this.authenticated);
     },
   },

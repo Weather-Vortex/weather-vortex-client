@@ -29,26 +29,56 @@
           <v-icon color="red" x-large left>mdi-close-circle</v-icon>
         </div>
       </div>
-      <span class="text-h6 font-weight-light"
-        >&nbsp;{{ this.name }} Status:&nbsp;</span
-      >
+      <span class="text-h6 font-weight-light">
+        &nbsp;{{ this.name }} Status:&nbsp;
+      </span>
     </v-card-title>
     <v-card-text>
-      <div>Fetching for service info {{ this.url }}.</div>
+      <div v-if="loading">Fetching for service info {{ this.url }}.</div>
+      <v-alert
+        :value="success"
+        type="success"
+        border="bottom"
+        icon="mdi-check-circle"
+        transition="scale-transition"
+      >
+        {{ this.url }} is online!
+      </v-alert>
+      <v-alert
+        :value="failure"
+        type="error"
+        border="bottom"
+        icon="mdi-close-circle"
+        transition="scale-transition"
+      >
+        {{ this.url }} responded with an error <strong>{{ this.error }}</strong
+        >!
+      </v-alert>
     </v-card-text>
     <v-card-actions>
       <v-btn color="deep-purple lighten-2" text @click="checkStatus">
         <v-icon>mdi-refresh</v-icon>
-        Retry</v-btn
-      >
+        &nbsp;Retry
+      </v-btn>
     </v-card-actions>
   </v-card>
 </template>
 <script>
 export default {
   name: "CheckStatus",
+  computed: {
+    success: function () {
+      if (this.status === null) return false;
+      return this.status;
+    },
+    failure: function () {
+      if (this.status === null) return false;
+      return !this.status;
+    },
+  },
   data() {
     return {
+      error: null,
       loading: false,
       status: null,
     };
@@ -60,12 +90,14 @@ export default {
   methods: {
     async checkStatus() {
       this.loading = true;
+      this.status = null;
       try {
         const { data } = await this.$http.get(this.url);
         this.status = data.result === "ok";
       } catch (error) {
         console.error("Check Status Error:", error);
         this.status = false;
+        this.error = error.message;
       } finally {
         this.loading = false;
       }

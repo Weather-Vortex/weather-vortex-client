@@ -7,13 +7,15 @@
           Weather Forecasting Aggregation!
         </h2>
 
-        <v-row justify-md="center">
-          <v-spacer class="d-none d-md-block"></v-spacer>
-          <v-col class="d-flex" v-for="(info, i) in weatherInfo" :key="i">
-            <InfoCard v-bind="info" />
-          </v-col>
-          <v-spacer class="d-none d-md-block"></v-spacer>
-        </v-row>
+        <v-container>
+          <v-row justify-md="center">
+            <v-spacer></v-spacer>
+            <v-col v-for="(info, i) in weatherInfo" :key="i" cols="12" md="4">
+              <InfoCard v-bind="info" />
+            </v-col>
+            <v-spacer></v-spacer>
+          </v-row>
+        </v-container>
       </v-col>
 
       <!-- Personal Weather stations -->
@@ -22,13 +24,15 @@
           Personal Weather Stations!
         </h2>
 
-        <v-row justify="center">
-          <v-spacer class="d-none d-md-block"></v-spacer>
-          <v-col class="d-flex" v-for="(info, i) in stationsInfo" :key="i">
-            <InfoCard v-bind="info" />
-          </v-col>
-          <v-spacer class="d-none d-md-block"></v-spacer>
-        </v-row>
+        <v-container>
+          <v-row justify="center">
+            <v-spacer></v-spacer>
+            <v-col v-for="(info, i) in stationsInfo" :key="i" cols="12" md="4">
+              <InfoCard v-bind="info" />
+            </v-col>
+            <v-spacer></v-spacer>
+          </v-row>
+        </v-container>
       </v-col>
     </v-row>
   </v-container>
@@ -48,8 +52,7 @@ export default {
       },
       {
         title: "Compare",
-        text:
-          "Compare various providers to look the world from many eye's points!",
+        text: "Compare various providers to look the world from many eye's points!",
         icon: "mdi-weather-windy-variant",
       },
       {
