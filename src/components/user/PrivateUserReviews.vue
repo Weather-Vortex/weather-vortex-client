@@ -12,9 +12,9 @@
         <v-spacer></v-spacer>
 
         <template>
-          <v-btn color="primary" dark class="mb-2" @click="goTo()">
-            Go to feedbacks page
-          </v-btn>
+          <v-btn class="mb-2" small fab dark color="indigo" @click="goTo()"
+            ><v-icon>mdi-chevron-right</v-icon></v-btn
+          >
         </template>
 
         <v-dialog v-model="dialogDelete" max-width="500px">
