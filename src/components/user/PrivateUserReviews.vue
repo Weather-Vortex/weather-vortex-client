@@ -128,18 +128,7 @@ export default {
 
   methods: {
     initialize() {
-      this.reviews = [
-        /* {
-          providers: "Tropos",
-          ratings: 4,
-          descriptions: "E' stato bello",
-        },
-        {
-          providers: "ErClare",
-          ratings: 1,
-          descriptions: "Schifo",
-        },*/
-      ];
+      this.reviews = [];
     },
     //delete a feedback
     deleteItem(item) {
