@@ -1,7 +1,14 @@
 <template>
   <v-dialog v-model="dialog" persistent max-width="600px">
     <template v-slot:activator="{ on, attrs }">
-      <v-btn color="primary" block x-large v-bind="attrs" v-on="on">
+      <v-btn
+        v-if="authenticated"
+        color="primary"
+        block
+        x-large
+        v-bind="attrs"
+        v-on="on"
+      >
         <b>Give Feedback</b>
       </v-btn>
     </template>
@@ -138,6 +145,12 @@ export default {
   watch: {
     menu(val) {
       val && setTimeout(() => (this.activePicker = "YEAR"));
+    },
+  },
+
+  computed: {
+    authenticated: function() {
+      return this.$store.getters.isAuthenticated;
     },
   },
   methods: {
