@@ -62,23 +62,23 @@ export default {
         text: "Provider",
         align: "start",
         sortable: true,
-        value: "name",
+        value: "providers",
       },
-      { text: "Vote", value: "rating" },
-      { text: "Comment", value: "description" },
+      { text: "Vote", value: "ratings" },
+      { text: "Comment", value: "descriptions" },
       { text: "Actions", value: "actions", sortable: false },
     ],
     reviews: [],
     editedIndex: -1,
     editedItem: {
-      name: "",
-      rating: 0,
-      description: "",
+      providers: "",
+      ratings: 0,
+      descriptions: "",
     },
     defaultItem: {
-      name: "",
-      rating: 0,
-      description: "",
+      providers: "",
+      ratings: 0,
+      descriptions: "",
     },
   }),
   watch: {
@@ -90,28 +90,77 @@ export default {
     },
   },
   created() {
+    const server = process.env.VUE_APP_SERVER_URL;
+    const user = this.$store.getters.getId;
+    console.log("user: " + user);
+    let url = `${server}/users/${user}/feedbacks`;
+    this.$http
+      .get(url)
+      .then((response) => {
+        this.feedbacks = response.data.feedbacks;
+        this.ratings = this.feedbacks.map((e) => e.rating);
+        this.providers = this.feedbacks.map((e) => e.provider.name);
+        this.descriptions = this.feedbacks.map((e) => e.description);
+        this.id = this.feedbacks.map((e) => e._id);
+        console.log("Feedbacks id are: " + this.id);
+        this.reviews = this.feedbacks.map((mapped) => {
+          const feedId = mapped._id;
+          const providers = mapped.provider.name;
+          const ratings = mapped.rating;
+          const descriptions = mapped.description;
+          mapped.feedId = feedId;
+          mapped.providers = providers;
+          mapped.ratings = ratings;
+          mapped.descriptions = descriptions;
+          return mapped;
+        });
+
+        console.log(
+          " All ratings: " +
+            this.providers +
+            ", All providers: " +
+            this.providers +
+            ", All descriptions: " +
+            this.descriptions
+        );
+      })
+      .catch((error) => {
+        console.error(error.data);
+      });
     this.initialize();
   },
+
   methods: {
     initialize() {
       this.reviews = [
-        {
-          name: "Tropos",
-          rating: 4,
-          description: "E' stato bello",
+        /* {
+          providers: "Tropos",
+          ratings: 4,
+          descriptions: "E' stato bello",
         },
         {
-          name: "ErClare",
-          rating: 1,
-          description: "Schifo",
-        },
+          providers: "ErClare",
+          ratings: 1,
+          descriptions: "Schifo",
+        },*/
       ];
     },
 
     deleteItem(item) {
+      const server = process.env.VUE_APP_SERVER_URL;
+      let url = `${server}/feedbacks/${this.item}`;
+
       this.editedIndex = this.reviews.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialogDelete = true;
+      this.$http
+        .delete(url, { withCredentials: true })
+        .then((response) => {
+          this.feedbacks = response.data.feedbacks;
+        })
+        .catch((error) => {
+          console.error(error.data);
+        });
     },
     deleteItemConfirm() {
       this.reviews.splice(this.editedIndex, 1);
