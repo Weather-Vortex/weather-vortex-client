@@ -189,7 +189,7 @@ export default {
         .catch((error) => {
           const title = "<strong>Add Feedback</strong>&nbsp;error";
           this.$alert(
-            "Feedback not added correctly or user not authenticated!",
+            "Feedback not added correctly! Please give a rating",
             title,
             "error"
           ).then(() => {
