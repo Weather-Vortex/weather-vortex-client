@@ -36,7 +36,7 @@
         </v-dialog>
       </v-toolbar>
     </template>
-    <template v-slot:item.actions="{ item }">
+    <template v-slot:[`item.actions`]="{ item }">
       <v-icon @click="deleteItem(item)">
         mdi-delete
       </v-icon>
@@ -98,7 +98,7 @@ export default {
         {
           name: "Tropos",
           rating: 4,
-          description: "Eì stato bello",
+          description: "E' stato bello",
         },
         {
           name: "ErClare",
