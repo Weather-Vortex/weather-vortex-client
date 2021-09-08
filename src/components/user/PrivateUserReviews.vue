@@ -145,15 +145,16 @@ export default {
         },*/
       ];
     },
-
+    //TODO Cancellazione da fare
     deleteItem(item) {
       const server = process.env.VUE_APP_SERVER_URL;
-      let url = `${server}/feedbacks/${this.item}`;
-
       this.editedIndex = this.reviews.indexOf(item);
+      const id = this.reviews.feedId;
       this.editedItem = Object.assign({}, item);
       this.dialogDelete = true;
+      let url = `${server}/feedbacks/${id}`;
       this.$http
+
         .delete(url, { withCredentials: true })
         .then((response) => {
           this.feedbacks = response.data.feedbacks;
