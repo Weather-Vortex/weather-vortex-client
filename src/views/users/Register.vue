@@ -150,11 +150,11 @@ export default {
             //E' stato creato, registered
             if (response.data.user.createdDate != null) {
               this.$emit("registered");
-              this.$alert({
-                message:
-                  "You are registered, check your mailbox to confirm your account.",
-                type: "success",
-              });
+              this.$alert(
+                "You are registered, check your mailbox to confirm your account.",
+                "Success",
+                "success"
+              );
             }
           })
           .catch((error) => {

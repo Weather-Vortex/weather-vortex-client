@@ -6,23 +6,30 @@ Vue.use(Vuex);
 const state = {
   drawer: null,
   // The value of user changes before the first request by loadAuthentication mutation.
-  user: null
+  user: null,
 };
 
 const getters = {
   drawerVisible: (state) => state.drawer,
   initials: (state) => {
-    if(state.user === null) {
+    if (state.user === null) {
       return "";
     }
-    
+
     const firstName = state.user.firstName.charAt(0);
     const lastName = state.user.lastName.charAt(0);
     return `${firstName}${lastName}`;
   },
+  getId: (state) => {
+    if (state.user === null) {
+      return "";
+    }
+    const id = state.user.id;
+    return `${id}`;
+  },
   isAuthenticated: (state) => {
     return state.user !== null;
-  }
+  },
 };
 
 const mutations = {
@@ -30,7 +37,7 @@ const mutations = {
     state.user = value;
     console.log("LOGIN MUTATION: ", value);
   },
-  logout: (state) => state.user = null,
+  logout: (state) => (state.user = null),
   setDrawerVisibility: (state, value) => (state.drawer = value),
   toggleDrawer: (state) => (state.drawer = !state.drawer),
 };

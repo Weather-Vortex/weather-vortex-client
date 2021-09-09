@@ -19,7 +19,7 @@
           </v-col>
           <v-col md="4" offset-md="4" class="pa-md-10 mx-lg-auto">
             <h2 class="pa-md-8 sm-10 mx-lg-auto">Reviews</h2>
-            <PrivateUserReviews />
+            <PublicUserReviews />
           </v-col>
         </v-row>
       </v-container>
@@ -39,11 +39,11 @@
 </style>
 <script>
 import PrivateUserControlUnits from "@/components/user/PrivateUserControlUnits";
-import PrivateUserReviews from "@/components/user/PrivateUserReviews";
+import PublicUserReviews from "@/components/user/PrivateUserReviews";
 import PublicUserCard from "@/components/user/PublicUserCard";
 export default {
   name: "privateProfile",
-  components: { PrivateUserControlUnits, PrivateUserReviews, PublicUserCard },
+  components: { PrivateUserControlUnits, PublicUserReviews, PublicUserCard },
   data: () => ({}),
 };
 </script>

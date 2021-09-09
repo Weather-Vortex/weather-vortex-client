@@ -12,21 +12,9 @@
       <v-container>
         <v-row class="mb-3" no-gutters>
           <v-col md="4" class="pa-md-10 mx-lg-auto">
-            <h2 class="pa-md-8 sm-10 mx-lg-auto">
-              Control Units<v-btn class="mx-2" small fab dark color="indigo"
-                ><v-icon>mdi-plus</v-icon></v-btn
-              >
-            </h2>
-
             <PrivateUserControlUnits />
           </v-col>
           <v-col md="4" offset-md="4" class="pa-md-10 mx-lg-auto">
-            <h2 class="pa-md-8 sm-10 mx-lg-auto">
-              Reviews
-              <v-btn class="mx-2" small fab dark color="indigo"
-                ><v-icon>mdi-plus</v-icon></v-btn
-              >
-            </h2>
             <PrivateUserReviews />
           </v-col>
         </v-row>

@@ -38,5 +38,7 @@ yarn-error.log
 
 # End of https://www.toptal.com/developers/gitignore/api/vue,vuejs,visualstudiocode
 
+sh.exe.stackdump
+
 # Ignore .env file with project secrets
 **/.env

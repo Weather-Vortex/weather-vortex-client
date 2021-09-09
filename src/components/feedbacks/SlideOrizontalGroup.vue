@@ -15,8 +15,8 @@
     <v-slide-group v-model="model" class="pa-2" center-active show-arrows>
       <v-slide-item
         height="500"
-        v-for="ser in services"
-        :key="ser"
+        v-for="ser in providers"
+        :key="ser._id"
         v-slot="{ active, toggle }"
       >
         <v-card
@@ -26,7 +26,7 @@
         >
           <ServiceRatingsList :title="ser" />
 
-          <LeaveFeedbackDialog />
+          <LeaveFeedbackDialog :provider="ser" />
         </v-card>
       </v-slide-item>
     </v-slide-group>
@@ -37,28 +37,32 @@ import ServiceRatingsList from "@/components/feedbacks/ServiceRatingsList";
 import LeaveFeedbackDialog from "@/components/feedbacks/LeaveFeedbackDialog";
 export default {
   components: { ServiceRatingsList, LeaveFeedbackDialog },
+  created() {
+    const server = process.env.VUE_APP_SERVER_URL;
+    let url = `${server}/feedbacks/`;
+    this.$http
+      .get(url)
+      .then((response) => {
+        this.providers = response.data.results;
+        console.log(this.providers);
+      })
+      .catch((error) => {
+        console.error(error.data);
+      });
+  },
   data: () => ({
     model: null,
-    services: [
-      "OpenWeather",
-      "DarkSky",
-      "Throposphere",
-      "Cesena Centro IoT",
-      "Cesena Barriera IoT",
-      "Cesena Università IoT",
-      "Bologna Stazione-1",
-      "Bologna Università-1",
-      "Centralina di Ciccio",
-      "Rimini-Iot",
-    ],
+    providers: [],
+    searchContent: null,
   }),
+
   methods: {
     searchMethod() {
-      const elem = this.services.find((elem) =>
-        elem.includes(this.searchContent)
+      const elem = this.providers.find((elem) =>
+        elem.name.includes(this.searchContent)
       );
       console.log("Found: ", elem);
-      this.model = this.services.indexOf(elem);
+      this.model = this.providers.indexOf(elem);
       //this.clearMessage();
     },
     clearMessage() {
