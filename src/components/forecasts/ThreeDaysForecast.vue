@@ -228,17 +228,17 @@ export default {
       });
 
       this.socket.on("forecast_requested", (args) => {
-        if (typeof args.providerNames !== "object") {
+        if (typeof args.providers !== "object") {
           console.error("Received a corrupted packet from socket");
           this.fetching = this.fetching - 1;
           return;
         }
 
-        args.providerNames.forEach((provider) => {
+        args.providers.forEach((provider) => {
           this.waiting.push({ provider });
         });
 
-        this.fetching = this.fetching + args.providerNames.length - 1;
+        this.fetching = this.fetching + args.providers.length - 1;
       });
 
       this.socket.on("connect_error", (err) => {

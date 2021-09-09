@@ -97,26 +97,28 @@ export default {
 
       this.socket.on("forecast_requested", (args) => {
         console.log("Args:", args);
-        if (typeof args.providerNames !== "object") {
+        if (typeof args.providers !== "object") {
           console.error("Received a corrupted packet from socket");
           this.fetching = this.fetching - 1;
           return;
         }
 
-        args.providerNames.forEach((provider) => {
+        args.providers.forEach((provider) => {
           console.log("Found provider", provider);
           this.waiting.push({ provider: provider });
           console.log("Waiting", this.waiting);
         });
 
-        this.fetching = this.fetching + args.providerNames.length - 1;
+        this.fetching = this.fetching + args.providers.length - 1;
       });
+
       this.socket.on("connect_error", (err) => {
         console.warn("Connection error:", err);
         if (err.message === "Invalid locality") {
           this.selectedLocality = false;
         }
       });
+
       this.socket.on("result", (result) => {
         console.log("Result from %s with %o:", result.provider, result.data);
         const { provider, data } = result;
@@ -126,6 +128,7 @@ export default {
         );
         console.log("Fetched %o from %o", current.provider, this.waiting);
         this.forecasts.push({ provider, data });
+        this.mid = { provider, data };
       });
     },
   },
