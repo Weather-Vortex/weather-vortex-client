@@ -91,10 +91,6 @@ export default {
       return value.length > 8 || "Password must have more of 8 characters";
     },
     updateUser() {
-      /*if (!this.$refs.form.validate()) {
-        this.$alert("Invalid form, check fields", "Error", "error");
-        return;
-      }*/
       const server = process.env.VUE_APP_SERVER_URL;
       let url = `${server}/auth/`;
 
@@ -113,7 +109,8 @@ export default {
           }
         })
         .catch((error) => {
-          this.$alert("Update user error", "success:false");
+          const title = "<strong>Update</strong>&nbsp;error";
+          this.$alert("Update user error", title, "success:false");
           /*{ success: false, message: "Update user error", error: err }*/
           console.error(error.data);
         });

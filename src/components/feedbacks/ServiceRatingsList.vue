@@ -44,21 +44,6 @@
 export default {
   components: {},
   props: ["title"],
-  created() {
-    console.log(this.title.feedbacks);
-    /*const server = process.env.VUE_APP_SERVER_URL;
-    //get some feedbacks getting the name of the provider
-    let url = `${server}/feedbacks/${this.title.name}`;
-    this.$http
-      .get(url)
-      .then((response) => {
-        this.providers = response.data.results;
-        console.log("ID: " + this.providers);
-      })
-      .catch((error) => {
-        console.error(error.data);
-      });*/
-  },
   data: () => ({
     colors: [
       "primary",
@@ -88,23 +73,6 @@ export default {
   }),
 
   computed: {
-    /*items() {
-      const namesLength = this.names.length;
-      const surnamesLength = this.surnames.length;
-      
-
-      return Array.from({ length: 50 }, () => {
-        const name = this.names[this.genRandomIndex(namesLength)];
-        const surname = this.surnames[this.genRandomIndex(surnamesLength)];
-
-        return {
-          ,
-          fullName: `${name} ${surname}`,
-          initials: `${name[0]} ${surname[0]}`,
-          rating: this.genRandomIndex(6),
-        };
-      });
-    },*/
     feedbacks: function() {
       return this.title.feedbacks.map((mapped) => {
         const firstName = mapped.user.firstName.charAt(0);
