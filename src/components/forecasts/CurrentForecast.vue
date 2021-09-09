@@ -57,6 +57,11 @@ export default {
     };
   },
   methods: {
+    clean: function () {
+      this.forecasts = [];
+      this.waiting = [];
+      this.mid = {};
+    },
     connect: function () {
       const username = uuidv4();
       this.socket = create();
@@ -64,11 +69,6 @@ export default {
       console.log("Username: %s with socket %s", username, this.socket.id);
       this.socket.auth = { username };
       this.socket.connect({ forceNew: true });
-    },
-    clean: function () {
-      this.forecasts = [];
-      this.waiting = [];
-      this.mid = {};
     },
     disconnect: function () {
       const instance = this.socket;
@@ -96,19 +96,20 @@ export default {
       });
 
       this.socket.on("forecast_requested", (args) => {
-        if (typeof args.providers !== "object") {
+        console.log("Args:", args);
+        if (typeof args.providerNames !== "object") {
           console.error("Received a corrupted packet from socket");
           this.fetching = this.fetching - 1;
           return;
         }
 
-        args.providers.forEach((provider) => {
+        args.providerNames.forEach((provider) => {
           console.log("Found provider", provider);
           this.waiting.push({ provider: provider });
           console.log("Waiting", this.waiting);
         });
 
-        this.fetching = this.fetching + args.providers.length - 1;
+        this.fetching = this.fetching + args.providerNames.length - 1;
       });
       this.socket.on("connect_error", (err) => {
         console.warn("Connection error:", err);
@@ -136,7 +137,6 @@ export default {
     },
   },
   mounted() {
-    console.log("mounted");
     if (!this.connected) {
       this.connect();
     }
