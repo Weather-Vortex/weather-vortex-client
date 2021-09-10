@@ -48,14 +48,14 @@
                 <v-row>
                   <v-col cols="12" sm="6">
                     <v-text-field
-                      v-model="authkey"
+                      v-model="editedItem.authkey"
                       label="Auth Key"
                     ></v-text-field>
                   </v-col>
 
                   <v-col cols="12" sm="6">
                     <v-text-field
-                      v-model="url"
+                      v-model="editedItem.url"
                       label="Station url"
                     ></v-text-field>
                   </v-col>
