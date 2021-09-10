@@ -239,14 +239,15 @@ export default {
         //altrimenti fai la chiamata inserimento
 
         let url = `${server}/stations`;
+        let content = {
+          name: this.name,
+          locality: this.position,
+          owner: this.user,
+          authKey: this.authkey,
+          url: this.url,
+        };
         this.$http
-          .post(url, {
-            name: this.name,
-            locality: this.position,
-            owner: this.user,
-            authKey: this.authkey,
-            url: this.url,
-          })
+          .post(url, content)
           .then((response) => {
             //E' stato creato, registered
             this.newstations = response.data.stations;
