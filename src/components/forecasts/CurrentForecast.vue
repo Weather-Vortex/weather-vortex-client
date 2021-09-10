@@ -57,6 +57,11 @@ export default {
     };
   },
   methods: {
+    clean: function () {
+      this.forecasts = [];
+      this.waiting = [];
+      this.mid = {};
+    },
     connect: function () {
       const username = uuidv4();
       this.socket = create();
@@ -64,11 +69,6 @@ export default {
       console.log("Username: %s with socket %s", username, this.socket.id);
       this.socket.auth = { username };
       this.socket.connect({ forceNew: true });
-    },
-    clean: function () {
-      this.forecasts = [];
-      this.waiting = [];
-      this.mid = {};
     },
     disconnect: function () {
       const instance = this.socket;
@@ -96,6 +96,7 @@ export default {
       });
 
       this.socket.on("forecast_requested", (args) => {
+        console.log("Args:", args);
         if (typeof args.providers !== "object") {
           console.error("Received a corrupted packet from socket");
           this.fetching = this.fetching - 1;
@@ -110,12 +111,14 @@ export default {
 
         this.fetching = this.fetching + args.providers.length - 1;
       });
+
       this.socket.on("connect_error", (err) => {
         console.warn("Connection error:", err);
         if (err.message === "Invalid locality") {
           this.selectedLocality = false;
         }
       });
+
       this.socket.on("result", (result) => {
         console.log("Result from %s with %o:", result.provider, result.data);
         const { provider, data } = result;
@@ -125,6 +128,7 @@ export default {
         );
         console.log("Fetched %o from %o", current.provider, this.waiting);
         this.forecasts.push({ provider, data });
+        this.mid = { provider, data };
       });
     },
   },
@@ -136,7 +140,6 @@ export default {
     },
   },
   mounted() {
-    console.log("mounted");
     if (!this.connected) {
       this.connect();
     }
