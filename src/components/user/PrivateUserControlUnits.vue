@@ -45,6 +45,21 @@
                     ></v-text-field>
                   </v-col>
                 </v-row>
+                <v-row>
+                  <v-col cols="12" sm="6">
+                    <v-text-field
+                      v-model="authkey"
+                      label="Auth Key"
+                    ></v-text-field>
+                  </v-col>
+
+                  <v-col cols="12" sm="6">
+                    <v-text-field
+                      v-model="url"
+                      label="Station url"
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
               </v-container>
             </v-card-text>
 
@@ -108,11 +123,15 @@ export default {
     editedIndex: -1,
     editedItem: {
       name: "",
-      position: 0,
+      position: "",
+      authkey: 0,
+      url: null,
     },
     defaultItem: {
       name: "",
-      position: 0,
+      position: "",
+      authkey: 0,
+      url: null,
     },
   }),
   computed: {
@@ -137,8 +156,9 @@ export default {
     this.$http
       .get(url)
       .then((response) => {
-        this.stations1 = response.data.stations;
-        console.log("Ma ste stazioni?: " + this.stations1);
+        //TODO da rinominare in stations, adesso l'ho lasciato così per mostrare qualche dato
+        this.stations = response.data.stations;
+        console.log("Ma ste stazioni?: " + this.stations);
         /*this.ratings = this.feedbacks.map((e) => e.rating);
         this.providers = this.feedbacks.map((e) => e.provider.name);
         this.descriptions = this.feedbacks.map((e) => e.description);
@@ -175,11 +195,11 @@ export default {
       this.stations = [
         {
           name: "Frozen Yogurt",
-          position: 159,
+          position: "Cesenat",
         },
         {
           name: "Ice cream sandwich",
-          position: 237,
+          position: "rimini",
         },
       ];
     },
@@ -212,9 +232,31 @@ export default {
       });
     },
     save() {
+      const server = process.env.VUE_APP_SERVER_URL;
       if (this.editedIndex > -1) {
         Object.assign(this.stations[this.editedIndex], this.editedItem);
       } else {
+        //altrimenti fai la chiamata inserimento
+
+        let url = `${server}/stations`;
+        this.$http
+          .post(url, {
+            name: this.name,
+            locality: this.position,
+            owner: this.user,
+            authKey: this.authkey,
+            url: this.url,
+          })
+          .then((response) => {
+            //E' stato creato, registered
+            this.newstations = response.data.stations;
+            console.log("aggiunta station " + this.newstations);
+          })
+          .catch((error) => {
+            console.log(error);
+            const title = "<strong></strong>&nbsp;Error";
+            this.$alert("Error in adding the station!", title, "error"); // or here
+          });
         this.stations.push(this.editedItem);
       }
       this.close();
