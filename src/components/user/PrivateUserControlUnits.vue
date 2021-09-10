@@ -1,8 +1,8 @@
 <template>
   <v-data-table
     :headers="headers"
-    :items="desserts"
-    sort-by="calories"
+    :items="stations"
+    sort-by="stations"
     class="elevation-1"
   >
     <template v-slot:top>
@@ -32,34 +32,16 @@
             <v-card-text>
               <v-container>
                 <v-row>
-                  <v-col cols="12" sm="6" md="4">
+                  <v-col cols="12" sm="6">
                     <v-text-field
                       v-model="editedItem.name"
-                      label="Dessert name"
+                      label="Station name"
                     ></v-text-field>
                   </v-col>
-                  <v-col cols="12" sm="6" md="4">
+                  <v-col cols="12" sm="6">
                     <v-text-field
-                      v-model="editedItem.calories"
-                      label="Calories"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field
-                      v-model="editedItem.fat"
-                      label="Fat (g)"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field
-                      v-model="editedItem.carbs"
-                      label="Carbs (g)"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field
-                      v-model="editedItem.protein"
-                      label="Protein (g)"
+                      v-model="editedItem.position"
+                      label="Position"
                     ></v-text-field>
                   </v-col>
                 </v-row>
@@ -97,17 +79,12 @@
       </v-toolbar>
     </template>
     <template v-slot:[`item.actions`]="{ item }">
-      <v-icon small class="mr-2" @click="editItem(item)">
+      <v-icon class="mr-2" @click="editItem(item)">
         mdi-pencil
       </v-icon>
-      <v-icon small @click="deleteItem(item)">
+      <v-icon @click="deleteItem(item)">
         mdi-delete
       </v-icon>
-    </template>
-    <template v-slot:no-data>
-      <v-btn color="primary" @click="initialize">
-        Reset
-      </v-btn>
     </template>
   </v-data-table>
 </template>
@@ -119,32 +96,23 @@ export default {
     dialogDelete: false,
     headers: [
       {
-        text: "Dessert (100g serving)",
+        text: "Station Name",
         align: "start",
         sortable: false,
         value: "name",
       },
-      { text: "Calories", value: "calories" },
-      { text: "Fat (g)", value: "fat" },
-      { text: "Carbs (g)", value: "carbs" },
-      { text: "Protein (g)", value: "protein" },
+      { text: "Position", value: "position" },
       { text: "Actions", value: "actions", sortable: false },
     ],
-    desserts: [],
+    stations: [],
     editedIndex: -1,
     editedItem: {
       name: "",
-      calories: 0,
-      fat: 0,
-      carbs: 0,
-      protein: 0,
+      position: 0,
     },
     defaultItem: {
       name: "",
-      calories: 0,
-      fat: 0,
-      carbs: 0,
-      protein: 0,
+      position: 0,
     },
   }),
   computed: {
@@ -161,95 +129,72 @@ export default {
     },
   },
   created() {
+    //populate the table
+    const server = process.env.VUE_APP_SERVER_URL;
+    const user = this.$store.getters.getId;
+    console.log("user: " + user);
+    let url = `${server}/users/${user}/stations`;
+    this.$http
+      .get(url)
+      .then((response) => {
+        this.stations1 = response.data.stations;
+        console.log("Ma ste stazioni?: " + this.stations1);
+        /*this.ratings = this.feedbacks.map((e) => e.rating);
+        this.providers = this.feedbacks.map((e) => e.provider.name);
+        this.descriptions = this.feedbacks.map((e) => e.description);
+        this.id = this.feedbacks.map((e) => e._id);
+        console.log("Feedbacks id are: " + this.id);
+        this.reviews = this.feedbacks.map((mapped) => {
+          const feedId = mapped._id;
+          const providers = mapped.provider.name;
+          const ratings = mapped.rating;
+          const descriptions = mapped.description;
+          mapped.feedId = feedId;
+          mapped.providers = providers;
+          mapped.ratings = ratings;
+          mapped.descriptions = descriptions;
+          return mapped;
+        });
+
+        console.log(
+          " All ratings: " +
+            this.providers +
+            ", All providers: " +
+            this.providers +
+            ", All descriptions: " +
+            this.descriptions
+        );*/
+      })
+      .catch((error) => {
+        console.error(error.data);
+      });
     this.initialize();
   },
   methods: {
     initialize() {
-      this.desserts = [
+      this.stations = [
         {
           name: "Frozen Yogurt",
-          calories: 159,
-          fat: 6.0,
-          carbs: 24,
-          protein: 4.0,
+          position: 159,
         },
         {
           name: "Ice cream sandwich",
-          calories: 237,
-          fat: 9.0,
-          carbs: 37,
-          protein: 4.3,
-        },
-        {
-          name: "Eclair",
-          calories: 262,
-          fat: 16.0,
-          carbs: 23,
-          protein: 6.0,
-        },
-        {
-          name: "Cupcake",
-          calories: 305,
-          fat: 3.7,
-          carbs: 67,
-          protein: 4.3,
-        },
-        {
-          name: "Gingerbread",
-          calories: 356,
-          fat: 16.0,
-          carbs: 49,
-          protein: 3.9,
-        },
-        {
-          name: "Jelly bean",
-          calories: 375,
-          fat: 0.0,
-          carbs: 94,
-          protein: 0.0,
-        },
-        {
-          name: "Lollipop",
-          calories: 392,
-          fat: 0.2,
-          carbs: 98,
-          protein: 0,
-        },
-        {
-          name: "Honeycomb",
-          calories: 408,
-          fat: 3.2,
-          carbs: 87,
-          protein: 6.5,
-        },
-        {
-          name: "Donut",
-          calories: 452,
-          fat: 25.0,
-          carbs: 51,
-          protein: 4.9,
-        },
-        {
-          name: "KitKat",
-          calories: 518,
-          fat: 26.0,
-          carbs: 65,
-          protein: 7,
+          position: 237,
         },
       ];
     },
     editItem(item) {
-      this.editedIndex = this.desserts.indexOf(item);
+      this.editedIndex = this.stations.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },
     deleteItem(item) {
-      this.editedIndex = this.desserts.indexOf(item);
+      this.editedIndex = this.stations.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialogDelete = true;
     },
     deleteItemConfirm() {
-      this.desserts.splice(this.editedIndex, 1);
+      this.stations.splice(this.editedIndex, 1);
       this.closeDelete();
     },
     close() {
@@ -268,9 +213,9 @@ export default {
     },
     save() {
       if (this.editedIndex > -1) {
-        Object.assign(this.desserts[this.editedIndex], this.editedItem);
+        Object.assign(this.stations[this.editedIndex], this.editedItem);
       } else {
-        this.desserts.push(this.editedItem);
+        this.stations.push(this.editedItem);
       }
       this.close();
     },
