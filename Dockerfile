@@ -10,6 +10,9 @@ RUN npm i
 
 COPY . .
 
+# Force the move of .env file.
+COPY .env .env
+
 RUN npm run build
 
 # production stage
