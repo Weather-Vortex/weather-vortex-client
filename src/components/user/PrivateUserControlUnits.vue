@@ -117,6 +117,8 @@ export default {
         value: "name",
       },
       { text: "Position", value: "position" },
+      { text: "AuthKey", value: "authkey" },
+      { text: "Url", value: "url" },
       { text: "Actions", value: "actions", sortable: false },
     ],
     stations: [],
@@ -124,13 +126,13 @@ export default {
     editedItem: {
       name: "",
       position: "",
-      authkey: 0,
+      authkey: "",
       url: null,
     },
     defaultItem: {
       name: "",
       position: "",
-      authkey: 0,
+      authkey: "",
       url: null,
     },
   }),
@@ -239,15 +241,18 @@ export default {
         //altrimenti fai la chiamata inserimento
 
         let url = `${server}/stations`;
+        const user = this.$store.getters.getId;
         let content = {
           name: this.name,
-          locality: this.position,
-          owner: this.user,
+          position: {
+            locality: this.position,
+          },
+          owner: user,
           authKey: this.authkey,
           url: this.url,
         };
         this.$http
-          .post(url, content)
+          .post(url, content, { withCredentials: true })
           .then((response) => {
             //E' stato creato, registered
             this.newstations = response.data.stations;
