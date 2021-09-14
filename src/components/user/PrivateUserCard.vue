@@ -15,7 +15,9 @@
     </v-img>
 
     <v-card-text>
-      <div class="font-weight-bold ml-8 mb-2">Details</div>
+      <div class="font-weight-bold ml-8 mb-2">
+        Details
+      </div>
 
       <v-list two-line class="blue lighten-5">
         <v-list-item>

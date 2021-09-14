@@ -1,13 +1,20 @@
 <template>
   <v-dialog v-model="dialog" persistent max-width="600px">
     <template v-slot:activator="{ on, attrs }">
-      <v-btn color="primary" block x-large v-bind="attrs" v-on="on">
+      <v-btn
+        v-if="authenticated"
+        color="primary"
+        block
+        x-large
+        v-bind="attrs"
+        v-on="on"
+      >
         <b>Give Feedback</b>
       </v-btn>
     </template>
     <v-card>
       <v-card-title>
-        <span class="text-h5">Please Rate this Service</span>
+        <span class="text-h5">Please Rate {{ provider.name }} Service</span>
       </v-card-title>
       <v-card-text lass="pa-0">
         <v-container>
@@ -35,12 +42,8 @@
 
               <v-col cols="12" sm="12" class="pt-0">
                 <v-btn class="ma-2" color="primary" @click="expand = !expand">
-                  <v-icon left v-show="!expand">
-                    mdi-chevron-down
-                  </v-icon>
-                  <v-icon left v-show="expand">
-                    mdi-chevron-up
-                  </v-icon>
+                  <v-icon left v-show="!expand"> mdi-chevron-down </v-icon>
+                  <v-icon left v-show="expand"> mdi-chevron-up </v-icon>
                   Altro
                 </v-btn>
               </v-col>
@@ -101,11 +104,10 @@
                   </v-col>
                   <v-col cols="12" sm="12" class="pt-0">
                     <v-textarea
-                      v-model="descritpion"
+                      v-model="description"
                       counter
                       label="Description *"
                       :rules="rules"
-                      :value="value"
                     ></v-textarea>
                   </v-col>
                 </v-row>
@@ -120,16 +122,18 @@
         <v-btn color="primary" outlined text @click="dialog = false">
           Close
         </v-btn>
-        <v-btn color="green" dark @click="submitFeedback">
-          Send
-        </v-btn>
+        <v-btn color="green" dark @click="submitFeedback()"> Send </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
 <script>
 export default {
+  props: ["provider"],
   data: () => ({
+    rating: 0,
+    field: "",
+    description: "",
     valid: true,
     dialog: false,
     activePicker: null,
@@ -143,14 +147,55 @@ export default {
       val && setTimeout(() => (this.activePicker = "YEAR"));
     },
   },
+
+  computed: {
+    authenticated: function() {
+      return this.$store.getters.isAuthenticated;
+    },
+  },
   methods: {
     save(date) {
       this.$refs.menu.save(date);
     },
     submitFeedback() {
-      console.log("FORM: ", this.description);
-      this.$refs.form.validate();
-      this.dialog = false;
+      if (!this.$refs.form.validate()) {
+        this.$alert("Invalid form, check fields", "Error", "error");
+        return;
+      }
+
+      //console.log("FORM: ", this.description);
+      //this.$refs.form.validate();
+      const server = process.env.VUE_APP_SERVER_URL;
+      let url = `${server}/feedbacks/`;
+      let content = {
+        rating: this.rating,
+        provider: this.provider._id,
+        //user: this.user,
+        forecastDate: this.date,
+        fields: this.field,
+        description: this.description,
+      };
+      this.$http
+        .post(url, content, { withCredentials: true })
+        .then((response) => {
+          if (response.data.feedback) {
+            this.$alert("Feedback added correctly.", "Edit", "success").then(
+              () => {
+                this.dialog = false; // Hide this edit dialog.
+              }
+            );
+          }
+        })
+        .catch((error) => {
+          const title = "<strong>Add Feedback</strong>&nbsp;error";
+          this.$alert(
+            "Feedback not added correctly! Please give a rating",
+            title,
+            "error"
+          ).then(() => {
+            console.error(error.data);
+          });
+        });
     },
   },
 };

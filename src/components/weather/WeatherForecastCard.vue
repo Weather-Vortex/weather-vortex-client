@@ -34,7 +34,19 @@ export default {
       return typeof this.data === "undefined" || this.data === null;
     },
     types: function () {
-      return [
+      // Build the array of card items. Each items contains label, icon, tooltip and value to show.
+      let t =
+        process.env.NODE_ENV !== "production"
+          ? [
+              {
+                icon: "",
+                title: "Time",
+                tooltip: this.$props.data.time.toLocaleString(),
+                value: this.$props.data.time.toLocaleString(),
+              },
+            ]
+          : [];
+      t.push(
         {
           icon: this.$props.data.weatherIcon,
           title: "Weather",
@@ -88,8 +100,9 @@ export default {
           title: "Snow",
           tooltip: "Snow level",
           value: this.$props.data.snow,
-        },
-      ];
+        }
+      );
+      return t;
     },
   },
   props: {

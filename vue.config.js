@@ -1,4 +1,4 @@
 module.exports = {
-  publicPath: "/weather-vortex-client",
+  publicPath: process.env.PUBLIC_PATH,
   transpileDependencies: ["vuetify"],
 };
