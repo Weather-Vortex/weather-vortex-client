@@ -2,8 +2,8 @@
 
 Client for Weather Vortex Project.
 
-| Branch | Status | Link |
-| --- | --- | --- |
+| Branch | Status                                                                                                                                                                                                                                   | Link                                                                               |
+| ------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
 | `main` | [![Deploy to Github Pages](https://github.com/Weather-Vortex/weather-vortex-client/actions/workflows/deploy.yml/badge.svg?branch=main&event=push)](https://github.com/Weather-Vortex/weather-vortex-client/actions/workflows/deploy.yml) | [Weather Vortex Client](https://weather-vortex.github.io/weather-vortex-client/#/) |
 
 ---
@@ -11,10 +11,10 @@ Client for Weather Vortex Project.
 **Table of Contents**
 
 - [How To](#how-to)
-    - [Project setup](#project-setup)
-    - [Develop](#compiles-and-hot-reloads-for-development)
-    - [Test](#test-project)
-    - [Build](#compiles-and-minifies-for-production)
+  - [Project setup](#project-setup)
+  - [Develop](#compiles-and-hot-reloads-for-development)
+  - [Test](#test-project)
+  - [Build](#compiles-and-minifies-for-production)
 
 ## How To
 
@@ -55,6 +55,12 @@ npm run build
 ```
 npm run lint
 ```
+
+### Containerization
+
+To build your container: `sudo docker build -t antonioparolisi/wv-client .`
+
+To run your container: `sudo docker run -it -p 8080:80 antonioparolisi/wv-client`
 
 ### Customize configuration
 
