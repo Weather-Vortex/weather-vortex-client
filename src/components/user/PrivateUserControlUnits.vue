@@ -241,13 +241,12 @@ export default {
         //altrimenti fai la chiamata inserimento
 
         let url = `${server}/stations`;
-        const user = this.$store.getters.getId;
         let content = {
           name: this.name,
           position: {
             locality: this.position,
           },
-          owner: user,
+          owner: this.user,
           authKey: this.authkey,
           url: this.url,
         };
