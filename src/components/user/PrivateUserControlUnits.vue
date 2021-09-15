@@ -127,13 +127,13 @@ export default {
       name: "",
       position: "",
       authkey: "",
-      url: null,
+      url: "",
     },
     defaultItem: {
       name: "",
       position: "",
       authkey: "",
-      url: null,
+      url: "",
     },
   }),
   computed: {
@@ -158,7 +158,7 @@ export default {
     this.$http
       .get(url)
       .then((response) => {
-        //TODO da rinominare in stations, adesso l'ho lasciato così per mostrare qualche dato
+        //popola le stations
         this.stations = response.data.stations;
         console.log("Ma ste stazioni?: " + this.stations);
         /*this.ratings = this.feedbacks.map((e) => e.rating);
@@ -236,9 +236,10 @@ export default {
     save() {
       const server = process.env.VUE_APP_SERVER_URL;
       if (this.editedIndex > -1) {
+        //TODO fare chiamata update
         Object.assign(this.stations[this.editedIndex], this.editedItem);
       } else {
-        //altrimenti fai la chiamata inserimento
+        //Dai chiamata inserimento
 
         let url = `${server}/stations`;
         let content = {
