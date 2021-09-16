@@ -11,7 +11,7 @@ RUN npm i
 COPY . .
 
 # Force the move of .env file.
-COPY .env .env
+# COPY .env .env
 
 RUN npm run build
 
