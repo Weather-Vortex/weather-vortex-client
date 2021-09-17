@@ -243,12 +243,13 @@ export default {
 
         let url = `${server}/stations`;
         let content = {
+          authKey: this.authkey,
           name: this.name,
+          owner: this.user,
           position: {
             locality: this.position,
           },
-          owner: this.user,
-          authKey: this.authkey,
+
           url: this.url,
         };
         this.$http

@@ -109,6 +109,10 @@ const routes = [
         component: () => import("../views/users/Welcome.vue"),
         // props: true,
       },
+      {
+        path: "forgot",
+        component: () => import("../views/users/Forgot.vue"),
+      },
     ],
   },
   {

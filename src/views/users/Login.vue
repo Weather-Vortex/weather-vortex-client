@@ -49,6 +49,19 @@
           <v-btn tabindex="3" color="primary" x-large block @click="submitForm">
             <b>Log In</b>
           </v-btn>
+          <v-row
+            ><v-col cols="6">
+              <p class="my-2">
+                <router-link to="/user/register"
+                  >If you are not registered, click here!</router-link
+                >
+              </p></v-col
+            ><v-col cols="6">
+              <p class="my-2">
+                <router-link to="/user/forgot">Forgot Password?</router-link>
+              </p></v-col
+            >
+          </v-row>
         </v-form>
       </v-col>
     </v-row>
