@@ -239,8 +239,6 @@ export default {
         //TODO fare chiamata update
         Object.assign(this.stations[this.editedIndex], this.editedItem);
       } else {
-        //Dai chiamata inserimento
-
         let url = `${server}/stations`;
         console.log("Current edit item:", this.editedItem);
         let content = {
@@ -259,6 +257,7 @@ export default {
             this.newstations = response.data.stations;
             console.log("aggiunta station " + this.newstations);
             this.stations.push(this.editedItem);
+            //TODO vedere come visualizzare bene posizione
           })
           .catch((error) => {
             console.log(error);
