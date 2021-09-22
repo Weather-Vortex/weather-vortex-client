@@ -13,7 +13,7 @@
       clear-icon="mdi-close-circle"
     ></v-text-field>
     <template>
-      <vue-horizontal>
+      <vue-horizontal v-model="model" class="pa-2" center-active show-arrows>
         <section height="500" v-for="ser in providers" :key="ser._id">
           <ServiceRatingsList :title="ser" />
 
