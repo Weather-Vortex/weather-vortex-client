@@ -242,15 +242,15 @@ export default {
         //Dai chiamata inserimento
 
         let url = `${server}/stations`;
+        console.log("Current edit item:", this.editedItem);
         let content = {
-          authKey: this.authkey,
-          name: this.name,
-          owner: this.user,
+          authKey: this.editedItem.authkey,
+          name: this.editedItem.name,
+          // owner: this.editedItem.user,
           position: {
-            locality: this.position,
+            locality: this.editedItem.position,
           },
-
-          url: this.url,
+          url: this.editedItem.url,
         };
         this.$http
           .post(url, content, { withCredentials: true })
@@ -258,13 +258,13 @@ export default {
             //E' stato creato, registered
             this.newstations = response.data.stations;
             console.log("aggiunta station " + this.newstations);
+            this.stations.push(this.editedItem);
           })
           .catch((error) => {
             console.log(error);
             const title = "<strong></strong>&nbsp;Error";
             this.$alert("Error in adding the station!", title, "error"); // or here
           });
-        this.stations.push(this.editedItem);
       }
       this.close();
     },
