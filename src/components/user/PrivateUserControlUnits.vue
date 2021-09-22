@@ -161,31 +161,22 @@ export default {
         //popola le stations
         this.stations = response.data.stations;
         console.log("Ma ste stazioni?: " + this.stations);
+        this.nameS = this.stations.map((e) => e.name);
+        console.log("stazioni sono :" + this.nameS);
         /*this.ratings = this.feedbacks.map((e) => e.rating);
         this.providers = this.feedbacks.map((e) => e.provider.name);
         this.descriptions = this.feedbacks.map((e) => e.description);
         this.id = this.feedbacks.map((e) => e._id);
-        console.log("Feedbacks id are: " + this.id);
-        this.reviews = this.feedbacks.map((mapped) => {
-          const feedId = mapped._id;
-          const providers = mapped.provider.name;
-          const ratings = mapped.rating;
-          const descriptions = mapped.description;
-          mapped.feedId = feedId;
-          mapped.providers = providers;
-          mapped.ratings = ratings;
-          mapped.descriptions = descriptions;
+        console.log("Feedbacks id are: " + this.id);*/
+        this.stations = this.feedbacks.map((mapped) => {
+          const name = mapped.name;
+          const authKey = mapped.authKey;
+          const position = mapped.position.locality;
+          mapped.name = name;
+          mapped.authkey = authKey;
+          mapped.position.locality = position;
           return mapped;
         });
-
-        console.log(
-          " All ratings: " +
-            this.providers +
-            ", All providers: " +
-            this.providers +
-            ", All descriptions: " +
-            this.descriptions
-        );*/
       })
       .catch((error) => {
         console.error(error.data);
@@ -194,16 +185,7 @@ export default {
   },
   methods: {
     initialize() {
-      this.stations = [
-        {
-          name: "Frozen Yogurt",
-          position: "Cesenat",
-        },
-        {
-          name: "Ice cream sandwich",
-          position: "rimini",
-        },
-      ];
+      this.stations = [];
     },
     editItem(item) {
       this.editedIndex = this.stations.indexOf(item);
@@ -236,7 +218,38 @@ export default {
     save() {
       const server = process.env.VUE_APP_SERVER_URL;
       if (this.editedIndex > -1) {
-        //TODO fare chiamata update
+        //update
+
+        console.log("Sto id?" + this.editedIndex);
+        let url = `${server}/stations/${this.editedIndex}`;
+        let content = {
+          authKey: this.editedItem.authkey,
+          name: this.editedItem.name,
+          // owner: this.editedItem.user,
+          position: {
+            locality: this.editedItem.position,
+          },
+          url: this.editedItem.url,
+        };
+        this.$http
+          .put(url, content, { withCredentials: true })
+          .then((response) => {
+            if (response.data) {
+              this.$alert("Data updated correctly.", "Edit", "success").then(
+                () => {
+                  this.name = response.data.name;
+                  //this.dialog = false; // Hide this edit dialog.
+                }
+              );
+            }
+            console.log("Risposta" + response);
+          })
+          .catch((error) => {
+            const title = "<strong>Update</strong>&nbsp;error";
+            this.$alert("Update station error", title, "success:false");
+            /*{ success: false, message: "Update user error", error: err }*/
+            console.error(error.data);
+          });
         Object.assign(this.stations[this.editedIndex], this.editedItem);
       } else {
         let url = `${server}/stations`;
