@@ -175,10 +175,12 @@ export default {
           const name = mapped.name;
           const authkey = mapped.authKey;
           const position = mapped.position.locality;
+          const url = mapped.url;
           mapped._id = idSta;
           mapped.name = name;
           mapped.authKey = authkey;
           mapped.position.locality = position;
+          mapped.url = url;
           console.log("mapped is mapped " + mapped, idSta, authkey);
           return mapped;
         });
@@ -270,7 +272,6 @@ export default {
 
         Object.assign(this.stations[this.editedIndex], this.editedItem);
       } else {
-        this.stations.push(this.editedItem);
         let url = `${server}/stations`;
         console.log("Current edit item:", this.editedItem);
         let content = {
@@ -303,6 +304,7 @@ export default {
             const title = "<strong></strong>&nbsp;Error";
             this.$alert("Error in adding the station!", title, "error"); // or here
           });
+        this.stations.push(this.editedItem);
       }
       this.close();
     },
