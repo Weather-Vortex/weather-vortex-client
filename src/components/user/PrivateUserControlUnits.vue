@@ -286,8 +286,15 @@ export default {
           .post(url, content, { withCredentials: true })
           .then((response) => {
             //E' stato creato, registered
-            this.newstations = response.data.stations;
-            console.log("aggiunta station " + this.newstations);
+            if (response.data) {
+              this.$alert("Data added correctly.", "Edit", "success").then(
+                () => {
+                  //this.dialog = false; // Hide this edit dialog.
+                  this.newstations = response.data.stations;
+                  console.log("aggiunta station " + this.newstations);
+                }
+              );
+            }
 
             //TODO vedere come visualizzare bene posizione
           })
