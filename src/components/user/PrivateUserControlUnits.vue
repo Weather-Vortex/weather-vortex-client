@@ -168,13 +168,18 @@ export default {
         this.descriptions = this.feedbacks.map((e) => e.description);
         this.id = this.feedbacks.map((e) => e._id);
         console.log("Feedbacks id are: " + this.id);*/
-        this.stations = this.feedbacks.map((mapped) => {
+        this.id = this.stations.map((e) => e._id);
+        console.log("stations id are  " + this.id);
+        this.stations = this.stations.map((mapped) => {
+          const idSta = mapped._id;
           const name = mapped.name;
-          const authKey = mapped.authKey;
+          const authkey = mapped.authKey;
           const position = mapped.position.locality;
+          mapped._id = idSta;
           mapped.name = name;
-          mapped.authkey = authKey;
+          mapped.authKey = authkey;
           mapped.position.locality = position;
+          console.log("mapped is mapped " + mapped, idSta, authkey);
           return mapped;
         });
       })
@@ -196,6 +201,18 @@ export default {
       this.editedIndex = this.stations.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialogDelete = true;
+      const server = process.env.VUE_APP_SERVER_URL;
+      let url = `${server}/stations/${this.editedItem._id}`;
+      this.$http
+        .delete(url, { withCredentials: true })
+        .then((response) => {
+          if (response.data) {
+            this.stations = response.data.stations;
+          }
+        })
+        .catch((error) => {
+          console.error(error.data);
+        });
     },
     deleteItemConfirm() {
       this.stations.splice(this.editedIndex, 1);
@@ -219,9 +236,9 @@ export default {
       const server = process.env.VUE_APP_SERVER_URL;
       if (this.editedIndex > -1) {
         //update
-
-        console.log("Sto id?" + this.editedIndex);
-        let url = `${server}/stations/${this.editedIndex}`;
+        const server = process.env.VUE_APP_SERVER_URL;
+        console.log("Sto id?" + this.editedItem._id);
+        let url = `${server}/stations/${this.editedItem._id}`;
         let content = {
           authKey: this.editedItem.authkey,
           name: this.editedItem.name,
@@ -250,6 +267,7 @@ export default {
             /*{ success: false, message: "Update user error", error: err }*/
             console.error(error.data);
           });
+
         Object.assign(this.stations[this.editedIndex], this.editedItem);
       } else {
         let url = `${server}/stations`;
