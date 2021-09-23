@@ -270,6 +270,7 @@ export default {
 
         Object.assign(this.stations[this.editedIndex], this.editedItem);
       } else {
+        this.stations.push(this.editedItem);
         let url = `${server}/stations`;
         console.log("Current edit item:", this.editedItem);
         let content = {
@@ -287,7 +288,7 @@ export default {
             //E' stato creato, registered
             this.newstations = response.data.stations;
             console.log("aggiunta station " + this.newstations);
-            this.stations.push(this.editedItem);
+
             //TODO vedere come visualizzare bene posizione
           })
           .catch((error) => {
