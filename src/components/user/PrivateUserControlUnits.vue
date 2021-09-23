@@ -201,6 +201,8 @@ export default {
       this.editedIndex = this.stations.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialogDelete = true;
+    },
+    deleteItemConfirm() {
       const server = process.env.VUE_APP_SERVER_URL;
       let url = `${server}/stations/${this.editedItem._id}`;
       this.$http
@@ -213,8 +215,6 @@ export default {
         .catch((error) => {
           console.error(error.data);
         });
-    },
-    deleteItemConfirm() {
       this.stations.splice(this.editedIndex, 1);
       this.closeDelete();
     },
