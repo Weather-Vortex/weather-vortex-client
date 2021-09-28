@@ -6,18 +6,25 @@
           <v-slide-item
             v-for="day in days"
             :key="day.val"
-            v-slot="{ active, toggle }"
+            v-slot="{ active, toogle }"
           >
-            <v-btn
-              class="mx-2"
-              :input-value="active"
-              active-class="purple white--text"
-              depressed
-              rounded
-              @click="toggle"
-            >
-              {{ day.label }}
-            </v-btn>
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  class="mx-2"
+                  active-class="purple white--text"
+                  depressed
+                  rounded
+                  v-bind="attrs"
+                  v-on="on"
+                  :input-value="active"
+                  @click="toggle"
+                >
+                  {{ day.label }}
+                </v-btn>
+              </template>
+              <span>{{ day.tooltip }}</span>
+            </v-tooltip>
           </v-slide-item>
         </v-slide-group>
       </v-col>
@@ -162,9 +169,13 @@ export default {
       day: 0, // Day selected.
       days: [
         // Days values.
-        { val: 0, label: "Today" },
-        { val: 1, label: "Tomorrow" },
-        { val: 2, label: "In 2 days" },
+        { val: 0, label: "Today", tooltip: "Forecast for Today" },
+        { val: 1, label: "Tomorrow", tooltip: " Forecast for Tomorrow" },
+        {
+          val: 2,
+          label: "In 2 days",
+          tooltip: "Forecast for The day after tomorrow",
+        },
       ],
       time: 0, // Selected time.
       fetching: 0, // Missing providers.
