@@ -3,13 +3,9 @@
     <v-row>
       <v-col>
         <v-slide-group v-model="day" show-arrows center-active>
-          <v-slide-item
-            v-for="day in days"
-            :key="day.val"
-            v-slot="{ active, toogle }"
-          >
+          <v-slide-item v-for="day in days" :key="day.val" v-slot="{}">
             <v-tooltip top>
-              <template v-slot:activator="{ on, attrs }">
+              <template v-slot:activator="{ on, attrs, active, toggle }">
                 <v-btn
                   class="mx-2"
                   active-class="purple white--text"
@@ -17,8 +13,8 @@
                   rounded
                   v-bind="attrs"
                   v-on="on"
-                  :input-value="active"
                   @click="toggle"
+                  :input-value="active"
                 >
                   {{ day.label }}
                 </v-btn>
