@@ -3,9 +3,13 @@
     <v-row>
       <v-col>
         <v-slide-group v-model="day" show-arrows center-active>
-          <v-slide-item v-for="day in days" :key="day.val" v-slot="{}">
+          <v-slide-item
+            v-for="day in days"
+            :key="day.val"
+            v-slot:default="{ active, toggle }"
+          >
             <v-tooltip top>
-              <template v-slot:activator="{ on, attrs, active, toggle }">
+              <template v-slot:activator="{ on, attrs }">
                 <v-btn
                   class="mx-2"
                   active-class="purple white--text"
