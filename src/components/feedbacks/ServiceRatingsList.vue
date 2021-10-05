@@ -17,10 +17,9 @@
           </v-list-item-avatar>
 
           <v-list-item-content>
-            <v-list-item-title
-              >{{ item.user.firstName
-              }}{{ " " + item.user.lastName }}</v-list-item-title
-            >
+            <v-list-item-title>
+              {{ item.name }}
+            </v-list-item-title>
           </v-list-item-content>
 
           <v-rating
@@ -51,29 +50,9 @@ export default {
       "primary lighten-2",
       "primary darken-1",
     ],
-    names: [
-      "Mario",
-      "Luigi",
-      "Igor",
-      "Matteo",
-      "Silvia",
-      "Sara",
-      "Alessandro",
-      "Daniele",
-    ],
-    surnames: [
-      "Rossi",
-      "Bianchi",
-      "Verdi",
-      "De Vito",
-      "Allegri",
-      "Neri",
-      "Michelangeli",
-    ],
   }),
-
   computed: {
-    feedbacks: function() {
+    feedbacks: function () {
       return this.title.feedbacks.map((mapped) => {
         const firstName = mapped.user.firstName.charAt(0);
         const lastName = mapped.user.lastName.charAt(0);
@@ -81,6 +60,7 @@ export default {
         mapped.initials = initials;
         const colorsLength = this.colors.length;
         mapped.color = this.colors[this.genRandomIndex(colorsLength)];
+        mapped.name = `${firstName} ${lastName}`;
         return mapped;
       });
     },
