@@ -95,7 +95,7 @@ export default {
         const { data } = await this.$http.get(this.url);
         this.status = data.result === "ok";
       } catch (error) {
-        console.error("Check Status Error:", error);
+        console.error("Check %s(%s) Error:", this.name, this.url, error);
         this.status = false;
         this.error = error.message;
       } finally {
