@@ -59,7 +59,7 @@ export default {
       return this.$route.params.locality ?? "Forecasts";
     },
   },
-  data: function () {
+  data: function() {
     return {
       selected: "justify",
       isLoading: false,
@@ -82,9 +82,22 @@ export default {
     };
   },
   methods: {
-    getPosition() {
-      console.log("Get position");
-      alert("Get position");
+    getPosition: function() {
+      navigator.geolocation.getCurrentPosition(this.showPosition, this.error);
+    },
+    showPosition: function(position) {
+      this.lat = position.coords.latitude;
+      this.lon = position.coords.longitude;
+      this.locality = "{" + this.lat + "," + this.lon + "}";
+    },
+    error: function(error) {
+      if (error.code == error.PERMISSION_DENIED) {
+        this.$alert(
+          "You have to turn on the permission to access your location!"
+        );
+      } else {
+        this.$alert("Geolocation error");
+      }
     },
   },
   mounted() {

@@ -1,7 +1,7 @@
 {
   "name": "weather-vortex-client",
   "homepage": "https://weather-vortex.github.io/weather-vortex-client/",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
