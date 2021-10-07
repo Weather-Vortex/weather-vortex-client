@@ -117,7 +117,6 @@ export default {
         value: "name",
       },
       { text: "Position", value: "position" },
-      { text: "AuthKey", value: "authkey" },
       { text: "Url", value: "url" },
       { text: "Actions", value: "actions", sortable: false },
     ],
@@ -242,7 +241,6 @@ export default {
         console.log("Sto id?" + this.editedItem._id);
         let url = `${server}/stations/${this.editedItem._id}`;
         let content = {
-          authKey: this.editedItem.authkey,
           name: this.editedItem.name,
           // owner: this.editedItem.user,
           position: {
@@ -250,6 +248,7 @@ export default {
           },
           url: this.editedItem.url,
         };
+        console.log("Contenuto: ", content);
         this.$http
           .put(url, content, { withCredentials: true })
           .then((response) => {
@@ -265,22 +264,27 @@ export default {
           })
           .catch((error) => {
             const title = "<strong>Update</strong>&nbsp;error";
-            this.$alert("Update station error", title, "success:false");
+            this.$alert("Update station error", title, "error");
             /*{ success: false, message: "Update user error", error: err }*/
-            console.error(error.data);
+            console.error("error, ", error);
           });
 
         Object.assign(this.stations[this.editedIndex], this.editedItem);
       } else {
         let url = `${server}/stations`;
         console.log("Current edit item:", this.editedItem);
+        var pos = {
+          locality: this.editedItem.position,
+        };
+        let posit = JSON.stringify(pos);
+        let newPos = posit.substring(13, posit.length - 2);
+        console.log("ciao is: " + posit + " " + newPos);
         let content = {
           authKey: this.editedItem.authkey,
           name: this.editedItem.name,
           // owner: this.editedItem.user,
-          position: {
-            locality: this.editedItem.position,
-          },
+          position: newPos,
+
           url: this.editedItem.url,
         };
         this.$http

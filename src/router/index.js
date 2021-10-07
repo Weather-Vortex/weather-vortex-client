@@ -127,10 +127,10 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const cookies = document.cookie.split("; ");
-  const auth = cookies.find((row) => row.startsWith("auth="));
+  //const cookies = document.cookie.split("; ");
+  //const auth = cookies.find((row) => row.startsWith("auth="));
   if (to.matched.some((record) => record.meta.requiresAuth)) {
-    if (auth === undefined) {
+    if (router.app.$store.getters.isAuthenticated == false) {
       next({
         path: "/login",
         params: { nextUrl: to.fullPath },
@@ -139,7 +139,7 @@ router.beforeEach((to, from, next) => {
       next();
     }
   } else if (to.matched.some((record) => record.meta.guest)) {
-    if (auth === undefined) {
+    if (router.app.$store.getters.isAuthenticated == false) {
       next();
     } else {
       next({ name: "Personal Profile" });
