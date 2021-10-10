@@ -277,8 +277,12 @@ export default {
           locality: this.editedItem.position,
         };
         let posit = JSON.stringify(pos);
+        //{"locality":"Rimini"}
         let newPos = posit.substring(13, posit.length - 2);
-        console.log("ciao is: " + posit + " " + newPos);
+        console.log(
+          "ciao is: " + posit + " " + newPos,
+          "type is " + typeof newPos
+        );
         let content = {
           authKey: this.editedItem.authkey,
           name: this.editedItem.name,
@@ -290,6 +294,7 @@ export default {
         this.$http
           .post(url, content, { withCredentials: true })
           .then((response) => {
+            this.stations.push(this.editedItem);
             //E' stato creato, registered
             if (response.data) {
               this.$alert("Data added correctly.", "Edit", "success").then(
@@ -308,7 +313,6 @@ export default {
             const title = "<strong></strong>&nbsp;Error";
             this.$alert("Error in adding the station!", title, "error"); // or here
           });
-        this.stations.push(this.editedItem);
       }
       this.close();
     },
