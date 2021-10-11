@@ -9,7 +9,7 @@
       :item-height="50"
     >
       <template v-slot:default="{ item }">
-        <v-list-item class="pa-0 ma-1">
+        <v-list-item router :to="item.route" class="pa-0 ma-1">
           <v-list-item-avatar class="pa-0 ma-1">
             <v-avatar :color="item.color" size="40" class="white--text">
               {{ item.initials }}
@@ -61,6 +61,7 @@ export default {
         const colorsLength = this.colors.length;
         mapped.color = this.colors[this.genRandomIndex(colorsLength)];
         mapped.name = `${firstName} ${lastName}`;
+        mapped.route = `/user/public/${mapped.user._id}`;
         return mapped;
       });
     },
