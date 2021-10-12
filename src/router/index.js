@@ -122,7 +122,7 @@ router.beforeEach((to, from, next) => {
   const auth = router.app.$store.getters.isAuthenticated;
   if (to.matched.some((record) => record.meta.requiresAuth)) {
     if (auth !== true) {
-      console.warning("Forced redirection to login.");
+      console.warn("Forced redirection to login.");
       next({
         path: "/login",
         params: { nextUrl: to.fullPath },
@@ -134,7 +134,7 @@ router.beforeEach((to, from, next) => {
     if (auth !== true) {
       next();
     } else {
-      console.warning("Forced redirection to personal profile.");
+      console.warn("Forced redirection to personal profile.");
       next({ name: "Personal Profile" });
     }
   } else {
