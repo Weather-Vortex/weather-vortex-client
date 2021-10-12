@@ -38,19 +38,15 @@ export default {
         return "";
       }
 
-      if (this.user === null) {
-        return "";
-      }
-
       const firstName = this.user.firstName.charAt(0);
       const lastName = this.user.lastName.charAt(0);
       return `${firstName}${lastName}`;
     },
     firstName: function () {
-      return this.user.firstName;
+      return this.user?.firstName ?? "";
     },
     lastName: function () {
-      return this.user.lastName;
+      return this.user?.lastName ?? "";
     },
   },
   data: function () {
