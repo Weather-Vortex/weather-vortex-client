@@ -95,13 +95,8 @@ const routes = [
         },
       },
       {
-        path: "public",
-        children: [
-          {
-            path: ":id",
-            component: () => import("../views/users/PublicProfile.vue"),
-          },
-        ],
+        path: "public/:id",
+        component: () => import("../views/users/PublicProfile.vue"),
       },
       {
         path: "confirm",
@@ -124,10 +119,10 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const cookies = document.cookie.split("; ");
-  const auth = cookies.find((row) => row.startsWith("auth="));
+  const auth = router.app.$store.getters.isAuthenticated;
   if (to.matched.some((record) => record.meta.requiresAuth)) {
-    if (auth === undefined) {
+    if (auth !== true) {
+      console.warning("Forced redirection to login.");
       next({
         path: "/login",
         params: { nextUrl: to.fullPath },
@@ -136,12 +131,14 @@ router.beforeEach((to, from, next) => {
       next();
     }
   } else if (to.matched.some((record) => record.meta.guest)) {
-    if (auth === undefined) {
+    if (auth !== true) {
       next();
     } else {
+      console.warning("Forced redirection to personal profile.");
       next({ name: "Personal Profile" });
     }
   } else {
+    console.log("Next", to);
     next();
   }
 });
