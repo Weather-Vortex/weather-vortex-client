@@ -12,11 +12,33 @@ export default {
   name: "PublicUserReviews",
   created() {
     const server = process.env.VUE_APP_SERVER_URL;
-    let url = `${server}/feedbacks/`;
+    console.log("Prova id utente:", this.userId);
+    let url = `${server}/users/${"615dfee69aa9e20b103fc883"}/feedbacks`;
     this.$http
       .get(url)
       .then((response) => {
-        this.reviews = response.data.results;
+        this.feeds = response.data.feedbacks;
+        console.log("Li stampa?" + this.feedbacks);
+        this.reviews = this.feeds.map((mapped) => {
+          const providers = mapped.provider.name;
+          const ratings = mapped.rating;
+          const descriptions = mapped.description;
+
+          mapped.providers = providers;
+          mapped.ratings = ratings;
+          mapped.descriptions = descriptions;
+          console.log(mapped.rating);
+          console.log("mapped", mapped, "++", mapped.provider.name);
+          return mapped;
+        });
+        console.log(
+          " All ratings: " +
+            this.providers +
+            ", All providers: " +
+            this.providers +
+            ", All descriptions: " +
+            this.descriptions
+        );
         //this.feedbacks = response.data.results[0].feedbacks[0].rating;
         //console.log("rating:" + this.feedbacks);
       })
@@ -31,31 +53,12 @@ export default {
           text: "Provider",
           align: "start",
           sortable: true,
-          value: "name",
+          value: "providers",
         },
-        { text: "Id", value: "_id" },
-        { text: "Vote", value: "rating" },
-        //prendere la description TODO
-        //metti anche la colonna del voto QUI!!!!
-        { text: "Comment", value: "feedbacks.description" },
+        { text: "Vote", value: "ratings" },
+        { text: "Comment", value: "descriptions" },
       ],
-      reviews: [
-        /*  {
-          name: "OpenWeatherMap",
-          vote: "5 stelle",
-          comment: "wonderfu7l",
-        },
-        {
-          name: "Arcobaleno",
-          vote: "5 stelle",
-          comment: "wonderfu7l",
-        },
-        {
-          name: "Arcobaleno",
-          vote: "5 stelle",
-          comment: "wonderfu7l",
-        },*/
-      ],
+      reviews: [],
     };
   },
 };

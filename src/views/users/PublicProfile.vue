@@ -20,20 +20,32 @@
     </v-row>
     <v-row no-gutters>
       <v-col md="4" class="pa-md-10 mx-lg-auto">
-        {{ userId }}
+        Stations of {{ this.firstName }}
       </v-col>
       <v-col md="4" offset-md="4" class="pa-md-10 mx-lg-auto">
-        {{ userId }}
-      </v-col>
-    </v-row>
+        Feedbaks of {{ this.firstName }}{{ this.userId }}
+      </v-col> </v-row
+    ><v-container>
+      <v-row class="mb-3" no-gutters>
+        <v-col md="4" class="pa-md-10 mx-lg-auto">
+          <PublicUserControlUnits :idUser="userId" />
+        </v-col>
+        <v-col md="4" offset-md="4" class="pa-md-10 mx-lg-auto">
+          <PublicUserReviews :idUser="userId" />
+        </v-col>
+      </v-row>
+    </v-container>
   </v-container>
 </template>
 
 <script>
+import PublicUserControlUnits from "@/components/user/PublicUserControlUnits";
+import PublicUserReviews from "@/components/user/PublicUserReviews";
 export default {
   name: "PublicProfile",
+  components: { PublicUserControlUnits, PublicUserReviews },
   computed: {
-    initials: function () {
+    initials: function() {
       if (!this.user) {
         return "";
       }
@@ -42,20 +54,22 @@ export default {
       const lastName = this.user.lastName.charAt(0);
       return `${firstName}${lastName}`;
     },
-    firstName: function () {
+    firstName: function() {
       return this.user?.firstName ?? "";
     },
-    lastName: function () {
+    lastName: function() {
       return this.user?.lastName ?? "";
     },
   },
-  data: function () {
+  data: function() {
     return {
       user: null,
       userId: this.$route.params.id,
     };
   },
   methods: {
+    loadFeedbacks() {},
+    loadStations() {},
     loadUser() {
       const server = process.env.VUE_APP_SERVER_URL;
       const url = `${server}/users/${this.userId}`;
@@ -72,6 +86,8 @@ export default {
   },
   mounted() {
     this.loadUser();
+    this.loadFeedbacks();
+    this.loadStations();
   },
 };
 </script>
