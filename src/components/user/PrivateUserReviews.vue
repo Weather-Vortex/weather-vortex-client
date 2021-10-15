@@ -108,7 +108,6 @@ export default {
           mapped.providers = providers;
           mapped.ratings = ratings;
           mapped.descriptions = descriptions;
-          console.log("mapped is", mapped);
           return mapped;
         });
 
