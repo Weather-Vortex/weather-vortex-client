@@ -13,12 +13,11 @@ export default {
   created() {
     const server = process.env.VUE_APP_SERVER_URL;
     console.log("Prova id utente:", this.userId);
-    let url = `${server}/users/${"615dfee69aa9e20b103fc883"}/feedbacks`;
+    let url = `${server}/users/${this.userId}/feedbacks`;
     this.$http
       .get(url)
       .then((response) => {
         this.feeds = response.data.feedbacks;
-        console.log("Li stampa?" + this.feedbacks);
         this.reviews = this.feeds.map((mapped) => {
           const providers = mapped.provider.name;
           const ratings = mapped.rating;
@@ -27,20 +26,10 @@ export default {
           mapped.providers = providers;
           mapped.ratings = ratings;
           mapped.descriptions = descriptions;
-          console.log(mapped.rating);
-          console.log("mapped", mapped, "++", mapped.provider.name);
+          /*console.log(mapped.rating);
+          console.log("mapped", mapped, "++", mapped.provider.name);*/
           return mapped;
         });
-        console.log(
-          " All ratings: " +
-            this.providers +
-            ", All providers: " +
-            this.providers +
-            ", All descriptions: " +
-            this.descriptions
-        );
-        //this.feedbacks = response.data.results[0].feedbacks[0].rating;
-        //console.log("rating:" + this.feedbacks);
       })
       .catch((error) => {
         console.error(error.data);
@@ -48,6 +37,7 @@ export default {
   },
   data() {
     return {
+      userId: this.$route.params.id,
       headers: [
         {
           text: "Provider",

@@ -1,41 +1,55 @@
 <template>
   <v-data-table
     :headers="headers"
-    :items="controlunits"
+    :items="stations"
     :items-per-page="5"
     class="elevation-1"
-    ><p>{{ idUser }}</p>
-  </v-data-table>
+  ></v-data-table>
 </template>
 
 <script>
 export default {
-  name: "privateUserControlUnits",
+  name: "PublicUserReviews",
+  created() {
+    const server = process.env.VUE_APP_SERVER_URL;
+    console.log("Prova id utente:", this.userId);
+    let url = `${server}/users/${this.userId}/stations`;
+    this.$http
+      .get(url)
+      .then((response) => {
+        this.stats = response.data.stations;
+        console.log("stampa stations?" + this.stats);
+        this.stations = this.stats.map((mapped) => {
+          console.log(mapped.url, mapped.position);
+          const name = mapped.name;
+          const position = mapped.position.locality;
+          const url = mapped.url;
+
+          mapped.name = name;
+          mapped.position.locality = position;
+          mapped.url = url;
+          console.log("mapped is stations :", mapped);
+          return mapped;
+        });
+      })
+      .catch((error) => {
+        console.error(error.data);
+      });
+  },
   data() {
     return {
+      userId: this.$route.params.id,
       headers: [
         {
-          text: "Control Unit name",
+          text: "Station Name",
           align: "start",
-          sortable: false,
+          sortable: true,
           value: "name",
         },
         { text: "Position", value: "position" },
+        { text: "Url", value: "url" },
       ],
-      controlunits: [
-        {
-          name: "Arcobaleno",
-          position: "Cesena",
-        },
-        {
-          name: "Mira il mare",
-          position: "Rimini",
-        },
-        {
-          name: "Erclair",
-          position: "Venezia",
-        },
-      ],
+      stations: [],
     };
   },
 };

@@ -13,6 +13,11 @@
                 [{{ this.initials }}] {{ this.lastName }} {{ this.firstName }}
               </h3>
             </v-card-title>
+            <v-card-title class="white--text">
+              <h3 class="font-weight-bold">
+                Località preferità:[{{ this.user.preferred }}]
+              </h3>
+            </v-card-title>
           </v-img>
         </v-card>
       </v-col>
@@ -23,15 +28,15 @@
         Stations of {{ this.firstName }}
       </v-col>
       <v-col md="4" offset-md="4" class="pa-md-10 mx-lg-auto">
-        Feedbaks of {{ this.firstName }}{{ this.userId }}
+        Feedbaks of {{ this.firstName }}
       </v-col> </v-row
     ><v-container>
       <v-row class="mb-3" no-gutters>
         <v-col md="4" class="pa-md-10 mx-lg-auto">
-          <PublicUserControlUnits :idUser="userId" />
+          <PublicUserControlUnits />
         </v-col>
         <v-col md="4" offset-md="4" class="pa-md-10 mx-lg-auto">
-          <PublicUserReviews :idUser="userId" />
+          <PublicUserReviews />
         </v-col>
       </v-row>
     </v-container>
@@ -68,8 +73,6 @@ export default {
     };
   },
   methods: {
-    loadFeedbacks() {},
-    loadStations() {},
     loadUser() {
       const server = process.env.VUE_APP_SERVER_URL;
       const url = `${server}/users/${this.userId}`;
@@ -78,6 +81,7 @@ export default {
         .then((res) => {
           console.log("Result:", res.data);
           this.user = res.data;
+          console.log("Località preferita,", this.user.preferred);
         })
         .catch((error) => {
           console.log("Error:", error);
@@ -86,8 +90,6 @@ export default {
   },
   mounted() {
     this.loadUser();
-    this.loadFeedbacks();
-    this.loadStations();
   },
 };
 </script>
