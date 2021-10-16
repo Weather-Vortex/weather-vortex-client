@@ -15,9 +15,7 @@
     </v-img>
 
     <v-card-text>
-      <div class="font-weight-bold ml-8 mb-2">
-        Details
-      </div>
+      <div class="font-weight-bold ml-8 mb-2">Details</div>
 
       <v-list two-line class="blue lighten-5">
         <v-list-item>
@@ -82,26 +80,26 @@ export default {
   components: { EditDialog },
   name: "privateProfileCard",
   computed: {
-    userInit: function() {
+    userInit: function () {
       return this.$store.getters.initials;
     },
-    firstName: function() {
+    firstName: function () {
       if (this.profile) return this.profile.firstName;
       return "";
     },
-    lastName: function() {
+    lastName: function () {
       if (this.profile) return this.profile.lastName;
       return "";
     },
-    email: function() {
+    email: function () {
       if (this.profile) return this.profile.email;
       return "";
     },
-    creationDate: function() {
+    creationDate: function () {
       if (this.profile) return this.profile.createdDate;
       return "";
     },
-    preferred: function() {
+    preferred: function () {
       if (this.profile) {
         if (this.profile.location) return this.profile.preferred.location;
         else return this.profile.preferred.position;
@@ -119,10 +117,13 @@ export default {
     this.getProfile();
   },
   methods: {
-    getProfile: function() {
-      const auth = this.$cookies.get("auth");
-      if (!auth) {
-        this.$router.push("/user/login");
+    getProfile: function () {
+      const isAuth = this.$store.getters.isAuthenticated;
+      console.log("IsAuth:", isAuth);
+      if (!isAuth) {
+        this.$alert("Missing authentication info.").then(() =>
+          this.$router.push("/user/login")
+        );
       }
       const server = process.env.VUE_APP_SERVER_URL;
       let url = `${server}/auth/profile`;
