@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mx-4 my-1" :loading="loading" elevation="1">
+  <v-card class="mx-2 my-1" :loading="loading" elevation="1">
     <template slot="progress">
       <v-progress-linear
         color="deep-purple"
