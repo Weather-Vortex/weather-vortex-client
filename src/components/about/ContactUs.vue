@@ -90,7 +90,10 @@ export default {
   }),
   methods: {
     submitForm() {
-      this.$refs.form.validate();
+      if (this.$refs.form.validate()) {
+        //TODO collegamento server
+        this.$alert("The request has been sent", "Success", "success");
+      }
     },
   },
 };
