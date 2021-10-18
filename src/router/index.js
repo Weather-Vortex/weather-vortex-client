@@ -124,17 +124,10 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-<<<<<<< HEAD
-  //const cookies = document.cookie.split("; ");
-  //const auth = cookies.find((row) => row.startsWith("auth="));
-  if (to.matched.some((record) => record.meta.requiresAuth)) {
-    if (router.app.$store.getters.isAuthenticated == false) {
-=======
   const auth = router.app.$store.getters.isAuthenticated;
   if (to.matched.some((record) => record.meta.requiresAuth)) {
     if (auth !== true) {
       console.warn("Forced redirection to login.");
->>>>>>> dev
       next({
         path: "/login",
         params: { nextUrl: to.fullPath },
@@ -143,11 +136,7 @@ router.beforeEach((to, from, next) => {
       next();
     }
   } else if (to.matched.some((record) => record.meta.guest)) {
-<<<<<<< HEAD
-    if (router.app.$store.getters.isAuthenticated == false) {
-=======
     if (auth !== true) {
->>>>>>> dev
       next();
     } else {
       console.warn("Forced redirection to personal profile.");
