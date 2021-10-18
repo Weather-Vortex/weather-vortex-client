@@ -100,7 +100,7 @@ export default {
             text: this.text,
           })
           .then((response) => {
-            this.$alert("The form is being submitted!", "Success", "success");
+            this.$alert("The email has been sent!", "Success", "success");
             //Submitted
             console.log(response);
           })
