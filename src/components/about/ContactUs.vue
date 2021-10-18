@@ -91,8 +91,29 @@ export default {
   methods: {
     submitForm() {
       if (this.$refs.form.validate()) {
-        //TODO collegamento server
-        this.$alert("The request has been sent", "Success", "success");
+        const server = process.env.VUE_APP_SERVER_URL;
+        let url = `${server}/users/contact`;
+        this.$http
+          .post(url, {
+            email: this.email,
+            select: this.select,
+            text: this.text,
+          })
+          .then((response) => {
+            //Submitted
+            console.log("Ce la fai form?", response);
+            this.$alert("The form is being submitted!", "Success", "success");
+          })
+          .catch((error) => {
+            const title = "<strong>Submission</strong>&nbsp;error";
+
+            this.$alert(
+              "Error during the submission of the form",
+              title,
+              "error"
+            ); // or here
+            console.log(error);
+          });
       }
     },
   },
