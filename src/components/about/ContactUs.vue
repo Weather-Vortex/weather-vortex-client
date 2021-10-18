@@ -100,9 +100,9 @@ export default {
             text: this.text,
           })
           .then((response) => {
-            //Submitted
-            console.log("Ce la fai form?", response);
             this.$alert("The form is being submitted!", "Success", "success");
+            //Submitted
+            console.log(response);
           })
           .catch((error) => {
             const title = "<strong>Submission</strong>&nbsp;error";
