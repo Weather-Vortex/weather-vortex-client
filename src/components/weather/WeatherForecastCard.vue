@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mx-4 my-1" :loading="loading" elevation="1">
+  <v-card class="mx-2 my-1" :loading="loading" elevation="1">
     <template slot="progress">
       <v-progress-linear
         color="deep-purple"
@@ -34,7 +34,19 @@ export default {
       return typeof this.data === "undefined" || this.data === null;
     },
     types: function () {
-      return [
+      // Build the array of card items. Each items contains label, icon, tooltip and value to show.
+      let t =
+        process.env.NODE_ENV !== "production"
+          ? [
+              {
+                icon: "",
+                title: "Time",
+                tooltip: this.$props.data.time.toLocaleString(),
+                value: this.$props.data.time.toLocaleString(),
+              },
+            ]
+          : [];
+      t.push(
         {
           icon: this.$props.data.weatherIcon,
           title: "Weather",
@@ -45,30 +57,35 @@ export default {
           icon: "mdi-thermometer",
           title: "Temperature",
           tooltip: "Real Temperature",
+          unit: "°C",
           value: this.$props.data.temp,
         },
         {
           icon: "mdi-thermometer-minus",
           title: "Min Temperature",
           tooltip: "Minimal Temperature",
+          unit: "°C",
           value: this.$props.data.tempMin,
         },
         {
           icon: "mdi-thermometer-plus",
           title: "Max Temperature",
           tooltip: "Maximum Temperature",
+          unit: "°C",
           value: this.$props.data.tempMax,
         },
         {
           icon: "mdi-thermometer",
           title: "Pressure",
           tooltip: "Pressure",
+          unit: "bar",
           value: this.$props.data.pressure,
         },
         {
           icon: "mdi-water-percent",
           title: "Humidity",
           tooltip: "Humidity",
+          unit: "%",
           value: this.$props.data.humidity,
         },
         {
@@ -88,8 +105,9 @@ export default {
           title: "Snow",
           tooltip: "Snow level",
           value: this.$props.data.snow,
-        },
-      ];
+        }
+      );
+      return t;
     },
   },
   props: {

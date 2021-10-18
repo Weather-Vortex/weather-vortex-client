@@ -95,13 +95,8 @@ const routes = [
         },
       },
       {
-        path: "public",
-        children: [
-          {
-            path: ":id",
-            component: () => import("../views/users/PublicProfile.vue"),
-          },
-        ],
+        path: "public/:id",
+        component: () => import("../views/users/PublicProfile.vue"),
       },
       {
         path: "confirm",
@@ -123,14 +118,23 @@ const routes = [
 ];
 
 const router = new VueRouter({
+  mode: "history",
+  base: process.env.BASE_URL,
   routes,
 });
 
 router.beforeEach((to, from, next) => {
+<<<<<<< HEAD
   //const cookies = document.cookie.split("; ");
   //const auth = cookies.find((row) => row.startsWith("auth="));
   if (to.matched.some((record) => record.meta.requiresAuth)) {
     if (router.app.$store.getters.isAuthenticated == false) {
+=======
+  const auth = router.app.$store.getters.isAuthenticated;
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    if (auth !== true) {
+      console.warn("Forced redirection to login.");
+>>>>>>> dev
       next({
         path: "/login",
         params: { nextUrl: to.fullPath },
@@ -139,12 +143,18 @@ router.beforeEach((to, from, next) => {
       next();
     }
   } else if (to.matched.some((record) => record.meta.guest)) {
+<<<<<<< HEAD
     if (router.app.$store.getters.isAuthenticated == false) {
+=======
+    if (auth !== true) {
+>>>>>>> dev
       next();
     } else {
+      console.warn("Forced redirection to personal profile.");
       next({ name: "Personal Profile" });
     }
   } else {
+    console.log("Next", to);
     next();
   }
 });

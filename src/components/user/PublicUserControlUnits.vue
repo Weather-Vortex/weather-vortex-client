@@ -1,7 +1,7 @@
 <template>
   <v-data-table
     :headers="headers"
-    :items="reviews"
+    :items="stations"
     :items-per-page="5"
     class="elevation-1"
   ></v-data-table>
@@ -13,21 +13,22 @@ export default {
   created() {
     const server = process.env.VUE_APP_SERVER_URL;
     console.log("Prova id utente:", this.userId);
-    let url = `${server}/users/${this.userId}/feedbacks`;
+    let url = `${server}/users/${this.userId}/stations`;
     this.$http
       .get(url)
       .then((response) => {
-        this.feeds = response.data.feedbacks;
-        this.reviews = this.feeds.map((mapped) => {
-          const providers = mapped.provider.name;
-          const ratings = mapped.rating;
-          const descriptions = mapped.description;
+        this.stats = response.data.stations;
+        console.log("stampa stations?" + this.stats);
+        this.stations = this.stats.map((mapped) => {
+          console.log(mapped.url, mapped.position);
+          const name = mapped.name;
+          const position = mapped.position.locality;
+          const url = mapped.url;
 
-          mapped.providers = providers;
-          mapped.ratings = ratings;
-          mapped.descriptions = descriptions;
-          /*console.log(mapped.rating);
-          console.log("mapped", mapped, "++", mapped.provider.name);*/
+          mapped.name = name;
+          mapped.position.locality = position;
+          mapped.url = url;
+          console.log("mapped is stations :", mapped);
           return mapped;
         });
       })
@@ -40,15 +41,15 @@ export default {
       userId: this.$route.params.id,
       headers: [
         {
-          text: "Provider",
+          text: "Station Name",
           align: "start",
           sortable: true,
-          value: "providers",
+          value: "name",
         },
-        { text: "Vote", value: "ratings" },
-        { text: "Comment", value: "descriptions" },
+        { text: "Position", value: "position" },
+        { text: "Url", value: "url" },
       ],
-      reviews: [],
+      stations: [],
     };
   },
 };

@@ -4,7 +4,8 @@
     <v-card-text>
       <h3 class="font-weight-bold">
         Ask for Weather Forecast quickly using this form. Input your location
-        and click on the FORECAST button.
+        and click on the FORECAST button. Click on mark icon to get your current
+        geolocation position.
       </h3>
     </v-card-text>
     <v-card-actions>
@@ -14,13 +15,12 @@
             <v-text-field
               id="quick-forecast-text-field"
               full-width
-              label="Locality"
+              label="Location"
               :loading="isLoading"
-              placeholder="Locality"
+              placeholder="Insert location"
               single-line
               type="text"
-              v-model="message"
-              @click:append="navigate"
+              v-model="location"
             >
               <template v-slot:append>
                 <v-fade-transition leave-absolute>
@@ -39,13 +39,17 @@
         <v-row>
           <v-col>
             <v-spacer></v-spacer>
-            <v-btn
-              color="success"
-              id="quick-forecast-search-button"
-              text
-              @click="navigate"
-              >Forecast!</v-btn
-            ><v-spacer></v-spacer>
+            <v-btn-toggle v-model="selected">
+              <v-btn
+                v-for="item in items"
+                :key="item.title"
+                :value="item.route"
+              >
+                <span class="hidden-xs-and-down">{{ item.description }}</span>
+                <v-icon right>{{ item.icon }}</v-icon>
+              </v-btn>
+            </v-btn-toggle>
+            <v-spacer></v-spacer>
           </v-col>
         </v-row>
       </v-container>
@@ -57,14 +61,31 @@
 export default {
   name: "QuickForecastCard",
   computed: {
-    isLoading() {
+    isLoading: function () {
       return this.loading === true;
     },
   },
-  data: () => ({
-    message: null,
-    loading: false,
-  }),
+  data: function () {
+    return {
+      items: [
+        {
+          name: "now",
+          description: "Now",
+          route: "Current",
+          icon: "mdi-weather-hazy",
+        },
+        {
+          name: "3days",
+          description: "3 Days",
+          route: "Three Days",
+          icon: "mdi-star",
+        },
+      ],
+      location: null,
+      loading: false,
+      selected: this.$route.name,
+    };
+  },
   methods: {
     getPosition: function () {
       navigator.geolocation.getCurrentPosition(this.showPosition, this.error);
@@ -72,22 +93,34 @@ export default {
     showPosition: function (position) {
       this.lat = position.coords.latitude;
       this.lon = position.coords.longitude;
-      this.message = "{" + this.lat + "," + this.lon + "}";
+      this.message = this.lat + "," + this.lon;
     },
     error: function (error) {
       if (error.code == error.PERMISSION_DENIED) {
         this.$alert(
-          "You have to turn on the permission to access your location!"
+          "You have to turn on the permission to access your location!",
+          "Forecast",
+          "error"
         );
       } else {
         this.$alert("Geolocation error");
       }
     },
-    navigate() {
+  },
+  watch: {
+    selected(value) {
+      // The location has to be filled.
+      if (!value || value.length === 0) {
+        return this.$alert(
+          "You have to give a location or geolocation position",
+          "Forecasts",
+          "error"
+        );
+      }
+
       this.loading = true;
-      const locality = this.message;
       try {
-        this.$router.push({ name: "LocalityForecasts", params: { locality } });
+        this.$router.push({ name: value, params: { locality: this.location } });
       } catch (error) {
         console.error("Router navigation error:", error);
       } finally {
