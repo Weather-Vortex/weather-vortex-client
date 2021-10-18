@@ -21,12 +21,12 @@
               v-bind="attrs"
               v-on="on"
             >
-              <v-icon>mdi-plus</v-icon></v-btn
-            >
+              <v-icon>mdi-plus</v-icon>
+            </v-btn>
           </template>
           <v-card>
             <v-card-title>
-              <span class="text-h5">{{ formTitle }}</span>
+              <span class="text-h5">{{ editFormTitle }}</span>
             </v-card-title>
 
             <v-card-text>
@@ -65,28 +65,24 @@
 
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="close">
-                Cancel
-              </v-btn>
-              <v-btn color="blue darken-1" text @click="save">
-                Save
-              </v-btn>
+              <v-btn color="blue darken-1" text @click="close"> Cancel </v-btn>
+              <v-btn color="blue darken-1" text @click="save"> Save </v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
         <v-dialog v-model="dialogDelete" max-width="500px">
           <v-card>
-            <v-card-title class="text-h5"
-              >Are you sure you want to delete this item?</v-card-title
-            >
+            <v-card-title class="text-h5">
+              Are you sure you want to delete this item?
+            </v-card-title>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="closeDelete"
-                >Cancel</v-btn
-              >
-              <v-btn color="blue darken-1" text @click="deleteItemConfirm"
-                >OK</v-btn
-              >
+              <v-btn color="blue darken-1" text @click="closeDelete">
+                Cancel
+              </v-btn>
+              <v-btn color="blue darken-1" text @click="deleteItemConfirm">
+                OK
+              </v-btn>
               <v-spacer></v-spacer>
             </v-card-actions>
           </v-card>
@@ -94,12 +90,8 @@
       </v-toolbar>
     </template>
     <template v-slot:[`item.actions`]="{ item }">
-      <v-icon class="mr-2" @click="editItem(item)">
-        mdi-pencil
-      </v-icon>
-      <v-icon @click="deleteItem(item)">
-        mdi-delete
-      </v-icon>
+      <v-icon class="mr-2" @click="editItem(item)"> mdi-pencil </v-icon>
+      <v-icon @click="deleteItem(item)"> mdi-delete </v-icon>
     </template>
   </v-data-table>
 </template>
@@ -116,7 +108,7 @@ export default {
         sortable: false,
         value: "name",
       },
-      { text: "Position", value: "position" },
+      { text: "Position", value: "position.locality" },
       { text: "Url", value: "url" },
       { text: "Actions", value: "actions", sortable: false },
     ],
@@ -136,7 +128,7 @@ export default {
     },
   }),
   computed: {
-    formTitle() {
+    editFormTitle() {
       return this.editedIndex === -1 ? "New Item" : "Edit Item";
     },
   },
@@ -149,11 +141,11 @@ export default {
     },
   },
   created() {
-    //populate the table
+    // Populate the table
     const server = process.env.VUE_APP_SERVER_URL;
     const user = this.$store.getters.getId;
     console.log("user: " + user);
-    let url = `${server}/users/${user}/stations`;
+    const url = `${server}/users/${user}/stations`;
     this.$http
       .get(url)
       .then((response) => {
@@ -233,86 +225,83 @@ export default {
         this.editedIndex = -1;
       });
     },
-    save() {
+    updateStation() {
+      //update
       const server = process.env.VUE_APP_SERVER_URL;
-      if (this.editedIndex > -1) {
-        //update
-        const server = process.env.VUE_APP_SERVER_URL;
-        console.log("Sto id?" + this.editedItem._id);
-        let url = `${server}/stations/${this.editedItem._id}`;
-        let content = {
-          name: this.editedItem.name,
-          // owner: this.editedItem.user,
-          position: {
-            locality: this.editedItem.position,
-          },
-          url: this.editedItem.url,
-        };
-        console.log("Contenuto: ", content);
-        this.$http
-          .put(url, content, { withCredentials: true })
-          .then((response) => {
-            if (response.data) {
-              this.$alert("Data updated correctly.", "Edit", "success").then(
-                () => {
-                  this.name = response.data.name;
-                  //this.dialog = false; // Hide this edit dialog.
-                }
-              );
-            }
-            console.log("Risposta" + response);
-          })
-          .catch((error) => {
-            const title = "<strong>Update</strong>&nbsp;error";
-            this.$alert("Update station error", title, "error");
-            /*{ success: false, message: "Update user error", error: err }*/
-            console.error("error, ", error);
-          });
-
-        Object.assign(this.stations[this.editedIndex], this.editedItem);
-      } else {
-        let url = `${server}/stations`;
-        console.log("Current edit item:", this.editedItem);
-        var pos = {
+      console.log("Sto id?" + this.editedItem._id);
+      let url = `${server}/stations/${this.editedItem._id}`;
+      let content = {
+        name: this.editedItem.name,
+        // owner: this.editedItem.user,
+        position: {
           locality: this.editedItem.position,
-        };
-        let posit = JSON.stringify(pos);
-        //{"locality":"Rimini"}
-        let newPos = posit.substring(13, posit.length - 2);
-        console.log(
-          "ciao is: " + posit + " " + newPos,
-          "type is " + typeof newPos
-        );
-        let content = {
-          authKey: this.editedItem.authkey,
-          name: this.editedItem.name,
-          // owner: this.editedItem.user,
-          position: newPos,
+        },
+        url: this.editedItem.url,
+      };
+      console.log("Contenuto: ", content);
+      this.$http
+        .put(url, content, { withCredentials: true })
+        .then((response) => {
+          if (response.data) {
+            this.$alert("Data updated correctly.", "Edit", "success").then(
+              () => {
+                this.name = response.data.name;
+                //this.dialog = false; // Hide this edit dialog.
+              }
+            );
+          }
+          console.log("Risposta" + response);
+        })
+        .catch((error) => {
+          const title = "<strong>Update</strong>&nbsp;error";
+          this.$alert("Update station error", title, "error");
+          /*{ success: false, message: "Update user error", error: err }*/
+          console.error("error, ", error);
+        });
 
-          url: this.editedItem.url,
-        };
-        this.$http
-          .post(url, content, { withCredentials: true })
-          .then((response) => {
-            this.stations.push(this.editedItem);
-            //E' stato creato, registered
-            if (response.data) {
-              this.$alert("Data added correctly.", "Edit", "success").then(
-                () => {
-                  //this.dialog = false; // Hide this edit dialog.
-                  this.newstations = response.data.stations;
-                  console.log("aggiunta station " + this.newstations);
-                }
-              );
-            }
-
-            //TODO vedere come visualizzare bene posizione
-          })
-          .catch((error) => {
-            console.log(error);
-            const title = "<strong></strong>&nbsp;Error";
-            this.$alert("Error in adding the station!", title, "error"); // or here
-          });
+      Object.assign(this.stations[this.editedIndex], this.editedItem);
+    },
+    createStation() {
+      const server = process.env.VUE_APP_SERVER_URL;
+      let url = `${server}/stations`;
+      console.log("Current edit item:", this.editedItem);
+      let content = {
+        authKey: this.editedItem.authkey,
+        name: this.editedItem.name,
+        // owner: this.editedItem.user,
+        position: {
+          locality: this.editedItem.position,
+        },
+        url: this.editedItem.url,
+      };
+      this.$http
+        .post(url, content, { withCredentials: true })
+        .then((response) => {
+          this.stations.push(content);
+          //E' stato creato, registered
+          if (response.data) {
+            this.$alert(
+              "Station added correctly, enjoy our service!",
+              "Create Station",
+              "success"
+            ).then(() => {
+              this.newstations = response.data.stations;
+              console.log("aggiunta station " + this.newstations);
+            });
+          }
+          // TODO vedere come visualizzare bene posizione
+        })
+        .catch((error) => {
+          console.log(error);
+          const title = "<strong>Create</strong>&nbsp;error";
+          this.$alert("Error in adding the station!", title, "error");
+        });
+    },
+    save() {
+      if (this.editedIndex > -1) {
+        this.updateStation();
+      } else {
+        this.createStation();
       }
       this.close();
     },
