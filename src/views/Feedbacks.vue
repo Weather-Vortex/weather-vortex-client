@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid class="pa-0 mx-7">
+  <v-container fluid>
     <h1 class="my-5">Feedbacks</h1>
     <v-row class="my-5"> <SlideOrizontalGroup /> </v-row>
   </v-container>
