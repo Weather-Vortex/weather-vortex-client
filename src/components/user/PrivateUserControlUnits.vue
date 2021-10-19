@@ -281,9 +281,29 @@ export default {
           // TODO vedere come visualizzare bene posizione
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
           const title = "<strong>Create</strong>&nbsp;error";
-          this.$alert("Error in adding the station!", title, "error");
+          const errorData = error.response.data;
+          let message = "";
+          if (
+            errorData &&
+            errorData.error &&
+            errorData.error.internalError &&
+            errorData.error.internalError.code
+          ) {
+            switch (errorData.error.internalError.code) {
+              case 11000:
+                message =
+                  "Another station with the same name alreay exists in database. Choose another identifier for your station.";
+                break;
+              default:
+                message = "Unknown server error.";
+                break;
+            }
+          } else {
+            message = "Unknown error.";
+          }
+          this.$alert(message, title, "error");
         });
     },
     save() {
