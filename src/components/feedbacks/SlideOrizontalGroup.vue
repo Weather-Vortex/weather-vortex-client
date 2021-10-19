@@ -33,37 +33,41 @@
   </v-sheet>
 </template>
 <script>
-import ServiceRatingsList from "@/components/feedbacks/ServiceRatingsList";
 import LeaveFeedbackDialog from "@/components/feedbacks/LeaveFeedbackDialog";
+import ServiceRatingsList from "@/components/feedbacks/ServiceRatingsList";
 export default {
-  components: { ServiceRatingsList, LeaveFeedbackDialog },
+  components: {
+    LeaveFeedbackDialog,
+    ServiceRatingsList,
+  },
   created() {
-    const server = process.env.VUE_APP_SERVER_URL;
-    let url = `${server}/feedbacks/`;
-    this.$http
-      .get(url)
-      .then((response) => {
-        this.providers = response.data.results;
-        console.log(this.providers);
-      })
-      .catch((error) => {
-        console.error(error.data);
-      });
+    this.loadFeedbacks();
   },
   data: () => ({
     model: null,
     providers: [],
     searchContent: null,
   }),
-
   methods: {
+    loadFeedbacks() {
+      const server = process.env.VUE_APP_SERVER_URL;
+      let url = `${server}/feedbacks/`;
+      this.$http
+        .get(url)
+        .then((response) => {
+          this.providers = response.data.results;
+          console.log(this.providers);
+        })
+        .catch((error) => {
+          console.error(error.data);
+        });
+    },
     searchMethod() {
       const elem = this.providers.find((elem) =>
         elem.name.includes(this.searchContent)
       );
       console.log("Found: ", elem);
       this.model = this.providers.indexOf(elem);
-      //this.clearMessage();
     },
     clearMessage() {
       this.searchContent = "";

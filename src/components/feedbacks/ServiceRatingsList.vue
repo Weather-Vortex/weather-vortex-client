@@ -1,6 +1,7 @@
 <template>
   <v-card class="mx-auto" max-width="500">
     <h1>{{ title.name }}</h1>
+    <h4>Average Rating: {{ index }}</h4>
     <v-divider></v-divider>
     <v-virtual-scroll
       :items="feedbacks"
@@ -64,6 +65,20 @@ export default {
         mapped.route = `/user/public/${mapped.user._id}`;
         return mapped;
       });
+    },
+    index: function () {
+      const num = this.title?.feedbacks?.length;
+      if (!num || num < 0) {
+        // If no feedbacks are provided, return 0.
+        return 0;
+      }
+
+      const sum = this.title.feedbacks
+        .map((m) => m.rating)
+        .reduce((prev, curr) => prev + curr, 0);
+      const avg = sum / num;
+      console.log("Sum: %d, Num: %d, Avg:", sum, num, avg);
+      return avg;
     },
   },
   methods: {
