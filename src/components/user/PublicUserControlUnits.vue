@@ -46,7 +46,7 @@ export default {
           sortable: true,
           value: "name",
         },
-        { text: "Position", value: "position" },
+        { text: "Position", value: "position.locality" },
         { text: "Url", value: "url" },
       ],
       stations: [],

@@ -15,7 +15,7 @@
             </v-card-title>
             <v-card-title class="white--text">
               <h3 class="font-weight-bold">
-                Località preferità:[{{ this.user.preferred }}]
+                Località preferità:[{{ this.user.preferred.location }}]
               </h3>
             </v-card-title>
           </v-img>
@@ -81,7 +81,7 @@ export default {
         .then((res) => {
           console.log("Result:", res.data);
           this.user = res.data;
-          console.log("Località preferita,", this.user.preferred);
+          console.log("Località preferita,", this.user.preferred.location);
         })
         .catch((error) => {
           console.log("Error:", error);
