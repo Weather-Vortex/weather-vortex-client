@@ -50,6 +50,7 @@
                     <v-text-field
                       v-model="editedItem.authkey"
                       label="Auth Key"
+                      :rules="validateAuthKey"
                     ></v-text-field>
                   </v-col>
 
@@ -57,6 +58,7 @@
                     <v-text-field
                       v-model="editedItem.url"
                       label="Station url"
+                      :rules="validateUrl"
                     ></v-text-field>
                   </v-col>
                 </v-row>
@@ -127,6 +129,12 @@ export default {
       authkey: "",
       url: "",
     },
+    validateAuthKey: [
+      (v) => v?.length === 32 || "Authkey must have exactly 32 characters",
+    ],
+    validateUrl: [
+      (v) => /^(ftp|http|https):\/\/[^ "]+$/.test(v) || "Url value not valid",
+    ],
   }),
   computed: {
     editFormTitle() {
