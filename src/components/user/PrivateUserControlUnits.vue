@@ -1,5 +1,10 @@
 <template>
-  <v-data-table :headers="headers" :items="stations" class="elevation-1">
+  <v-data-table
+    :headers="headers"
+    :items="stations"
+    sort-by="name"
+    class="elevation-1"
+  >
     <template v-slot:top>
       <v-toolbar flat>
         <v-toolbar-title>My stations</v-toolbar-title>
@@ -102,7 +107,6 @@ export default {
       {
         text: "Station Name",
         align: "start",
-        sortable: false,
         value: "name",
       },
       { text: "Position", value: "position.locality" },
@@ -113,13 +117,13 @@ export default {
     editedIndex: -1,
     editedItem: {
       name: "",
-      position: "",
+      position: { locality: "" },
       authkey: "",
       url: "",
     },
     defaultItem: {
       name: "",
-      position: "",
+      position: { locality: "" },
       authkey: "",
       url: "",
     },
@@ -256,9 +260,7 @@ export default {
         authKey: this.editedItem.authkey,
         name: this.editedItem.name,
         // owner: this.editedItem.user,
-        position: {
-          locality: this.editedItem.position,
-        },
+        position: this.editedItem.position,
         url: this.editedItem.url,
       };
       this.$http
