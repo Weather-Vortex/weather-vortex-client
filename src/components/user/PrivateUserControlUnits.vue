@@ -1,10 +1,5 @@
 <template>
-  <v-data-table
-    :headers="headers"
-    :items="stations"
-    sort-by="stations"
-    class="elevation-1"
-  >
+  <v-data-table :headers="headers" :items="stations" class="elevation-1">
     <template v-slot:top>
       <v-toolbar flat>
         <v-toolbar-title>My stations</v-toolbar-title>
@@ -40,7 +35,7 @@
                   </v-col>
                   <v-col cols="12" sm="6">
                     <v-text-field
-                      v-model="editedItem.position"
+                      v-model="editedItem.position.locality"
                       label="Position"
                     ></v-text-field>
                   </v-col>
@@ -97,6 +92,8 @@
 </template>
 
 <script>
+const server = process.env.VUE_APP_SERVER_URL;
+
 export default {
   data: () => ({
     dialog: false,
@@ -142,7 +139,6 @@ export default {
   },
   created() {
     // Populate the table
-    const server = process.env.VUE_APP_SERVER_URL;
     const user = this.$store.getters.getId;
     console.log("user: " + user);
     const url = `${server}/users/${user}/stations`;
@@ -187,7 +183,7 @@ export default {
     },
     editItem(item) {
       this.editedIndex = this.stations.indexOf(item);
-      this.editedItem = Object.assign({}, item);
+      this.editedItem = JSON.parse(JSON.stringify(item)); // Object.assign({}, item);
       this.dialog = true;
     },
     deleteItem(item) {
@@ -196,19 +192,18 @@ export default {
       this.dialogDelete = true;
     },
     deleteItemConfirm() {
-      const server = process.env.VUE_APP_SERVER_URL;
       let url = `${server}/stations/${this.editedItem._id}`;
       this.$http
         .delete(url, { withCredentials: true })
         .then((response) => {
           if (response.data) {
-            this.stations = response.data.stations;
+            // this.stations = response.data.stations;
+            this.stations.splice(this.editedIndex, 1);
           }
         })
         .catch((error) => {
           console.error(error.data);
         });
-      this.stations.splice(this.editedIndex, 1);
       this.closeDelete();
     },
     close() {
@@ -226,16 +221,12 @@ export default {
       });
     },
     updateStation() {
-      //update
-      const server = process.env.VUE_APP_SERVER_URL;
+      // Update a station.
       console.log("Sto id?" + this.editedItem._id);
       let url = `${server}/stations/${this.editedItem._id}`;
       let content = {
         name: this.editedItem.name,
-        // owner: this.editedItem.user,
-        position: {
-          locality: this.editedItem.position,
-        },
+        position: this.editedItem.position,
         url: this.editedItem.url,
       };
       console.log("Contenuto: ", content);
@@ -246,23 +237,19 @@ export default {
             this.$alert("Data updated correctly.", "Edit", "success").then(
               () => {
                 this.name = response.data.name;
-                //this.dialog = false; // Hide this edit dialog.
               }
             );
           }
-          console.log("Risposta" + response);
         })
         .catch((error) => {
           const title = "<strong>Update</strong>&nbsp;error";
           this.$alert("Update station error", title, "error");
-          /*{ success: false, message: "Update user error", error: err }*/
           console.error("error, ", error);
         });
 
       Object.assign(this.stations[this.editedIndex], this.editedItem);
     },
     createStation() {
-      const server = process.env.VUE_APP_SERVER_URL;
       let url = `${server}/stations`;
       console.log("Current edit item:", this.editedItem);
       let content = {
