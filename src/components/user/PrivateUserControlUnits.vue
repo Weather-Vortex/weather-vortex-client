@@ -213,7 +213,7 @@ export default {
     close() {
       this.dialog = false;
       this.$nextTick(() => {
-        this.editedItem = Object.assign({}, this.defaultItem);
+        this.editedItem = JSON.parse(JSON.stringify(this.defaultItem)); // Object.assign({}, this.defaultItem);
         this.editedIndex = -1;
       });
     },
@@ -266,16 +266,14 @@ export default {
       this.$http
         .post(url, content, { withCredentials: true })
         .then((response) => {
-          this.stations.push(content);
-          //E' stato creato, registered
+          // Created successfully.
           if (response.data) {
             this.$alert(
               "Station added correctly, enjoy our service!",
               "Create Station",
               "success"
             ).then(() => {
-              this.newstations = response.data.stations;
-              console.log("aggiunta station " + this.newstations);
+              this.stations.push(content);
             });
           }
           // TODO vedere come visualizzare bene posizione

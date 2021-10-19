@@ -145,7 +145,7 @@ router.beforeEach((to, from, next) => {
     if (auth !== true) {
       console.warn("Forced redirection to login.");
       next({
-        path: "/login",
+        name: "Login",
         params: { nextUrl: to.fullPath },
       });
     } else {
