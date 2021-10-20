@@ -30,10 +30,10 @@ export default {
   name: "WeatherForecastCard",
   components: { WeatherCardItem },
   computed: {
-    loading: function () {
+    loading: function() {
       return typeof this.data === "undefined" || this.data === null;
     },
-    types: function () {
+    types: function() {
       // Build the array of card items. Each items contains label, icon, tooltip and value to show.
       let t =
         process.env.NODE_ENV !== "production"
