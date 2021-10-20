@@ -129,9 +129,6 @@ export default {
       authkey: "",
       url: "",
     },
-    validateAuthKey: [
-      (v) => v?.length === 32 || "Authkey must have exactly 32 characters",
-    ],
     validateUrl: [
       (v) => /^(ftp|http|https):\/\/[^ "]+$/.test(v) || "Url value not valid",
     ],
@@ -139,6 +136,16 @@ export default {
   computed: {
     editFormTitle() {
       return this.editedIndex === -1 ? "New Item" : "Edit Item";
+    },
+    validateAuthKey: function () {
+      return this.editedIndex === -1
+        ? [(v) => v?.length === 32 || "Authkey must have exactly 32 characters"]
+        : [
+            (v) =>
+              v?.length === 0 ||
+              v?.length === 32 ||
+              "Authkey must have exactly 0 (don't modify) or 32 characters",
+          ];
     },
   },
   watch: {
