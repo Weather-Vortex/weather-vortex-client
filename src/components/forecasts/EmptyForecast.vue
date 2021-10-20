@@ -6,7 +6,7 @@
         <v-col md="6" offset-md="3"
           ><v-img
             align="center"
-            src="../../assets/weatherfewclouds.jpg"
+            src="@/assets/weatherfewclouds.jpg"
           ></v-img></v-col></v-row
     ></template>
   </div>
