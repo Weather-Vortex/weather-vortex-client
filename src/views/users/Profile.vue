@@ -31,7 +31,8 @@
 <style>
 .bg-img {
   /*al momento non ho messo clouds di jpg in assets perchè non mi riconosce il percors*/
-  background-image: url("../../assets/clouds.jpg");
+  /*background-image: url("../../assets/clouds.jpg");*/
+  background-image: url("clouds.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center top;
