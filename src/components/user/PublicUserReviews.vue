@@ -4,7 +4,15 @@
     :items="reviews"
     :items-per-page="5"
     class="elevation-1"
-  ></v-data-table>
+  >
+    <template v-slot:top>
+      <v-toolbar flat>
+        <v-toolbar-title>Feedbacks</v-toolbar-title>
+        <v-divider class="mx-4" inset vertical></v-divider>
+        <v-spacer></v-spacer>
+      </v-toolbar>
+    </template>
+  </v-data-table>
 </template>
 
 <script>
