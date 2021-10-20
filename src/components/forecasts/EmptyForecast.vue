@@ -4,7 +4,7 @@
     <template>
       <v-row align="center">
         <v-col md="6" offset-md="3"
-          ><!--l'img è nella stessa directory di questa pagina--><v-img
+          ><v-img
             align="center"
             src="../../assets/weatherfewclouds.jpg"
           ></v-img></v-col></v-row
