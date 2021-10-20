@@ -83,7 +83,8 @@ const routes = [
         name: "Personal Profile",
         path: "profile",
         component: () => import("../views/users/Profile.vue"),
-        meta: {},
+        meta: { requiresAuth: true, 
+        },
       },
       {
         path: "logout",
