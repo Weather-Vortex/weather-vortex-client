@@ -142,6 +142,7 @@ export default {
         ? [(v) => v?.length === 32 || "Authkey must have exactly 32 characters"]
         : [
             (v) =>
+              !v ||
               v?.length === 0 ||
               v?.length === 32 ||
               "Authkey must have exactly 0 (don't modify) or 32 characters",
@@ -288,6 +289,7 @@ export default {
               "Create Station",
               "success"
             ).then(() => {
+              content._id = response.data.saved._id;
               this.stations.push(content);
             });
           }
