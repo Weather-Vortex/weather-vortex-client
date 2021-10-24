@@ -121,7 +121,7 @@ export default {
     show2: false,
     firstname: "",
     lastname: "",
-    nameRules: [(v) => !!v || "Name is required"],
+    
     email: "",
     emailRules: [
       (v) => !!v || "E-mail is required",

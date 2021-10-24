@@ -63,21 +63,24 @@ export default {
   }),
   methods: {
     submitReset() {
-      const server = process.env.VUE_APP_SERVER_URL;
-      let url = `${server}/auth/forgotPassword`;
-      this.$http
-        .put(url, { email: this.email })
-        .then(() => {
-          this.$alert("Go to your mail inbox!", "Email sent", "success");
-        })
-        .catch((error) => {
-          console.error(error);
-          this.$alert(
-            "Error!",
-            "This email isn't registered in our databases",
-            "error"
-          );
-        });
+      if (this.$refs.form.validate()) {
+        const server = process.env.VUE_APP_SERVER_URL;
+        let url = `${server}/auth/forgotPassword`;
+        this.$http
+          .put(url, { email: this.email })
+          .then(() => {
+            this.$alert("Go to your mail inbox!", "Email sent", "success");
+            this.$router.push("/user/reset");
+          })
+          .catch((error) => {
+            console.error(error);
+            this.$alert(
+              "The email isn't registered in our databases",
+              "Incorrent Email",
+              "error"
+            );
+          });
+      }
     },
   },
 };
