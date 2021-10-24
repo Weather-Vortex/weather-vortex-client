@@ -4,7 +4,15 @@
     :items="stations"
     :items-per-page="5"
     class="elevation-1"
-  ></v-data-table>
+  >
+    <template v-slot:top>
+      <v-toolbar flat>
+        <v-toolbar-title>Stations</v-toolbar-title>
+        <v-divider class="mx-4" inset vertical></v-divider>
+        <v-spacer></v-spacer>
+      </v-toolbar>
+    </template>
+  </v-data-table>
 </template>
 
 <script>
@@ -46,7 +54,7 @@ export default {
           sortable: true,
           value: "name",
         },
-        { text: "Position", value: "position" },
+        { text: "Position", value: "position.locality" },
         { text: "Url", value: "url" },
       ],
       stations: [],
