@@ -24,18 +24,14 @@
       <v-spacer />
     </v-row>
     <v-row no-gutters>
-      <v-col md="4" class="pa-md-10 mx-lg-auto">
-        Stations of {{ this.firstName }}
-      </v-col>
-      <v-col md="4" offset-md="4" class="pa-md-10 mx-lg-auto">
-        Feedbaks of {{ this.firstName }}
-      </v-col> </v-row
+      <v-col md="4" class="pa-md-10 mx-lg-auto"> </v-col>
+      <v-col md="4" offset-md="4" class="pa-md-10 mx-lg-auto"> </v-col> </v-row
     ><v-container>
       <v-row class="mb-3" no-gutters>
-        <v-col md="4" class="pa-md-10 mx-lg-auto">
+        <v-col md="6" cols="12" class="pa-md-10">
           <PublicUserControlUnits />
         </v-col>
-        <v-col md="4" offset-md="4" class="pa-md-10 mx-lg-auto">
+        <v-col md="6" cols="12" class="pa-md-10">
           <PublicUserReviews />
         </v-col>
       </v-row>
