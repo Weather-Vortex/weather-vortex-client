@@ -10,7 +10,7 @@
           height="200"
         ></v-img>
         <p class="font-italic">
-          Please complete this form to change your password
+          Please check the email and complete this form to change your password
         </p>
 
         <v-form ref="form" lazy-validation>
