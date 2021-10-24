@@ -10,13 +10,15 @@
       </v-col>
       <v-spacer></v-spacer>
     </v-row>
-    <v-row>
+
+    <v-row class="bg-img" justify="space-around">
       <v-spacer></v-spacer>
       <v-col cols="12" md="6">
         <QuickForecastCard />
       </v-col>
       <v-spacer></v-spacer>
     </v-row>
+
     <v-row>
       <v-col cols="12">
         <AccountButtons />
@@ -35,7 +37,15 @@
     </v-row>
   </v-container>
 </template>
-
+<style>
+.bg-img {
+  background-image: url("../assets/clouds_opacized.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center top;
+  border-radius: 3px;
+}
+</style>
 <script>
 // @ is an alias to /src
 import AccountButtons from "@/components/AccountButtons.vue";
