@@ -50,15 +50,17 @@
             <b>Log In</b>
           </v-btn>
           <v-row
-            ><v-col cols="6">
+            ><v-col cols="12">
               <p class="my-2">
                 <router-link to="/user/register"
                   >If you are not registered, click here!</router-link
                 >
               </p></v-col
-            ><v-col cols="6">
+            ><v-col cols="">
               <p class="my-2">
-                <router-link to="/user/forgot">Forgot Password?</router-link>
+                <v-btn @click="forgot()" outlined color="indigo"
+                  >Forgot Password?</v-btn
+                >
               </p></v-col
             >
           </v-row>
@@ -85,6 +87,13 @@ export default {
     passwordRules: [(v) => !!v || "Password is required"],
   }),
   methods: {
+    forgot() {
+      this.$alert(
+        "Email with a link has been sent!",
+        "<strong>Email sent</strong>&nbsp;success!",
+        "success"
+      );
+    },
     submitForm() {
       if (this.$refs.form.validate()) {
         const server = process.env.VUE_APP_SERVER_URL;
