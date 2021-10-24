@@ -35,7 +35,7 @@
                 :type="show1 ? 'text' : 'password'"
                 @click:append="show1 = !show1"
                 :rules="passwordRules.concat(validateLength)"
-                label="Password"
+                label="New Password"
                 prepend-inner-icon="mdi-lock"
                 required
               ></v-text-field>
@@ -50,7 +50,7 @@
                 :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
                 :type="show2 ? 'text' : 'password'"
                 @click:append="show2 = !show2"
-                label="Re-type Password"
+                label="Re-type New Password"
                 prepend-inner-icon="mdi-lock"
                 required
               ></v-text-field>
