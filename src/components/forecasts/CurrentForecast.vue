@@ -36,20 +36,22 @@ export default {
     return {
       fetching: 0,
       forecasts: [],
+      initialMidData: {
+        temp: 0,
+        tempMin: 0,
+        tempMax: 0,
+        pressure: 0,
+        humidity: 0,
+        weatherIcon: "mdi-weather-rainy",
+        weatherDescription: "Rainy",
+        clouds: 0,
+        rain: 0,
+        snow: 0,
+      },
+      midData: {},
       mid: {
         provider: "Aggregated",
-        data: {
-          temp: 25,
-          tempMin: 20,
-          tempMax: 26,
-          pressure: 1001,
-          humidity: 11,
-          weatherIcon: "mdi-weather-rainy",
-          weatherDescription: "Rainy",
-          clouds: 2,
-          rain: 2,
-          snow: 2,
-        },
+        data: {},
       },
       socket: null,
       status: null,
@@ -60,13 +62,13 @@ export default {
     clean: function () {
       this.forecasts = [];
       this.waiting = [];
-      this.mid = {};
+      this.mid.data = JSON.parse(JSON.stringify(this.initialMidData));
+      this.midData = JSON.parse(JSON.stringify(this.initialMidData));
     },
     connect: function () {
       const username = uuidv4();
       this.socket = create();
       this.subscribe();
-      console.log("Username: %s with socket %s", username, this.socket.id);
       this.socket.auth = { username };
       this.socket.connect({ forceNew: true });
     },
@@ -82,7 +84,6 @@ export default {
       this.socket = null;
     },
     requireForecasts: function (locality) {
-      console.log("Requested current for:", locality);
       this.fetching = this.fetching + 1;
       this.clean();
       this.socket.emit("current", { locality });
@@ -104,9 +105,7 @@ export default {
         }
 
         args.providers.forEach((provider) => {
-          console.log("Found provider", provider);
           this.waiting.push({ provider: provider });
-          console.log("Waiting", this.waiting);
         });
 
         this.fetching = this.fetching + args.providers.length - 1;
@@ -128,15 +127,33 @@ export default {
         );
         console.log("Fetched %o from %o", current.provider, this.waiting);
         this.forecasts.push({ provider, data });
-        this.mid = { provider, data };
+        // this.mid.data = data;
+        this.updateMid(data);
       });
     },
-  },
-  watch: {
-    connected(value) {
-      if (value && this.socket) {
-        console.log("connected");
-      }
+    updateMid: function (data) {
+      const keys = Object.keys(data);
+      keys.forEach((elem) => {
+        const value = Number(data[elem]);
+        if (isNaN(value)) {
+          console.log("NAN");
+        } else {
+          this.midData[elem] += value;
+          const num = this.midData[elem] / this.forecasts.length;
+          const fixed = Number.parseFloat(num).toFixed(2);
+          this.mid.data[elem] = fixed;
+          if (elem === "pressure") {
+            console.log(
+              "Add %f to %f div by %d result to %f fixed to %f",
+              value,
+              this.midData[elem],
+              this.forecasts.length,
+              num,
+              this.mid.data[elem]
+            );
+          }
+        }
+      });
     },
   },
   mounted() {
