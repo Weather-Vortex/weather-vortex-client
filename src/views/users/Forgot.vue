@@ -1,14 +1,7 @@
 <template>
   <v-container fluid>
     <v-row justify="center" align="center" class="row">
-      <v-col
-        cols="12"
-        sm="8"
-        md="4"
-        xs="4"
-        class="text-center"
-        style="height: 100vh"
-      >
+      <v-col cols="12" sm="8" md="4" xs="4" class="text-center">
         <v-img
           src="@/assets/vortex.png"
           alt="Weather Vortex logo"
