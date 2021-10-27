@@ -62,19 +62,23 @@ const routes = [
   {
     path: "/user",
     name: "User",
-    component: () => import("../views/User.vue"),
+    component: () => import(/* webpackChunkName: "user" */ "../views/User.vue"),
     children: [
       {
         path: "login",
         name: "Login",
-        component: () => import("../views/users/Login.vue"),
+        component: () =>
+          import(/* webpackChunkName: "login" */ "../views/users/Login.vue"),
         meta: {
           guest: true, //TODO da mettere una volta fato il logout
         },
       },
       {
         path: "register",
-        component: () => import("../views/users/Register.vue"),
+        component: () =>
+          import(
+            /* webpackChunkName: "register" */ "../views/users/Register.vue"
+          ),
         meta: {
           guest: true,
         },
@@ -82,39 +86,54 @@ const routes = [
       {
         name: "Personal Profile",
         path: "profile",
-        component: () => import("../views/users/Profile.vue"),
+        component: () =>
+          import(
+            /* webpackChunkName: "profile" */ "../views/users/Profile.vue"
+          ),
         meta: {
           requiresAuth: true,
         },
       },
       {
         path: "logout",
-        component: () => import("../views/users/Logout.vue"),
+        component: () =>
+          import(/* webpackChunkName: "logout" */ "../views/users/Logout.vue"),
         meta: {
           requiresAuth: true,
         },
       },
       {
-        path: "public",
-        children: [
-          {
-            path: ":id",
-            component: () => import("../views/users/PublicProfile.vue"),
-          },
-        ],
+        path: "public/:id",
+        component: () =>
+          import(
+            /* webpackChunkName: "public_profile" */ "../views/users/PublicProfile.vue"
+          ),
       },
       {
         path: "confirm",
         /*props: route => ({ query: route.query }),*/
-        component: () => import("../views/users/Welcome.vue"),
+        component: () =>
+          import(
+            /* webpackChunkName: "welcome" */ "../views/users/Welcome.vue"
+          ),
         // props: true,
+      },
+      {
+        path: "forgot",
+        component: () =>
+          import(/* webpackChunkName: "forgot" */ "../views/users/Forgot.vue"),
+      },
+      {
+        path: "reset",
+        component: () => import("../views/users/Reset.vue"),
       },
     ],
   },
   {
     path: "*",
     name: "Error 404",
-    component: () => import("../views/Error404.vue"),
+    component: () =>
+      import(/* webpackChunkName: "error404" */ "../views/Error404.vue"),
   },
 ];
 
@@ -125,24 +144,26 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const cookies = document.cookie.split("; ");
-  const auth = cookies.find((row) => row.startsWith("auth="));
+  const auth = router.app.$store.getters.isAuthenticated;
   if (to.matched.some((record) => record.meta.requiresAuth)) {
-    if (auth === undefined) {
+    if (auth !== true) {
+      console.warn("Forced redirection to login.");
       next({
-        path: "/login",
+        name: "Login",
         params: { nextUrl: to.fullPath },
       });
     } else {
       next();
     }
   } else if (to.matched.some((record) => record.meta.guest)) {
-    if (auth === undefined) {
+    if (auth !== true) {
       next();
     } else {
+      console.warn("Forced redirection to personal profile.");
       next({ name: "Personal Profile" });
     }
   } else {
+    console.log("Next", to);
     next();
   }
 });

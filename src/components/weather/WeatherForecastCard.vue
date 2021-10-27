@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mx-4 my-1" :loading="loading" elevation="1">
+  <v-card class="mx-2 my-1" :loading="loading" elevation="1">
     <template slot="progress">
       <v-progress-linear
         color="deep-purple"
@@ -30,10 +30,10 @@ export default {
   name: "WeatherForecastCard",
   components: { WeatherCardItem },
   computed: {
-    loading: function () {
+    loading: function() {
       return typeof this.data === "undefined" || this.data === null;
     },
-    types: function () {
+    types: function() {
       // Build the array of card items. Each items contains label, icon, tooltip and value to show.
       let t =
         process.env.NODE_ENV !== "production"
@@ -57,30 +57,35 @@ export default {
           icon: "mdi-thermometer",
           title: "Temperature",
           tooltip: "Real Temperature",
+          unit: "°C",
           value: this.$props.data.temp,
         },
         {
           icon: "mdi-thermometer-minus",
           title: "Min Temperature",
           tooltip: "Minimal Temperature",
+          unit: "°C",
           value: this.$props.data.tempMin,
         },
         {
           icon: "mdi-thermometer-plus",
           title: "Max Temperature",
           tooltip: "Maximum Temperature",
+          unit: "°C",
           value: this.$props.data.tempMax,
         },
         {
           icon: "mdi-thermometer",
           title: "Pressure",
           tooltip: "Pressure",
+          unit: "bar",
           value: this.$props.data.pressure,
         },
         {
           icon: "mdi-water-percent",
           title: "Humidity",
           tooltip: "Humidity",
+          unit: "%",
           value: this.$props.data.humidity,
         },
         {

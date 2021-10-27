@@ -25,32 +25,60 @@ new Vue({
   store,
   render: (h) => h(App),
   created: function() {
+    /*
+      Now we cannot get the auth cookie anymore since it is an httponly cookie. We should try a request to server each time to verify if the token is expired or not.
+    */
     // Load authentication before the first isAuthentication request.
-    const auth = this.$cookies.get("auth");
-    if (auth !== null) {
-      const server = process.env.VUE_APP_SERVER_URL;
-      let url = `${server}/auth/profile`;
-      this.$http
-        .get(url, { withCredentials: true })
-        .then((response) => {
-          if (response.data) {
-            this.$store.commit("login", response.data);
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-          switch (error.response.status) {
-            case 400:
-              this.$alert("Error!"); // or here
-              break;
-            case 401:
-              this.$alert("Missing authentication info.").then(() =>
-                this.$router.push("/user/login")
-              );
-              console.log(error.response);
-              break;
-          }
+    const server = process.env.VUE_APP_SERVER_URL;
+    const profileUrl = `${server}/auth/profile`;
+    this.$http
+      .get(profileUrl, { withCredentials: true })
+      .then((response) => {
+        if (response.data) {
+          this.$store.commit("login", response.data);
+        }
+      })
+      .catch((error) => {
+        const title = "Application startup error";
+        let errorMessage = "";
+        switch (error.response.status) {
+          case 401:
+            /* 
+              In this case, credentials are missing and we don't have to say
+              anything to user, since it can be the first access to the
+              application or after a recent logout.
+            */
+            break;
+          case 403:
+            errorMessage =
+              "Your login session is expired, proceed with login again.";
+            break;
+          case 404:
+            errorMessage = "No users found with given credentials.";
+            break;
+        }
+        console.log(error.response);
+
+        if (!errorMessage || errorMessage === "") {
+          // User doesn't need to be alerted.
+          return;
+        }
+
+        // Server didn't found the token in user storage.
+        this.$alert(errorMessage, title, "error").then(() => {
+          // Require the logout from the server, to expire auth httpOnly cookies
+          const logoutUrl = `${server}/auth/logout`;
+          this.$http.get(logoutUrl, { withCredentials: true }).then(() => {
+            this.$alert("You are logged out").then(() => {
+              // Execute the logout from the store and remove the cookie too.
+              this.$cookies.remove("auth");
+              this.$store.commit("logout");
+              // Don't redirect the user to login anymore.
+              // this.$router.push("/user/login");
+              this.$router.push("/");
+            });
+          });
         });
-    }
+      });
   },
 }).$mount("#app");

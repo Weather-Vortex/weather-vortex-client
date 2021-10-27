@@ -90,7 +90,31 @@ export default {
   }),
   methods: {
     submitForm() {
-      this.$refs.form.validate();
+      if (this.$refs.form.validate()) {
+        const server = process.env.VUE_APP_SERVER_URL;
+        let url = `${server}/users/contact`;
+        this.$http
+          .post(url, {
+            email: this.email,
+            select: this.select,
+            text: this.text,
+          })
+          .then((response) => {
+            this.$alert("The email has been sent!", "Success", "success");
+            //Submitted
+            console.log(response);
+          })
+          .catch((error) => {
+            const title = "<strong>Submission</strong>&nbsp;error";
+
+            this.$alert(
+              "Error during the submission of the form",
+              title,
+              "error"
+            ); // or here
+            console.log(error);
+          });
+      }
     },
   },
 };
