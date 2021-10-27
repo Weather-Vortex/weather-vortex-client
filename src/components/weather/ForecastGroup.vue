@@ -53,7 +53,7 @@
 import WeatherForecastCard from "@/components/weather/WeatherForecastCard";
 
 export default {
-  name: "CurrentForecast",
+  name: "ForecastGroup",
   components: { WeatherForecastCard },
   computed: {
     /*

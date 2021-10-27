@@ -30,10 +30,10 @@ export default {
   name: "WeatherForecastCard",
   components: { WeatherCardItem },
   computed: {
-    loading: function() {
+    loading: function () {
       return typeof this.data === "undefined" || this.data === null;
     },
-    types: function() {
+    types: function () {
       // Build the array of card items. Each items contains label, icon, tooltip and value to show.
       let t =
         process.env.NODE_ENV !== "production"
@@ -41,8 +41,8 @@ export default {
               {
                 icon: "",
                 title: "Time",
-                tooltip: this.$props.data.time.toLocaleString(),
-                value: this.$props.data.time.toLocaleString(),
+                tooltip: this.$props.data.time?.toLocaleString() ?? "",
+                value: this.$props.data.time?.toLocaleString() ?? "",
               },
             ]
           : [];
@@ -113,6 +113,7 @@ export default {
   props: {
     provider: String,
     data: {
+      time: Date,
       temp: Number,
       tempMin: Number,
       tempMax: Number,
