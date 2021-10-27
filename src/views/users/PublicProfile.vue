@@ -9,13 +9,13 @@
               <img alt="user" src="@/assets/user.png" />
             </v-avatar>
             <v-card-title class="white--text">
-              <h3 class="font-weight-bold">
+              <h3 class="font-weight-bold pa-md-10 mx-lg-auto">
                 [{{ this.initials }}] {{ this.lastName }} {{ this.firstName }}
               </h3>
             </v-card-title>
             <v-card-title class="white--text">
-              <h3 class="font-weight-bold">
-                Località preferità:[{{ this.user.preferred.location }}]
+              <h3 class="font-weight-bold pa-md-10 mx-lg-auto">
+                Località: {{ this.user.preferred.location }}
               </h3>
             </v-card-title>
           </v-img>
@@ -24,7 +24,6 @@
       <v-spacer />
     </v-row>
     <v-row no-gutters>
-      <v-col md="4" class="pa-md-10 mx-lg-auto"> </v-col>
       <v-col md="4" offset-md="4" class="pa-md-10 mx-lg-auto"> </v-col> </v-row
     ><v-container>
       <v-row class="mb-3" no-gutters>

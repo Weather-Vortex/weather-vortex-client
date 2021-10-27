@@ -121,7 +121,7 @@ export default {
     show2: false,
     firstname: "",
     lastname: "",
-    nameRules: [(v) => !!v || "Name is required"],
+
     email: "",
     emailRules: [
       (v) => !!v || "E-mail is required",
@@ -199,7 +199,7 @@ export default {
       return value === this.password || "Passwords don't match.";
     },
     validateLength(value) {
-      return value.length > 8 || "Password must have more of 8 characters";
+      return value.length > 8 || "Password must have more than 8 characters";
     },
   },
 };
