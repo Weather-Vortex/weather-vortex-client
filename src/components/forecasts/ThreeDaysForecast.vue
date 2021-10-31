@@ -6,18 +6,25 @@
           <v-slide-item
             v-for="day in days"
             :key="day.val"
-            v-slot="{ active, toggle }"
+            v-slot:default="{ active, toggle }"
           >
-            <v-btn
-              class="mx-2"
-              :input-value="active"
-              active-class="purple white--text"
-              depressed
-              rounded
-              @click="toggle"
-            >
-              {{ day.label }}
-            </v-btn>
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  class="mx-2"
+                  active-class="purple white--text"
+                  depressed
+                  rounded
+                  v-bind="attrs"
+                  v-on="on"
+                  @click="toggle"
+                  :input-value="active"
+                >
+                  {{ day.label }}
+                </v-btn>
+              </template>
+              <span>{{ day.tooltip }}</span>
+            </v-tooltip>
           </v-slide-item>
         </v-slide-group>
       </v-col>
@@ -91,7 +98,7 @@ export default {
     /**
      * Get if the socket is connected or not.
      */
-    connected: function () {
+    connected: function() {
       return (
         typeof this.socket !== "undefined" &&
         this.socket !== null &&
@@ -101,7 +108,7 @@ export default {
     /**
      * The current time selected from the user.
      */
-    current: function () {
+    current: function() {
       const old = new Date();
       old.setDate(old.getDate() + this.day);
       old.setTime(old.getTime() + this.time * 3 * 60 * 60 * 1000);
@@ -110,7 +117,7 @@ export default {
     /**
      * Forecast selected with current time.
      */
-    forecasts: function () {
+    forecasts: function() {
       if (typeof this.allForecasts !== "object") return undefined;
       const temps = nextForecast(this.allForecasts, this.current);
       return temps;
@@ -118,7 +125,7 @@ export default {
     /**
      * Average forecast with current time.
      */
-    mid: function () {
+    mid: function() {
       if (typeof this.allMid.data !== "object" || this.allMid.data.length < 1)
         return null;
       const temps = nextTime(this.allMid.data, this.current);
@@ -130,7 +137,7 @@ export default {
     /**
      * Labels of hours to show.
      */
-    labels: function () {
+    labels: function() {
       /* 
       If number of modes changes, update the slider max attr too.
       Actually show 8 different hours (3h hop), starting from next hour.
@@ -143,13 +150,13 @@ export default {
     /**
      * True if some providers missing, false anywhere.
      */
-    loading: function () {
+    loading: function() {
       return this.fetching > 0;
     },
     /**
      * The selected time from first forecast.
      */
-    selectedTime: function () {
+    selectedTime: function() {
       if (this.forecasts && this.forecasts.length > 0) {
         return new Date(this.forecasts[0].data.time);
       }
@@ -162,9 +169,13 @@ export default {
       day: 0, // Day selected.
       days: [
         // Days values.
-        { val: 0, label: "Today" },
-        { val: 1, label: "Tomorrow" },
-        { val: 2, label: "Toyota" },
+        { val: 0, label: "Today", tooltip: "Forecast for Today" },
+        { val: 1, label: "Tomorrow", tooltip: " Forecast for Tomorrow" },
+        {
+          val: 2,
+          label: "In 2 days",
+          tooltip: "Forecast for The day after tomorrow",
+        },
       ],
       time: 0, // Selected time.
       fetching: 0, // Missing providers.
@@ -193,12 +204,12 @@ export default {
     };
   },
   methods: {
-    clean: function () {
+    clean: function() {
       this.allDorecasts = [];
       this.waiting = [];
       this.allMid = [];
     },
-    connect: function () {
+    connect: function() {
       const username = uuidv4();
       this.socket = create();
       this.subscribe();
@@ -206,7 +217,7 @@ export default {
       this.socket.auth = { username };
       this.socket.connect({ forceNew: true });
     },
-    disconnect: function () {
+    disconnect: function() {
       const instance = this.socket;
       instance.off("connection");
       instance.off("connect_error");
@@ -215,13 +226,13 @@ export default {
       instance.disconnect();
       this.socket = null;
     },
-    requireForecasts: function (locality) {
+    requireForecasts: function(locality) {
       console.log("Requested current for: ", locality);
       this.fetching = this.fetching + 1;
       this.clean();
       this.socket.emit("threedays", { locality });
     },
-    subscribe: function () {
+    subscribe: function() {
       this.socket.on("connect", () => {
         const locality = this.$route.params.locality;
         this.requireForecasts(locality);
