@@ -42,13 +42,13 @@ export default {
         tempMax: 0,
         pressure: 0,
         humidity: 0,
-        weatherIcon: "mdi-weather-rainy",
-        weatherDescription: "Rainy",
         clouds: 0,
         rain: 0,
         snow: 0,
       },
       midData: {},
+      descriptions: new Map(),
+      icons: new Map(),
       mid: {
         provider: "Aggregated",
         data: {},
@@ -64,6 +64,9 @@ export default {
       this.waiting = [];
       this.mid.data = JSON.parse(JSON.stringify(this.initialMidData));
       this.midData = JSON.parse(JSON.stringify(this.initialMidData));
+      // Needs to be two separated maps.
+      this.descriptions = new Map();
+      this.icons = new Map();
     },
     connect: function () {
       const username = uuidv4();
@@ -119,15 +122,14 @@ export default {
       });
 
       this.socket.on("result", (result) => {
-        console.log("Result from %s with %o:", result.provider, result.data);
         const { provider, data } = result;
+        console.log("Result from %s with %o:", provider, data);
         this.fetching = this.fetching - 1;
         const current = this.waiting.filter(
           (forecast) => forecast.provider !== provider
         );
-        console.log("Fetched %o from %o", current.provider, this.waiting);
+        this.waiting = current;
         this.forecasts.push({ provider, data });
-        // this.mid.data = data;
         this.updateMid(data);
       });
     },
@@ -135,25 +137,49 @@ export default {
       const keys = Object.keys(data);
       keys.forEach((elem) => {
         const value = Number(data[elem]);
+        // time and weather icons are not considered.
         if (isNaN(value)) {
-          console.log("NAN");
+          const desc = data[elem];
+          if (elem === "weatherDescription") {
+            // Update weather description map.
+            this.populateMap(desc, this.descriptions);
+            const keyWithMaxValue = this.getMostValueKeyFromMap(
+              this.descriptions
+            );
+            this.mid.data.weatherDescription = keyWithMaxValue;
+          } else if (elem === "weatherIcon") {
+            // Update weather icon map.
+            this.populateMap(desc, this.icons);
+            const keyWithMaxValue = this.getMostValueKeyFromMap(this.icons);
+            this.mid.data.weatherIcon = keyWithMaxValue;
+          }
         } else {
           this.midData[elem] += value;
           const num = this.midData[elem] / this.forecasts.length;
           const fixed = Number.parseFloat(num).toFixed(2);
           this.mid.data[elem] = fixed;
-          if (elem === "pressure") {
-            console.log(
-              "Add %f to %f div by %d result to %f fixed to %f",
-              value,
-              this.midData[elem],
-              this.forecasts.length,
-              num,
-              this.mid.data[elem]
-            );
-          }
         }
       });
+    },
+    populateMap: function (desc, map) {
+      if (map.has(desc)) {
+        const actualValue = map.get(desc);
+        const increasedValue = actualValue + 1;
+        map.set(desc, increasedValue);
+      } else {
+        map.set(desc, 1);
+      }
+    },
+    getMostValueKeyFromMap: function (map) {
+      let keyWithMaxValue = null;
+      let maxValueFromKey = 0;
+      map.forEach(function (value, key) {
+        if (maxValueFromKey < value) {
+          keyWithMaxValue = key;
+          maxValueFromKey = value;
+        }
+      });
+      return keyWithMaxValue;
     },
   },
   mounted() {
@@ -169,7 +195,6 @@ export default {
     next();
   },
   destroyed() {
-    console.log("Destroyed");
     if (this.connected) {
       this.disconnect();
     }
