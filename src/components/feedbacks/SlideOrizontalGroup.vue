@@ -12,8 +12,9 @@
       clearable
       clear-icon="mdi-close-circle"
     ></v-text-field>
+
     <template>
-      <vue-horizontal v-model="model" class="pa-2" center-active show-arrows>
+      <vue-horizontal>
         <section height="500" v-for="ser in providers" :key="ser._id">
           <ServiceRatingsList :title="ser" />
 
@@ -21,6 +22,7 @@
         </section>
       </vue-horizontal>
     </template>
+
     <!--<v-slide-group v-model="model" class="pa-2" center-active show-arrows>
       <v-slide-item
         height="500"
