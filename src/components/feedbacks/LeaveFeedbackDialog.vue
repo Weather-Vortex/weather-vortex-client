@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="dialog" persistent max-width="600px">
+  <v-dialog v-model="dialog" persistent>
     <template v-slot:activator="{ on, attrs }">
       <v-btn
         v-if="authenticated"

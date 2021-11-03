@@ -128,7 +128,3 @@ export default {
   },
 };
 </script>
-<style>
-.mx-2 my-1 {
-}
-</style>
