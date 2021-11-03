@@ -33,14 +33,35 @@
         <WeatherForecastCard v-if="showAggregation" v-bind="mid" />
       </v-col>
       <v-col cols="12" sm="8">
-        <vue-horizontal show-arrows>
+        <!--<vue-horizontal show-arrows>
           <v-section v-for="forecast in someForecasts" :key="forecast.provider">
             <WeatherForecastCard
               v-bind:provider="forecast.provider"
               v-bind:data="forecast.data"
             />
           </v-section>
-        </vue-horizontal>
+        </vue-horizontal>-->
+        <template>
+          <vue-horizontal responsive class="horizontal" :displacement="0.7">
+            <template v-slot:btn-next>
+              <div class="replaced-btn">
+                <v-icon>
+                  mdi-chevron-right
+                </v-icon>
+              </div>
+            </template>
+
+            <placeholder-component
+              v-for="forecast in someForecasts"
+              :key="forecast.provider"
+            >
+              <WeatherForecastCard
+                v-bind:provider="forecast.provider"
+                v-bind:data="forecast.data"
+              />
+            </placeholder-component>
+          </vue-horizontal>
+        </template>
       </v-col>
     </v-row>
   </v-container>
@@ -106,3 +127,35 @@ export default {
   props: ["initialForecasts", "initialMid", "fetching"],
 };
 </script>
+<style scoped>
+.horizontal >>> .v-hl-btn-prev svg {
+  background: blue;
+  color: white;
+  border-radius: 0;
+}
+
+.horizontal >>> .v-hl-btn-next {
+  top: 0;
+  bottom: 0;
+  transform: translateX(0);
+}
+
+.replaced-btn {
+  height: 100%;
+  background: linear-gradient(to right, #ffffff00, white);
+  padding-left: 48px;
+  display: flex;
+  align-items: center;
+}
+
+.replaced-btn > div {
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1;
+  color: black;
+  padding: 8px 12px;
+  background: white;
+  border-radius: 3px;
+  border: 1px solid black;
+}
+</style>

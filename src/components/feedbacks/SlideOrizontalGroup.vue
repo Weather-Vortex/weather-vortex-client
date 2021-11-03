@@ -13,13 +13,28 @@
       clear-icon="mdi-close-circle"
     ></v-text-field>
 
-    <template>
-      <vue-horizontal>
-        <section height="500" v-for="ser in providers" :key="ser._id">
+    <!-- <template>
+      <vue-horizontal class="horizontal">
+        <div v-for="ser in providers" :key="ser._id">
           <ServiceRatingsList :title="ser" />
 
           <LeaveFeedbackDialog :provider="ser" />
-        </section>
+        </div>
+      </vue-horizontal>
+    </template>-->
+    <template>
+      <vue-horizontal responsive class="horizontal" :displacement="0.7">
+        <template v-slot:btn-next>
+          <div class="replaced-btn">
+            <div>MORE</div>
+          </div>
+        </template>
+
+        <placeholder-component v-for="ser in providers" :key="ser._id">
+          <ServiceRatingsList :title="ser" />
+
+          <LeaveFeedbackDialog :provider="ser" />
+        </placeholder-component>
       </vue-horizontal>
     </template>
 
@@ -30,15 +45,16 @@
         :key="ser._id"
         v-slot="{ active, toggle }"
       >
-        <v-card
-          :color="active ? 'primary' : 'grey lighten-1'"
-          class="ma-1 pa-1"
-          @click="toggle"
-        >
-          <ServiceRatingsList :title="ser" />
+        <v-flex xs6 xs12>
+          <v-card
+            :color="active ? 'primary' : 'grey lighten-1'"
+            class="ma-1 pa-1"
+            @click="toggle"
+          >
+            <ServiceRatingsList :title="ser" />
 
-          <LeaveFeedbackDialog :provider="ser" />
-        </v-card>
+            <LeaveFeedbackDialog :provider="ser" /> </v-card
+        ></v-flex>
       </v-slide-item>
     </v-slide-group>-->
   </v-sheet>
@@ -124,5 +140,35 @@ export default {
 section {
   padding: 16px 24px;
   background: #f5f5f5;
+}
+.horizontal >>> .v-hl-btn-prev svg {
+  background: cyan;
+  color: white;
+  border-radius: 0;
+}
+
+.horizontal >>> .v-hl-btn-next {
+  top: 0;
+  bottom: 0;
+  transform: translateX(0);
+}
+
+.replaced-btn {
+  height: 100%;
+  background: linear-gradient(to right, #ffffff00, white);
+  padding-left: 48px;
+  display: flex;
+  align-items: center;
+}
+
+.replaced-btn > div {
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1;
+  color: black;
+  padding: 8px 12px;
+  background: white;
+  border-radius: 3px;
+  border: 1px solid black;
 }
 </style>
