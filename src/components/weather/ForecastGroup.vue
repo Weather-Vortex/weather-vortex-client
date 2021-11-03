@@ -10,7 +10,7 @@
         </div>
       </v-col>
       <v-col v-if="_fetching > 0" cols="12" md="6" sm="6" xs="6">
-        Remainings: {{ _fetching }}
+        Remainings to fetch: {{ _fetching }}
       </v-col>
       <v-col cols="12" md="6" sm="6" xs="12" class="ma-auto">
         <div class="text-center">
@@ -74,19 +74,19 @@ export default {
     columns() {
       return this.showAggregation ? 3 : 4;
     },
-    _fetching: function() {
+    _fetching: function () {
       return this.fetching;
     },
-    forecasts: function() {
+    forecasts: function () {
       return this.initialForecasts;
     },
     isLoading() {
       return this.loading === true;
     },
-    mid: function() {
+    mid: function () {
       return this.initialMid;
     },
-    someForecasts: function() {
+    someForecasts: function () {
       if (typeof this.forecasts === "undefined") {
         // When this component is created, we don't have this.forecasts yet.
         console.warn("No forecasts now");
@@ -113,7 +113,7 @@ export default {
     };
   },
   methods: {
-    setFilter: function(value) {
+    setFilter: function (value) {
       console.log("Set filter:", value);
     },
   },
