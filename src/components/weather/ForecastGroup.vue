@@ -44,11 +44,11 @@
         <template>
           <vue-horizontal responsive class="horizontal" :displacement="0.7">
             <template v-slot:btn-next>
-              <div class="replaced-btn">
+              <v-div class="replaced-btn">
                 <v-icon>
                   mdi-chevron-right
                 </v-icon>
-              </div>
+              </v-div>
             </template>
 
             <placeholder-component
