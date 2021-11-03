@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container class="forecast">
     <v-row>
       <v-col cols="12" md="6" sm="6" xs="6" class="ma-auto">
         <div class="text-center">
@@ -33,21 +33,6 @@
         <WeatherForecastCard v-if="showAggregation" v-bind="mid" />
       </v-col>
       <v-col md="12" xs="6" offset-md="1">
-        <!-- <vue-horizontal>
-          <template v-slot:btn-next>
-            <v-div class="replaced-btn">
-              <v-icon>
-                mdi-chevron-right
-              </v-icon>
-            </v-div>
-          </template>
-          <v-section v-for="forecast in someForecasts" :key="forecast.provider">
-            <WeatherForecastCard
-              v-bind:provider="forecast.provider"
-              v-bind:data="forecast.data"
-            />
-          </v-section>
-        </vue-horizontal>-->
         <template>
           <vue-horizontal responsive class="horizontal" :displacement="0.7">
             <!-- <template v-slot:btn-next>
@@ -165,5 +150,8 @@ export default {
   background: white;
   border-radius: 3px;
   border: 1px solid black;
+}
+.forecast {
+  background: #e1f3f3;
 }
 </style>
