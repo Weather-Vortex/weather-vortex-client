@@ -1,6 +1,9 @@
 import Vue from "vue";
 import Vuex from "vuex";
 
+import VuexPersistence from "vuex-persist";
+import localStore from "store";
+
 Vue.use(Vuex);
 
 const state = {
@@ -28,24 +31,46 @@ const getters = {
     return `${id}`;
   },
   isAuthenticated: (state) => {
-    return state.user !== null;
+    const nullState = state.user === null;
+    if (nullState) {
+      // return localStore.get("user_data");
+      state.user = localStore.get("user_data");
+      if (state.user) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+    return true;
   },
 };
 
 const mutations = {
   login: (state, value) => {
     state.user = value;
-    console.log("LOGIN MUTATION: ", value);
+    localStore.set("user_data", value);
+    if (process.env.NODE_ENV !== "production") {
+      console.log("LOGIN MUTATION: ", value);
+    }
   },
-  logout: (state) => (state.user = null),
+  logout: (state) => {
+    state.user = null;
+    localStore.remove("user_data");
+  },
   setDrawerVisibility: (state, value) => (state.drawer = value),
   toggleDrawer: (state) => (state.drawer = !state.drawer),
 };
+
+const vuexLocal = new VuexPersistence({
+  storage: window.localStorage,
+});
 
 const store = new Vuex.Store({
   state,
   getters,
   mutations,
+  plugins: [vuexLocal.plugin],
   /*
   In strict mode, whenever Vuex state is mutated outside of mutation handlers, an error will be thrown.
   From doc: https://vuex.vuejs.org/guide/strict.html#strict-mode.
