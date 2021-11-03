@@ -28,12 +28,19 @@
         </div>
       </v-col>
     </v-row>
-    <v-row no-gutters>
-      <v-col cols="12" sm="4">
+    <v-row>
+      <v-col md="6" offset-md="3">
         <WeatherForecastCard v-if="showAggregation" v-bind="mid" />
       </v-col>
-      <v-col cols="12" sm="8">
-        <!--<vue-horizontal show-arrows>
+      <v-col md="12" xs="6" offset-md="1">
+        <!-- <vue-horizontal>
+          <template v-slot:btn-next>
+            <v-div class="replaced-btn">
+              <v-icon>
+                mdi-chevron-right
+              </v-icon>
+            </v-div>
+          </template>
           <v-section v-for="forecast in someForecasts" :key="forecast.provider">
             <WeatherForecastCard
               v-bind:provider="forecast.provider"
@@ -43,15 +50,16 @@
         </vue-horizontal>-->
         <template>
           <vue-horizontal responsive class="horizontal" :displacement="0.7">
-            <template v-slot:btn-next>
+            <!-- <template v-slot:btn-next>
               <v-div class="replaced-btn">
                 <v-icon>
                   mdi-chevron-right
                 </v-icon>
               </v-div>
-            </template>
+            </template>-->
 
-            <placeholder-component
+            <v-section
+              class="content"
               v-for="forecast in someForecasts"
               :key="forecast.provider"
             >
@@ -59,7 +67,7 @@
                 v-bind:provider="forecast.provider"
                 v-bind:data="forecast.data"
               />
-            </placeholder-component>
+            </v-section>
           </vue-horizontal>
         </template>
       </v-col>

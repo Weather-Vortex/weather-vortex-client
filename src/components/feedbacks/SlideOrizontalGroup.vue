@@ -22,8 +22,14 @@
         </div>
       </vue-horizontal>
     </template>-->
+
     <template>
-      <vue-horizontal responsive class="horizontal" :displacement="0.7">
+      <vue-horizontal
+        show-arrows
+        responsive
+        class="horizontal"
+        :displacement="0.7"
+      >
         <template v-slot:btn-next>
           <div class="replaced-btn">
             <div>MORE</div>
