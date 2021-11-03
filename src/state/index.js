@@ -33,7 +33,13 @@ const getters = {
   isAuthenticated: (state) => {
     const nullState = state.user === null;
     if (nullState) {
-      return localStore.get("user_data");
+      // return localStore.get("user_data");
+      state.user = localStore.get("user_data");
+      if (state.user) {
+        return true;
+      } else {
+        return false;
+      }
     }
 
     return true;
