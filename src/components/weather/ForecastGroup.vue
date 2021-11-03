@@ -10,7 +10,7 @@
         </div>
       </v-col>
       <v-col v-if="_fetching > 0" cols="12" md="6" sm="6" xs="6">
-        Remainings: {{ _fetching }}
+        Remainings to fetch: {{ _fetching }}
       </v-col>
       <v-col cols="12" md="6" sm="6" xs="12" class="ma-auto">
         <div class="text-center">
@@ -53,7 +53,7 @@
 import WeatherForecastCard from "@/components/weather/WeatherForecastCard";
 
 export default {
-  name: "CurrentForecast",
+  name: "ForecastGroup",
   components: { WeatherForecastCard },
   computed: {
     /*

@@ -59,7 +59,7 @@ export default {
       return this.$route.params.locality ?? "Forecasts";
     },
   },
-  data: function() {
+  data: function () {
     return {
       selected: "justify",
       isLoading: false,
@@ -82,15 +82,7 @@ export default {
     };
   },
   methods: {
-    getPosition: function() {
-      navigator.geolocation.getCurrentPosition(this.showPosition, this.error);
-    },
-    showPosition: function(position) {
-      this.lat = position.coords.latitude;
-      this.lon = position.coords.longitude;
-      this.locality = "{" + this.lat + "," + this.lon + "}";
-    },
-    error: function(error) {
+    error: function (error) {
       if (error.code == error.PERMISSION_DENIED) {
         this.$alert(
           "You have to turn on the permission to access your location!"
@@ -98,6 +90,28 @@ export default {
       } else {
         this.$alert("Geolocation error");
       }
+    },
+    getPosition: function () {
+      navigator.geolocation.getCurrentPosition(this.showPosition, this.error);
+    },
+    navigateToForecast: function (value) {
+      this.$router
+        .push({ name: value, params: { locality: this.locality } })
+        .catch((failure) => {
+          if (isNavigationFailure(failure, NavigationFailureType.duplicated)) {
+            console.warn(
+              `Navigation duplicated no problem: you wanna navigate to ${failure.to.path}, but you already are in ${failure.from.path}`
+            );
+          } else {
+            console.error("Navigation error: ", failure);
+          }
+        })
+        .finally(() => (this.loading = false));
+    },
+    showPosition: function (position) {
+      this.lat = position.coords.latitude;
+      this.lon = position.coords.longitude;
+      this.locality = "{" + this.lat + "," + this.lon + "}";
     },
   },
   mounted() {
@@ -117,18 +131,7 @@ export default {
       }
 
       this.loading = true;
-      this.$router
-        .push({ name: value, params: { locality: this.locality } })
-        .catch((failure) => {
-          if (isNavigationFailure(failure, NavigationFailureType.duplicated)) {
-            console.warn(
-              `Navigation duplicated no problem: you wanna navigate to ${failure.to.path}, but you already are in ${failure.from.path}`
-            );
-          } else {
-            console.error("Navigation error: ", failure);
-          }
-        })
-        .finally(() => (this.loading = false));
+      this.navigateToForecast(value);
     },
   },
 };
