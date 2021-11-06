@@ -87,13 +87,7 @@
                       <v-date-picker
                         v-model="date"
                         :active-picker.sync="activePicker"
-                        :max="
-                          new Date(
-                            Date.now() - new Date().getTimezoneOffset() * 60000
-                          )
-                            .toISOString()
-                            .substr(0, 10)
-                        "
+                        :max="maxForecastDate"
                         min="1990-01-01"
                         @change="save"
                       ></v-date-picker>
@@ -132,7 +126,19 @@
 <script>
 export default {
   props: ["provider"],
+  computed: {
+    authenticated: function () {
+      return this.$store.getters.isAuthenticated;
+    },
+    maxForecastDate: function () {
+      const maxDate = new Date(
+        Date.now() - new Date().getTimezoneOffset() * 60000
+      );
+      return maxDate.toISOString().substr(0, 10);
+    },
+  },
   data: () => ({
+    expand: false, // Show more feedbacks options.
     field: "",
     forecastItems: [
       "Weather",
@@ -152,16 +158,10 @@ export default {
     date: null,
     menu: false,
     rules: [(v) => v.length <= 100 || "Max 100 characters"],
-    expand: false,
   }),
   watch: {
     menu(val) {
       val && setTimeout(() => (this.activePicker = "YEAR"));
-    },
-  },
-  computed: {
-    authenticated: function () {
-      return this.$store.getters.isAuthenticated;
     },
   },
   methods: {
@@ -182,9 +182,9 @@ export default {
         rating: this.rating,
         provider: this.provider._id,
         //user: this.user,
-        forecastDate: this.date,
-        fields: this.field,
-        description: this.description,
+        forecastDate: this.expand ? this.date : null,
+        fields: this.expand ? this.field : null,
+        description: this.expand ? this.description : null,
       };
       this.$http
         .post(url, content, { withCredentials: true })
@@ -193,7 +193,15 @@ export default {
           if (feedback) {
             this.$alert("Feedback added correctly.", "Edit", "success").then(
               () => {
-                this.dialog = false; // Hide this edit dialog.
+                // Reset dialog data before quitting.
+                this.activePicker = null;
+                this.date = null;
+                this.description = "";
+                this.dialog = false;
+                this.expand = false;
+                this.field = null;
+                this.rating = 0;
+
                 this.$emit("feedback-created", feedback);
               }
             );
