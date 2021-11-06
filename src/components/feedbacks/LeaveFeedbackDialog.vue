@@ -53,16 +53,7 @@
                   <v-col cols="12" sm="12" class="pt-0">
                     <v-select
                       v-model="field"
-                      :items="[
-                        'Weather',
-                        'Temperature',
-                        'TempMin',
-                        'TempMax',
-                        'Pressure',
-                        'Humidity',
-                        'Clouds',
-                        'Rain',
-                      ]"
+                      :items="forecastItems"
                       label="Forecast Field *"
                     ></v-select>
                   </v-col>
@@ -131,8 +122,18 @@
 export default {
   props: ["provider"],
   data: () => ({
-    rating: 0,
     field: "",
+    forecastItems: [
+      "Weather",
+      "Temperature",
+      "TempMin",
+      "TempMax",
+      "Pressure",
+      "Humidity",
+      "Clouds",
+      "Rain",
+    ],
+    rating: 0,
     description: "",
     valid: true,
     dialog: false,
@@ -147,9 +148,8 @@ export default {
       val && setTimeout(() => (this.activePicker = "YEAR"));
     },
   },
-
   computed: {
-    authenticated: function() {
+    authenticated: function () {
       return this.$store.getters.isAuthenticated;
     },
   },
@@ -178,10 +178,12 @@ export default {
       this.$http
         .post(url, content, { withCredentials: true })
         .then((response) => {
-          if (response.data.feedback) {
+          const { feedback } = response.data;
+          if (feedback) {
             this.$alert("Feedback added correctly.", "Edit", "success").then(
               () => {
                 this.dialog = false; // Hide this edit dialog.
+                this.$emit("feedback-created", feedback);
               }
             );
           }
@@ -192,9 +194,7 @@ export default {
             "Feedback not added correctly! Please give a rating",
             title,
             "error"
-          ).then(() => {
-            console.error(error.data);
-          });
+          ).then(() => console.error(error.data));
         });
     },
   },

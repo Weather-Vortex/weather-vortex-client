@@ -14,7 +14,7 @@
     ></v-text-field>
     <v-slide-group v-model="model" class="pa-2" center-active show-arrows>
       <v-slide-item
-        height="500"
+        height="400"
         v-for="ser in providers"
         :key="ser._id"
         v-slot="{ active, toggle }"
@@ -26,7 +26,10 @@
         >
           <ServiceRatingsList :title="ser" />
 
-          <LeaveFeedbackDialog :provider="ser" />
+          <LeaveFeedbackDialog
+            @feedback-created="onFeedbackCreated"
+            :provider="ser"
+          />
         </v-card>
       </v-slide-item>
     </v-slide-group>
@@ -49,6 +52,13 @@ export default {
     searchContent: null,
   }),
   methods: {
+    clearMessage() {
+      this.searchContent = "";
+    },
+    onFeedbackCreated(event) {
+      const provider = this.providers.find((v) => v._id === event.provider._id);
+      provider.feedbacks.push(event);
+    },
     loadFeedbacks() {
       const server = process.env.VUE_APP_SERVER_URL;
       let url = `${server}/feedbacks/`;
@@ -68,9 +78,6 @@ export default {
       );
       console.log("Found: ", elem);
       this.model = this.providers.indexOf(elem);
-    },
-    clearMessage() {
-      this.searchContent = "";
     },
   },
 };
