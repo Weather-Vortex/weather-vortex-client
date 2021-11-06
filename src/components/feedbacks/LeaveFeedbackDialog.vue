@@ -42,14 +42,14 @@
 
               <v-col cols="12" sm="12" class="pt-0">
                 <v-btn class="ma-2" color="primary" @click="expand = !expand">
-                  <v-icon left v-show="!expand"> mdi-chevron-down </v-icon>
-                  <v-icon left v-show="expand"> mdi-chevron-up </v-icon>
-                  Altro
+                  <v-icon left v-if="expand"> mdi-chevron-up </v-icon>
+                  <v-icon left v-else> mdi-chevron-down </v-icon>
+                  More
                 </v-btn>
               </v-col>
 
               <v-expand-transition>
-                <v-row v-show="expand">
+                <v-row v-if="expand">
                   <v-col cols="12" sm="12" class="pt-0">
                     <v-select
                       v-model="field"
@@ -102,11 +102,16 @@
                     ></v-textarea>
                   </v-col>
                 </v-row>
+                <v-row v-else>
+                  <v-col cols="12" sm="12">
+                    <p>Click on more to see more feedbacks options.</p>
+                  </v-col>
+                </v-row>
               </v-expand-transition>
             </v-form>
           </v-row>
         </v-container>
-        <small v-show="expand">*optional</small>
+        <small v-if="expand">*optional</small>
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
@@ -166,7 +171,7 @@ export default {
       //console.log("FORM: ", this.description);
       //this.$refs.form.validate();
       const server = process.env.VUE_APP_SERVER_URL;
-      let url = `${server}/feedbacks/`;
+      const url = `${server}/feedbacks/`;
       let content = {
         rating: this.rating,
         provider: this.provider._id,
