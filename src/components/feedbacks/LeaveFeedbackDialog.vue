@@ -1,5 +1,10 @@
 <template>
-  <v-dialog v-model="dialog" persistent max-width="600px">
+  <v-dialog
+    v-model="dialog"
+    max-width="600px"
+    persistent
+    transition="dialog-bottom-transition"
+  >
     <template v-slot:activator="{ on, attrs }">
       <v-btn
         v-if="authenticated"
@@ -14,7 +19,9 @@
     </template>
     <v-card>
       <v-card-title>
-        <span class="text-h5">Please Rate {{ provider.name }} Service</span>
+        <span class="text-h5"
+          >Please Rate <strong>{{ provider.name }}</strong> Service</span
+        >
       </v-card-title>
       <v-card-text lass="pa-0">
         <v-container>
@@ -57,7 +64,6 @@
                       label="Forecast Field *"
                     ></v-select>
                   </v-col>
-
                   <v-col cols="12" sm="12" class="pt-0">
                     <v-menu
                       ref="menu"
@@ -111,11 +117,11 @@
             </v-form>
           </v-row>
         </v-container>
-        <small v-if="expand">*optional</small>
+        <small v-if="expand">*indicates required field</small>
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="primary" outlined text @click="dialog = false">
+        <v-btn color="error" outlined text @click="dialog = false">
           Close
         </v-btn>
         <v-btn color="green" dark @click="submitFeedback()"> Send </v-btn>
