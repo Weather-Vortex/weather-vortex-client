@@ -236,9 +236,18 @@ export default {
       this.socket = null;
     },
     requireForecasts: function (locality) {
-      console.log("Requested current for: ", locality);
       this.fetching = this.fetching + 1;
       this.clean();
+      const split = locality.split(",");
+      if (split && split.length === 2) {
+        const latitude = new Number(split[0]);
+        const longitude = new Number(split[1]);
+        if (!isNaN(latitude) && !isNaN(longitude)) {
+          console.log("Requiring %d::%d", latitude, longitude);
+          this.socket.emit("threedays", { latitude, longitude });
+          return;
+        }
+      }
       this.socket.emit("threedays", { locality });
     },
     subscribe: function () {

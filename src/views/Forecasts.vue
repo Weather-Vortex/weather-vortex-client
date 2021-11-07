@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col cols="12" md="5" class="my-auto">
-        <h1 class="display-2 font-weight-bold">{{ title }}</h1>
+        <h1 class="display-1 font-weight-bold">{{ title }}</h1>
       </v-col>
       <v-col cols="12" sm="7" md="4" class="ma-auto">
         <v-text-field
@@ -109,9 +109,9 @@ export default {
         .finally(() => (this.loading = false));
     },
     showPosition: function (position) {
-      this.lat = position.coords.latitude;
-      this.lon = position.coords.longitude;
-      this.locality = "{" + this.lat + "," + this.lon + "}";
+      const latitude = position.coords.latitude;
+      const longitude = position.coords.longitude;
+      this.locality = latitude + "," + longitude;
     },
   },
   mounted() {

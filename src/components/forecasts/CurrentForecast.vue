@@ -89,6 +89,16 @@ export default {
     requireForecasts: function (locality) {
       this.fetching = this.fetching + 1;
       this.clean();
+      const split = locality.split(",");
+      if (split && split.length === 2) {
+        const latitude = new Number(split[0]);
+        const longitude = new Number(split[1]);
+        if (!isNaN(latitude) && !isNaN(longitude)) {
+          console.log("Requiring %d::%d", latitude, longitude);
+          this.socket.emit("current", { latitude, longitude });
+          return;
+        }
+      }
       this.socket.emit("current", { locality });
     },
     subscribe: function () {
