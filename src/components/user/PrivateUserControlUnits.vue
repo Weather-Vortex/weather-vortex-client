@@ -30,39 +30,41 @@
             </v-card-title>
 
             <v-card-text>
-              <v-container>
-                <v-row>
-                  <v-col cols="12" sm="6">
-                    <v-text-field
-                      v-model="editedItem.name"
-                      label="Station name"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6">
-                    <v-text-field
-                      v-model="editedItem.position.locality"
-                      label="Position"
-                    ></v-text-field>
-                  </v-col>
-                </v-row>
-                <v-row>
-                  <v-col cols="12" sm="6">
-                    <v-text-field
-                      v-model="editedItem.authkey"
-                      label="Auth Key"
-                      :rules="validateAuthKey"
-                    ></v-text-field>
-                  </v-col>
+              <v-form ref="form" v-model="valid">
+                <v-container>
+                  <v-row>
+                    <v-col cols="12" sm="6">
+                      <v-text-field
+                        v-model="editedItem.name"
+                        label="Station name"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6">
+                      <v-text-field
+                        v-model="editedItem.position.locality"
+                        label="Position"
+                      ></v-text-field>
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col cols="12" sm="6">
+                      <v-text-field
+                        v-model="editedItem.authkey"
+                        label="Auth Key"
+                        :rules="validateAuthKey"
+                      ></v-text-field>
+                    </v-col>
 
-                  <v-col cols="12" sm="6">
-                    <v-text-field
-                      v-model="editedItem.url"
-                      label="Station url"
-                      :rules="validateUrl"
-                    ></v-text-field>
-                  </v-col>
-                </v-row>
-              </v-container>
+                    <v-col cols="12" sm="6">
+                      <v-text-field
+                        v-model="editedItem.url"
+                        label="Station url"
+                        :rules="validateUrl"
+                      ></v-text-field>
+                    </v-col>
+                  </v-row>
+                </v-container>
+              </v-form>
             </v-card-text>
 
             <v-card-actions>
@@ -129,6 +131,7 @@ export default {
       authkey: "",
       url: "",
     },
+    valid: null,
     validateUrl: [
       (v) => /^(ftp|http|https):\/\/[^ "]+$/.test(v) || "Url value not valid",
     ],
@@ -322,6 +325,11 @@ export default {
         });
     },
     save() {
+      if (!this.$refs.form.validate()) {
+        this.$alert("Invalid form, check fields", "Error", "error");
+        return;
+      }
+
       if (this.editedIndex > -1) {
         this.updateStation();
       } else {
