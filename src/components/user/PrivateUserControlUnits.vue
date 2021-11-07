@@ -63,6 +63,14 @@
                       ></v-text-field>
                     </v-col>
                   </v-row>
+                  <v-row>
+                    <v-col cols="12">
+                      <small
+                        >Your auth key will be unmodificable after save. You
+                        will not be able to retrieve it.
+                      </small>
+                    </v-col>
+                  </v-row>
                 </v-container>
               </v-form>
             </v-card-text>
@@ -74,18 +82,33 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
-        <v-dialog v-model="dialogDelete" max-width="500px">
+        <v-dialog
+          v-model="dialogDelete"
+          transition="dialog-bottom-transition"
+          width="500"
+        >
           <v-card>
             <v-card-title class="text-h5">
-              Are you sure you want to delete this item?
+              Are you sure you want to delete this station?
             </v-card-title>
+            <v-card-text>
+              <v-container>
+                <v-row>
+                  <v-col cols="12">
+                    <small
+                      >You will not be able to retrieve it after confirm.
+                    </small>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn color="blue darken-1" text @click="closeDelete">
-                Cancel
+                No
               </v-btn>
               <v-btn color="blue darken-1" text @click="deleteItemConfirm">
-                OK
+                Yes
               </v-btn>
               <v-spacer></v-spacer>
             </v-card-actions>
