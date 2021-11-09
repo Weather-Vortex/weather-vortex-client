@@ -149,7 +149,7 @@ export default {
   },
 
   computed: {
-    authenticated: function() {
+    authenticated: function () {
       return this.$store.getters.isAuthenticated;
     },
   },

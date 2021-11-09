@@ -38,7 +38,7 @@
         ></v-slider
       ></v-col>
     </v-row>
-    <v-row>
+    <v-row v-if="debug">
       <v-col>
         <span>{{ this.current.toLocaleString() }}</span>
       </v-col>
@@ -149,7 +149,9 @@ export default {
       If number of modes changes, update the slider max attr too.
       Actually show 8 different hours (3h hop), starting from next hour.
       */
-      const now = new Date().getHours() + 1;
+      const now = new Date().getHours() - new Date().getTimezoneOffset() / 60;
+      console.log("Difference:", new Date().getTimezoneOffset());
+
       return Array.from(Array(8)).map((_, i) =>
         ((i * 3 + now) % 24).toString()
       );
@@ -164,10 +166,20 @@ export default {
      * The selected time from first forecast.
      */
     selectedTime: function () {
-      if (this.forecasts && this.forecasts.length > 0) {
-        return new Date(this.forecasts[0].data.time);
-      }
-      return this.current;
+      let selected =
+        this.forecasts && this.forecasts.length > 0
+          ? new Date(this.forecasts[0].data.time)
+          : this.current;
+
+      const calculated = new Date(
+        selected - new Date().getTimezoneOffset() / 60
+      );
+
+      // const str = calculated.toLocaleString(); // .toISOString(); // .substr(0, 10);
+      return calculated;
+    },
+    debug: function () {
+      return process.env.NODE_ENV !== "production";
     },
   },
   data() {
@@ -345,13 +357,13 @@ export default {
   },
   watch: {
     current(value) {
-      console.log("Changed current:", value.toLocaleString());
+      if (this.debug) console.log("Changed current:", value.toLocaleString());
     },
     day(value) {
-      console.log("Changed day:", value);
+      if (this.debug) console.log("Changed day:", value);
     },
     time(value) {
-      console.log("Changed time:", value);
+      if (this.debug) console.log("Changed time:", value);
     },
   },
   mounted() {
