@@ -10,6 +10,7 @@
         v-if="authenticated"
         color="primary"
         block
+        x-large
         v-bind="attrs"
         v-on="on"
         max-width="300"
