@@ -27,7 +27,6 @@
           <ServiceRatingsList :title="ser" />
 
           <LeaveFeedbackDialog
-            @feedback-created="onFeedbackCreated"
             :provider="ser"
           />
         </v-card>
@@ -35,10 +34,13 @@
     </v-slide-group>-->
     <template>
       <vue-horizontal>
-        <section v-for="ser in providers" :key="ser._id">
-          <ServiceRatingsList :title="ser" />
-
-          <LeaveFeedbackDialog :provider="ser" />
+        <section class="ma-1" v-for="(ser, i) in providers" :key="i">
+          <ServiceRatingsList class="mt-1" :title="ser" />
+          <LeaveFeedbackDialog
+            class="mb-1"
+            @feedback-created="onFeedbackCreated"
+            :provider="ser"
+          />
         </section>
       </vue-horizontal>
     </template>
@@ -47,10 +49,12 @@
 <script>
 import LeaveFeedbackDialog from "@/components/feedbacks/LeaveFeedbackDialog";
 import ServiceRatingsList from "@/components/feedbacks/ServiceRatingsList";
+import VueHorizontal from "vue-horizontal";
 export default {
   components: {
     LeaveFeedbackDialog,
     ServiceRatingsList,
+    VueHorizontal,
   },
   created() {
     this.loadFeedbacks();
