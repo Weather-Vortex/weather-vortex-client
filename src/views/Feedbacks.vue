@@ -18,11 +18,5 @@ import SlideOrizontalGroup from "@/components/feedbacks/SlideOrizontalGroup";
 export default {
   name: "Feedbacks",
   components: { SlideOrizontalGroup },
-  data: () => ({}),
-  methods: {
-    goHome() {
-      this.$router.push("/");
-    },
-  },
 };
 </script>
