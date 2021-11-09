@@ -28,6 +28,7 @@ new Vue({
     /*
       Now we cannot get the auth cookie anymore since it is an httponly cookie. We should try a request to server each time to verify if the token is expired or not.
     */
+    this.$store.dispatch("loadStore");
     // Load authentication before the first isAuthentication request.
     const server = process.env.VUE_APP_SERVER_URL;
     const profileUrl = `${server}/auth/profile`;

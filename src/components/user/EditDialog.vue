@@ -10,7 +10,7 @@
       <v-form ref="form" lazy-validation>
         <v-card>
           <v-card-title>
-            <span class="text-h5">Edit some info</span>
+            <span class="text-h5">Edit your information</span>
           </v-card-title>
           <v-card-text>
             <v-container>
@@ -52,16 +52,20 @@
                   ></v-text-field>
                 </v-col>
               </v-row>
+              <v-row>
+                <v-col cols="12">
+                  <small
+                    >Save your preferred position to receive every days in your
+                    email inbox daily forecasts!</small
+                  >
+                </v-col>
+              </v-row>
             </v-container>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="dialog = false">
-              Close
-            </v-btn>
-            <v-btn color="blue darken-1" text @click="updateUser()">
-              Save
-            </v-btn>
+            <v-btn color="error" text @click="dialog = false"> Close </v-btn>
+            <v-btn color="success" text @click="updateUser()"> Save </v-btn>
           </v-card-actions>
         </v-card>
       </v-form>

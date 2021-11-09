@@ -1,7 +1,15 @@
 <template>
   <v-container fluid>
-    <h1 class="my-5">Feedbacks</h1>
-    <v-row class="my-5"> <SlideOrizontalGroup /> </v-row>
+    <v-row>
+      <v-col cols="12">
+        <h1>Feedbacks</h1>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col class="py-2" cols="12">
+        <SlideOrizontalGroup />
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 

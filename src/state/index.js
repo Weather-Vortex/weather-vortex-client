@@ -15,7 +15,7 @@ const state = {
 const getters = {
   drawerVisible: (state) => state.drawer,
   initials: (state) => {
-    if (state.user === null) {
+    if (!state.user) {
       return "";
     }
 
@@ -24,22 +24,17 @@ const getters = {
     return `${firstName}${lastName}`;
   },
   getId: (state) => {
-    if (state.user === null) {
+    if (!state.user) {
       return "";
     }
     const id = state.user.id;
     return `${id}`;
   },
   isAuthenticated: (state) => {
-    const nullState = state.user === null;
-    if (nullState) {
+    console.log("Is Auth:", state);
+    if (!state.user) {
       // return localStore.get("user_data");
-      state.user = localStore.get("user_data");
-      if (state.user) {
-        return true;
-      } else {
-        return false;
-      }
+      return false;
     }
 
     return true;
@@ -70,6 +65,12 @@ const store = new Vuex.Store({
   state,
   getters,
   mutations,
+  actions: {
+    loadStore: function(store) {
+      const user = localStore.get("user_data");
+      store.commit("login", user);
+    },
+  },
   plugins: [vuexLocal.plugin],
   /*
   In strict mode, whenever Vuex state is mutated outside of mutation handlers, an error will be thrown.

@@ -100,10 +100,27 @@ export default {
       return "";
     },
     preferred: function () {
-      if (this.profile) {
-        if (this.profile.location) return this.profile.preferred.location;
-        else return this.profile.preferred.position;
+      if (this.profile && this.profile.preferred) {
+        if (this.profile.preferred.location) {
+          // Return location (more user friendly) if available.
+          console.log("Preferred location:", this.profile.preferred.location);
+          return this.profile.preferred.location;
+        }
+
+        if (
+          this.profile.preferred.position &&
+          this.profile.preferred.position.x &&
+          this.profile.preferred.position.y
+        ) {
+          // Return position (less user friendly) if available.
+          console.log("Preferred position:", this.profile.preferred.position);
+          const { x, y } = this.profile.preferred.position;
+          return `X:${x}, Y:${y}`;
+        }
       }
+
+      // Return nothing otherwise.
+      console.log("Preferred nothing:", this.profile?.preferred);
       return "";
     },
   },
