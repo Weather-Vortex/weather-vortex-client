@@ -5,7 +5,7 @@
     <v-divider></v-divider>
     <v-virtual-scroll
       :items="feedbacks"
-      height="500"
+      height="400"
       min-width="300"
       :item-height="50"
     >
@@ -77,7 +77,6 @@ export default {
         .map((m) => m.rating)
         .reduce((prev, curr) => prev + curr, 0);
       const avg = sum / num;
-      console.log("Sum: %d, Num: %d, Avg:", sum, num, avg);
       return avg;
     },
   },

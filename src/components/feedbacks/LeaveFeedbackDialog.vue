@@ -1,5 +1,10 @@
 <template>
-  <v-dialog v-model="dialog" persistent max-width="600px">
+  <v-dialog
+    v-model="dialog"
+    max-width="600px"
+    persistent
+    transition="dialog-bottom-transition"
+  >
     <template v-slot:activator="{ on, attrs }">
       <v-btn
         v-if="authenticated"
@@ -14,7 +19,9 @@
     </template>
     <v-card>
       <v-card-title>
-        <span class="text-h5">Please Rate {{ provider.name }} Service</span>
+        <span class="text-h5"
+          >Please Rate <strong>{{ provider.name }}</strong> Service</span
+        >
       </v-card-title>
       <v-card-text lass="pa-0">
         <v-container>
@@ -42,31 +49,21 @@
 
               <v-col cols="12" sm="12" class="pt-0">
                 <v-btn class="ma-2" color="primary" @click="expand = !expand">
-                  <v-icon left v-show="!expand"> mdi-chevron-down </v-icon>
-                  <v-icon left v-show="expand"> mdi-chevron-up </v-icon>
-                  Altro
+                  <v-icon left v-if="expand"> mdi-chevron-up </v-icon>
+                  <v-icon left v-else> mdi-chevron-down </v-icon>
+                  More
                 </v-btn>
               </v-col>
 
               <v-expand-transition>
-                <v-row v-show="expand">
+                <v-row v-if="expand">
                   <v-col cols="12" sm="12" class="pt-0">
                     <v-select
                       v-model="field"
-                      :items="[
-                        'Weather',
-                        'Temperature',
-                        'TempMin',
-                        'TempMax',
-                        'Pressure',
-                        'Humidity',
-                        'Clouds',
-                        'Rain',
-                      ]"
+                      :items="forecastItems"
                       label="Forecast Field *"
                     ></v-select>
                   </v-col>
-
                   <v-col cols="12" sm="12" class="pt-0">
                     <v-menu
                       ref="menu"
@@ -90,13 +87,7 @@
                       <v-date-picker
                         v-model="date"
                         :active-picker.sync="activePicker"
-                        :max="
-                          new Date(
-                            Date.now() - new Date().getTimezoneOffset() * 60000
-                          )
-                            .toISOString()
-                            .substr(0, 10)
-                        "
+                        :max="maxForecastDate"
                         min="1990-01-01"
                         @change="save"
                       ></v-date-picker>
@@ -111,15 +102,20 @@
                     ></v-textarea>
                   </v-col>
                 </v-row>
+                <v-row v-else>
+                  <v-col cols="12" sm="12">
+                    <p>Click on more to see more feedbacks options.</p>
+                  </v-col>
+                </v-row>
               </v-expand-transition>
             </v-form>
           </v-row>
         </v-container>
-        <small v-show="expand">*optional</small>
+        <small v-if="expand">*indicates required field</small>
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="primary" outlined text @click="dialog = false">
+        <v-btn color="error" outlined text @click="dialog = false">
           Close
         </v-btn>
         <v-btn color="green" dark @click="submitFeedback()"> Send </v-btn>
@@ -130,9 +126,31 @@
 <script>
 export default {
   props: ["provider"],
+  computed: {
+    authenticated: function () {
+      return this.$store.getters.isAuthenticated;
+    },
+    maxForecastDate: function () {
+      const maxDate = new Date(
+        Date.now() - new Date().getTimezoneOffset() * 60000
+      );
+      return maxDate.toISOString().substr(0, 10);
+    },
+  },
   data: () => ({
-    rating: 0,
+    expand: false, // Show more feedbacks options.
     field: "",
+    forecastItems: [
+      "Weather",
+      "Temperature",
+      "TempMin",
+      "TempMax",
+      "Pressure",
+      "Humidity",
+      "Clouds",
+      "Rain",
+    ],
+    rating: 0,
     description: "",
     valid: true,
     dialog: false,
@@ -140,17 +158,10 @@ export default {
     date: null,
     menu: false,
     rules: [(v) => v.length <= 100 || "Max 100 characters"],
-    expand: false,
   }),
   watch: {
     menu(val) {
       val && setTimeout(() => (this.activePicker = "YEAR"));
-    },
-  },
-
-  computed: {
-    authenticated: function () {
-      return this.$store.getters.isAuthenticated;
     },
   },
   methods: {
@@ -166,22 +177,32 @@ export default {
       //console.log("FORM: ", this.description);
       //this.$refs.form.validate();
       const server = process.env.VUE_APP_SERVER_URL;
-      let url = `${server}/feedbacks/`;
+      const url = `${server}/feedbacks/`;
       let content = {
         rating: this.rating,
         provider: this.provider._id,
         //user: this.user,
-        forecastDate: this.date,
-        fields: this.field,
-        description: this.description,
+        forecastDate: this.expand ? this.date : null,
+        fields: this.expand ? this.field : null,
+        description: this.expand ? this.description : null,
       };
       this.$http
         .post(url, content, { withCredentials: true })
         .then((response) => {
-          if (response.data.feedback) {
+          const { feedback } = response.data;
+          if (feedback) {
             this.$alert("Feedback added correctly.", "Edit", "success").then(
               () => {
-                this.dialog = false; // Hide this edit dialog.
+                // Reset dialog data before quitting.
+                this.activePicker = null;
+                this.date = null;
+                this.description = "";
+                this.dialog = false;
+                this.expand = false;
+                this.field = null;
+                this.rating = 0;
+
+                this.$emit("feedback-created", feedback);
               }
             );
           }
@@ -192,9 +213,7 @@ export default {
             "Feedback not added correctly! Please give a rating",
             title,
             "error"
-          ).then(() => {
-            console.error(error.data);
-          });
+          ).then(() => console.error(error.data));
         });
     },
   },
