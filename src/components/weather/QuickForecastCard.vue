@@ -58,6 +58,9 @@
 </template>
 
 <script>
+const alertTitle = "Forecast";
+const alertType = "error";
+
 export default {
   name: "QuickForecastCard",
   computed: {
@@ -91,19 +94,23 @@ export default {
       navigator.geolocation.getCurrentPosition(this.showPosition, this.error);
     },
     showPosition: function (position) {
-      this.lat = position.coords.latitude;
-      this.lon = position.coords.longitude;
-      this.message = this.lat + "," + this.lon;
+      const latitude = position.coords.latitude;
+      const longitude = position.coords.longitude;
+      this.location = latitude + "," + longitude;
     },
     error: function (error) {
       if (error.code == error.PERMISSION_DENIED) {
         this.$alert(
           "You have to turn on the permission to access your location!",
-          "Forecast",
-          "error"
+          alertTitle,
+          alertType
         );
       } else {
-        this.$alert("Geolocation error");
+        this.$alert(
+          "Unknown error accessing your location.",
+          alertTitle,
+          alertType
+        );
       }
     },
   },
@@ -113,8 +120,8 @@ export default {
       if (!value || value.length === 0) {
         return this.$alert(
           "You have to give a location or geolocation position",
-          "Forecasts",
-          "error"
+          alertTitle,
+          alertType
         );
       }
 
