@@ -121,7 +121,6 @@ export default {
     show2: false,
     firstname: "",
     lastname: "",
-
     email: "",
     emailRules: [
       (v) => !!v || "E-mail is required",
@@ -130,7 +129,7 @@ export default {
           v
         ) || "E-mail must be valid",
     ],
-
+    nameRules: [(v) => !!v || "This field is required"],
     password: "",
     retypepassword: "",
     passwordRules: [
@@ -142,7 +141,6 @@ export default {
     firstcheckbox: false,
     seccheckbox: false,
   }),
-
   methods: {
     submitForm() {
       if (this.$refs.form.validate()) {
@@ -154,6 +152,7 @@ export default {
             lastName: this.lastname,
             email: this.email,
             password: this.password,
+            returnLink: process.env.VUE_APP_PUBLIC_PATH,
           })
           .then((response) => {
             //E' stato creato, registered

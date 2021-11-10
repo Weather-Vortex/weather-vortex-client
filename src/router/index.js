@@ -163,7 +163,7 @@ router.beforeEach((to, from, next) => {
       next({ name: "Personal Profile" });
     }
   } else {
-    console.log("Next", to);
+    // console.log("Next", to);
     next();
   }
 });
