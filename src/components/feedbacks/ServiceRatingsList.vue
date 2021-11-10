@@ -1,43 +1,49 @@
 <template>
-  <v-card class="mx-auto" max-width="500">
-    <h1>{{ title.name }}</h1>
-    <h4>Average Rating: {{ index }}</h4>
-    <v-divider></v-divider>
-    <v-virtual-scroll
-      :items="feedbacks"
-      height="500"
-      min-width="300"
-      :item-height="50"
-    >
-      <template v-slot:default="{ item }">
-        <v-list-item router :to="item.route" class="pa-0 ma-1">
-          <v-list-item-avatar class="pa-0 ma-1">
-            <v-avatar :color="item.color" size="40" class="white--text">
-              {{ item.initials }}
-            </v-avatar>
-          </v-list-item-avatar>
+  <v-card max-width="400">
+    <v-card-title>
+      <span class="text-h4">{{ title.name }}</span>
+    </v-card-title>
+    <v-card-subtitle>
+      <span class="text-h6">Average Rating: {{ index }}</span>
+    </v-card-subtitle>
+    <v-card-text>
+      <v-divider></v-divider>
+      <v-virtual-scroll
+        :items="feedbacks"
+        height="400"
+        min-width="300"
+        :item-height="50"
+      >
+        <template v-slot:default="{ item }">
+          <v-list-item router :to="item.route" class="pa-0 ma-1">
+            <v-list-item-avatar class="pa-0 ma-1">
+              <v-avatar :color="item.color" size="40" class="white--text">
+                {{ item.initials }}
+              </v-avatar>
+            </v-list-item-avatar>
 
-          <v-list-item-content>
-            <v-list-item-title>
-              {{ item.name }}
-            </v-list-item-title>
-          </v-list-item-content>
+            <v-list-item-content>
+              <v-list-item-title>
+                {{ item.name }}
+              </v-list-item-title>
+            </v-list-item-content>
 
-          <v-rating
-            background-color="grey"
-            color="primary"
-            empty-icon="mdi-star-outline"
-            full-icon="mdi-star"
-            half-icon="mdi-star-half-full"
-            half-increments
-            length="5"
-            readonly
-            dense
-            v-model="item.rating"
-          ></v-rating>
-        </v-list-item>
-      </template>
-    </v-virtual-scroll>
+            <v-rating
+              background-color="grey"
+              color="primary"
+              empty-icon="mdi-star-outline"
+              full-icon="mdi-star"
+              half-icon="mdi-star-half-full"
+              half-increments
+              length="5"
+              readonly
+              dense
+              v-model="item.rating"
+            ></v-rating>
+          </v-list-item>
+        </template>
+      </v-virtual-scroll>
+    </v-card-text>
   </v-card>
 </template>
 <script>
@@ -77,7 +83,6 @@ export default {
         .map((m) => m.rating)
         .reduce((prev, curr) => prev + curr, 0);
       const avg = sum / num;
-      console.log("Sum: %d, Num: %d, Avg:", sum, num, avg);
       return avg;
     },
   },

@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
     inputs:
       tags:
-        description: 'Environment variables reloading'
+        description: "Environment variables reloading"
 
 env:
   IMAGE_NAME: weather-vortex-client
@@ -21,7 +21,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Deploy Vue
-        uses: xRealNeon/VuePagesAction@1.0.0
+        uses: xRealNeon/VuePagesAction@1.0.1
         with:
           username: "Weather-Vortex"
           reponame: "weather-vortex-client"
@@ -31,6 +31,10 @@ jobs:
           VUE_APP_SERVER_URL: ${{ secrets.VUE_APP_SERVER_URL }}
 
   push-to-registry:
+    env:
+      PUBLIC_PATH: "/"
+      VUE_APP_SERVER_URL: ${{ secrets.VUE_APP_SERVER_URL }}
+
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
     steps:
