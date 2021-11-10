@@ -1,4 +1,5 @@
 <template>
+  <v-container>
   <v-container class="forecast">
     <v-row>
       <v-col cols="12" md="6" sm="6" xs="6" class="ma-auto">
@@ -10,7 +11,7 @@
         </div>
       </v-col>
       <v-col v-if="_fetching > 0" cols="12" md="6" sm="6" xs="6">
-        Remainings to fetch: {{ _fetching }}
+        Remainings: {{ _fetching }}
       </v-col>
       <v-col cols="12" md="6" sm="6" xs="12" class="ma-auto">
         <div class="text-center">
@@ -33,6 +34,21 @@
         <WeatherForecastCard v-if="showAggregation" v-bind="mid" />
       </v-col>
       <v-col md="12" xs="6" offset-md="1">
+        <!-- <vue-horizontal>
+          <template v-slot:btn-next>
+            <v-div class="replaced-btn">
+              <v-icon>
+                mdi-chevron-right
+              </v-icon>
+            </v-div>
+          </template>
+          <v-section v-for="forecast in someForecasts" :key="forecast.provider">
+            <WeatherForecastCard
+              v-bind:provider="forecast.provider"
+              v-bind:data="forecast.data"
+            />
+          </v-section>
+        </vue-horizontal>-->
         <template>
           <vue-horizontal responsive class="horizontal" :displacement="0.7">
             <!-- <template v-slot:btn-next>
@@ -42,8 +58,7 @@
                 </v-icon>
               </v-div>
             </template>-->
-
-            <section
+            <v-section
               class="content"
               v-for="forecast in someForecasts"
               :key="forecast.provider"
@@ -52,18 +67,16 @@
                 v-bind:provider="forecast.provider"
                 v-bind:data="forecast.data"
               />
-            </section>
+            </v-section>
           </vue-horizontal>
         </template>
       </v-col>
     </v-row>
   </v-container>
 </template>
-
 <script>
 import WeatherForecastCard from "@/components/weather/WeatherForecastCard";
 import VueHorizontal from "vue-horizontal";
-
 export default {
   name: "CurrentForecast",
   components: { WeatherForecastCard, VueHorizontal },
@@ -74,25 +87,24 @@ export default {
     columns() {
       return this.showAggregation ? 3 : 4;
     },
-    _fetching: function () {
+    _fetching: function() {
       return this.fetching;
     },
-    forecasts: function () {
+    forecasts: function() {
       return this.initialForecasts;
     },
     isLoading() {
       return this.loading === true;
     },
-    mid: function () {
+    mid: function() {
       return this.initialMid;
     },
-    someForecasts: function () {
+    someForecasts: function() {
       if (typeof this.forecasts === "undefined") {
         // When this component is created, we don't have this.forecasts yet.
         console.warn("No forecasts now");
         return undefined;
       }
-
       let filtered;
       if (typeof this.filter === "string" && this.filter.length > 0) {
         filtered = this.forecasts.filter((elem) =>
@@ -101,7 +113,6 @@ export default {
       } else {
         filtered = this.forecasts;
       }
-
       return filtered; // .slice((this.page - 1) * 3, this.page * 3);
     },
   },
@@ -113,7 +124,7 @@ export default {
     };
   },
   methods: {
-    setFilter: function (value) {
+    setFilter: function(value) {
       console.log("Set filter:", value);
     },
   },
@@ -126,13 +137,11 @@ export default {
   color: white;
   border-radius: 0;
 }
-
 .horizontal >>> .v-hl-btn-next {
   top: 0;
   bottom: 0;
   transform: translateX(0);
 }
-
 .replaced-btn {
   height: 100%;
   background: linear-gradient(to right, #ffffff00, white);
@@ -140,7 +149,6 @@ export default {
   display: flex;
   align-items: center;
 }
-
 .replaced-btn > div {
   font-weight: 700;
   font-size: 15px;
