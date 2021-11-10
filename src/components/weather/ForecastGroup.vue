@@ -43,7 +43,7 @@
               </v-div>
             </template>-->
 
-            <v-section
+            <section
               class="content"
               v-for="forecast in someForecasts"
               :key="forecast.provider"
@@ -52,7 +52,7 @@
                 v-bind:provider="forecast.provider"
                 v-bind:data="forecast.data"
               />
-            </v-section>
+            </section>
           </vue-horizontal>
         </template>
       </v-col>
