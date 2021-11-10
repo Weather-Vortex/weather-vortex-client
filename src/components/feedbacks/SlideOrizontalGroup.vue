@@ -44,10 +44,12 @@
 <script>
 import LeaveFeedbackDialog from "@/components/feedbacks/LeaveFeedbackDialog";
 import ServiceRatingsList from "@/components/feedbacks/ServiceRatingsList";
+import VueHorizontal from "vue-horizontal";
 export default {
   components: {
     LeaveFeedbackDialog,
     ServiceRatingsList,
+    VueHorizontal,
   },
   created() {
     this.loadFeedbacks();
