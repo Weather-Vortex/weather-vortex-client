@@ -38,7 +38,7 @@
         ></v-slider
       ></v-col>
     </v-row>
-    <v-row>
+    <v-row v-if="debug">
       <v-col>
         <span>{{ this.current.toLocaleString() }}</span>
       </v-col>
@@ -98,7 +98,7 @@ export default {
     /**
      * Get if the socket is connected or not.
      */
-    connected: function() {
+    connected: function () {
       return (
         typeof this.socket !== "undefined" &&
         this.socket !== null &&
@@ -108,7 +108,7 @@ export default {
     /**
      * The current time selected from the user.
      */
-    current: function() {
+    current: function () {
       const old = new Date();
       old.setDate(old.getDate() + this.day);
       old.setTime(old.getTime() + this.time * 3 * 60 * 60 * 1000);
@@ -117,7 +117,7 @@ export default {
     /**
      * Forecast selected with current time.
      */
-    forecasts: function() {
+    forecasts: function () {
       if (typeof this.allForecasts !== "object") return undefined;
       const temps = nextForecast(this.allForecasts, this.current);
       return temps;
@@ -125,24 +125,33 @@ export default {
     /**
      * Average forecast with current time.
      */
-    mid: function() {
-      if (typeof this.allMid.data !== "object" || this.allMid.data.length < 1)
+    mid: function () {
+      // Process only if we have some forecasts selected.
+      if (typeof this.forecasts !== "object" || this.forecasts.length < 1) {
         return null;
-      const temps = nextTime(this.allMid.data, this.current);
+      }
+
+      // Update this.results array.
+      this.cleanMinimal();
+      this.forecasts.forEach((each) => {
+        this.updateMid(each.data);
+      });
       return {
-        provider: this.allMid.provider,
-        data: temps,
+        provider: "Aggregated",
+        data: this.results,
       };
     },
     /**
      * Labels of hours to show.
      */
-    labels: function() {
+    labels: function () {
       /* 
       If number of modes changes, update the slider max attr too.
       Actually show 8 different hours (3h hop), starting from next hour.
       */
-      const now = new Date().getHours() + 1;
+      const now = new Date().getHours() - new Date().getTimezoneOffset() / 60;
+      console.log("Difference:", new Date().getTimezoneOffset());
+
       return Array.from(Array(8)).map((_, i) =>
         ((i * 3 + now) % 24).toString()
       );
@@ -150,17 +159,27 @@ export default {
     /**
      * True if some providers missing, false anywhere.
      */
-    loading: function() {
+    loading: function () {
       return this.fetching > 0;
     },
     /**
      * The selected time from first forecast.
      */
-    selectedTime: function() {
-      if (this.forecasts && this.forecasts.length > 0) {
-        return new Date(this.forecasts[0].data.time);
-      }
-      return this.current;
+    selectedTime: function () {
+      let selected =
+        this.forecasts && this.forecasts.length > 0
+          ? new Date(this.forecasts[0].data.time)
+          : this.current;
+
+      const calculated = new Date(
+        selected - new Date().getTimezoneOffset() / 60
+      );
+
+      // const str = calculated.toLocaleString(); // .toISOString(); // .substr(0, 10);
+      return calculated;
+    },
+    debug: function () {
+      return process.env.NODE_ENV !== "production";
     },
   },
   data() {
@@ -179,37 +198,39 @@ export default {
       ],
       time: 0, // Selected time.
       fetching: 0, // Missing providers.
-      allMid: [
-        //
-        {
-          provider: "Aggregated",
-          data: {
-            time: "2021-09-09T16:00:00.000Z",
-            temp: 25,
-            tempMin: 20,
-            tempMax: 26,
-            pressure: 1001,
-            humidity: 11,
-            weatherIcon: "mdi-weather-rainy",
-            weatherDescription: "Rainy",
-            clouds: 2,
-            rain: 2,
-            snow: 2,
-          },
-        },
-      ],
+      initialMidData: {
+        temp: 0,
+        tempMin: 0,
+        tempMax: 0,
+        pressure: 0,
+        humidity: 0,
+        clouds: 0,
+        rain: 0,
+        snow: 0,
+      },
+      midData: {},
+      results: {},
+      descriptions: new Map(),
+      icons: new Map(),
       socket: null,
       status: null,
       waiting: [],
     };
   },
   methods: {
-    clean: function() {
-      this.allDorecasts = [];
+    clean: function () {
+      this.allForecasts = [];
       this.waiting = [];
-      this.allMid = [];
+      this.cleanMinimal();
     },
-    connect: function() {
+    cleanMinimal: function () {
+      this.midData = JSON.parse(JSON.stringify(this.initialMidData));
+      this.results = JSON.parse(JSON.stringify(this.initialMidData));
+      // Needs to be two separated maps.
+      this.descriptions = new Map();
+      this.icons = new Map();
+    },
+    connect: function () {
       const username = uuidv4();
       this.socket = create();
       this.subscribe();
@@ -217,7 +238,7 @@ export default {
       this.socket.auth = { username };
       this.socket.connect({ forceNew: true });
     },
-    disconnect: function() {
+    disconnect: function () {
       const instance = this.socket;
       instance.off("connection");
       instance.off("connect_error");
@@ -226,30 +247,45 @@ export default {
       instance.disconnect();
       this.socket = null;
     },
-    requireForecasts: function(locality) {
-      console.log("Requested current for: ", locality);
+    requireForecasts: function (locality) {
       this.fetching = this.fetching + 1;
       this.clean();
+      const split = locality.split(",");
+      if (split && split.length === 2) {
+        const latitude = new Number(split[0]);
+        const longitude = new Number(split[1]);
+        if (!isNaN(latitude) && !isNaN(longitude)) {
+          console.log("Requiring %d::%d", latitude, longitude);
+          this.socket.emit("threedays", { latitude, longitude });
+          return;
+        }
+      }
       this.socket.emit("threedays", { locality });
     },
-    subscribe: function() {
+    subscribe: function () {
       this.socket.on("connect", () => {
         const locality = this.$route.params.locality;
         this.requireForecasts(locality);
       });
 
       this.socket.on("forecast_requested", (args) => {
-        if (typeof args.providers !== "object") {
-          console.error("Received a corrupted packet from socket");
+        if (typeof args.providerNames !== "object") {
+          const errorMessage = "Received a corrupted packet from socket";
+          const title = "Forecasts";
+          const type = "error";
+          this.$alert(errorMessage, title, type);
+          console.error(errorMessage, args);
           this.fetching = this.fetching - 1;
           return;
         }
 
-        args.providers.forEach((provider) => {
+        // Put into waiting queue required provider names.
+        args.providerNames.forEach((provider) => {
           this.waiting.push({ provider });
         });
 
-        this.fetching = this.fetching + args.providers.length - 1;
+        // Add to fetching count the number of provider names.
+        this.fetching = this.fetching + args.providerNames.length - 1;
       });
 
       this.socket.on("connect_error", (err) => {
@@ -261,31 +297,73 @@ export default {
 
       this.socket.on("result", (result) => {
         const { provider, data } = result;
-        console.log("Result from %s", provider);
+        console.log("Result from %s with: %o", provider, data);
         this.fetching = this.fetching - 1;
         const current = this.waiting.filter(
           (forecast) => forecast.provider !== provider
         );
         this.waiting = current;
-        console.log(
-          "Waiting:",
-          this.waiting.map((m) => m.provider.toString())
-        );
-        console.log("Fetched %o", current.provider);
         this.allForecasts.push({ provider, data });
-        this.allMid = { provider: "Aggregated", data };
       });
+    },
+    updateMid: function (data) {
+      const keys = Object.keys(data);
+      keys.forEach((elem) => {
+        const value = Number(data[elem]);
+        // time and weather icons are not considered.
+        if (isNaN(value)) {
+          const desc = data[elem];
+          if (elem === "weatherDescription") {
+            // Update weather description map.
+            this.populateMap(desc, this.descriptions);
+            const keyWithMaxValue = this.getMostValueKeyFromMap(
+              this.descriptions
+            );
+            this.results.weatherDescription = keyWithMaxValue;
+          } else if (elem === "weatherIcon") {
+            // Update weather icon map.
+            this.populateMap(desc, this.icons);
+            const keyWithMaxValue = this.getMostValueKeyFromMap(this.icons);
+            this.results.weatherIcon = keyWithMaxValue;
+          }
+        } else {
+          this.midData[elem] += value;
+          const num = this.midData[elem] / this.forecasts.length;
+          const fixed = Number.parseFloat(num).toFixed(2);
+          this.results[elem] = fixed;
+        }
+      });
+    },
+    populateMap: function (desc, map) {
+      if (map.has(desc)) {
+        const actualValue = map.get(desc);
+        const increasedValue = actualValue + 1;
+        map.set(desc, increasedValue);
+      } else {
+        map.set(desc, 1);
+      }
+    },
+    getMostValueKeyFromMap: function (map) {
+      let keyWithMaxValue = null;
+      let maxValueFromKey = 0;
+      map.forEach(function (value, key) {
+        if (maxValueFromKey < value) {
+          keyWithMaxValue = key;
+          maxValueFromKey = value;
+        }
+      });
+      return keyWithMaxValue;
     },
   },
   watch: {
     current(value) {
-      console.log("Changed current:", value.toLocaleString());
+      if (this.debug) console.log("Changed current:", value.toLocaleString());
     },
     day(value) {
-      console.log("Changed day:", value);
+      if (this.debug) console.log("Changed day:", value);
     },
     time(value) {
-      console.log("Changed time:", value);
+      if (this.debug) console.log("Changed time:", value);
     },
   },
   mounted() {
@@ -293,25 +371,16 @@ export default {
       this.connect();
     }
   },
-  beforeDestroy() {
-    console.log("Before Destroy");
-    if (this.connected) {
-      this.disconnect();
-      console.log("Destroy");
-    }
-  },
   beforeRouteLeave(to, from, next) {
     console.log("Before route leave from %s to %s", from, to);
     if (this.connected) {
-      // this.disconnect();
+      this.disconnect();
     }
     next();
   },
   destroyed() {
-    console.log("Destroyed");
     if (this.connected) {
       this.disconnect();
-      console.log("After Destroy");
     }
   },
 };

@@ -2,6 +2,9 @@
 
 FROM node:lts-alpine as build-stage
 
+ENV PUBLIC_PATH="/"
+ENV VUE_APP_SERVER_URL="http://localhost:12000"
+
 WORKDIR /app
 
 COPY package*.json ./
