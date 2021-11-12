@@ -34,7 +34,7 @@
             v-for="item in items"
             :key="item.title"
             text
-            :value="item.route"
+            :value="item.path"
           >
             <span class="hidden-xs-and-down">{{ item.description }}</span>
             <v-icon right>{{ item.icon }}</v-icon>
@@ -67,12 +67,14 @@ export default {
         {
           name: "now",
           description: "Now",
+          path: "current",
           route: "Current",
           icon: "mdi-weather-hazy",
         },
         {
           name: "3days",
           description: "3 Days",
+          path: "threedays",
           route: "Three Days",
           icon: "mdi-star",
         },
@@ -96,9 +98,10 @@ export default {
     },
     navigateToForecast: function (value) {
       this.$router
-        .push({ name: value, params: { locality: this.locality } })
+        .push(`/forecasts/${this.locality}/${value}`) // { name: value, params: { locality: this.locality } }
         .catch((failure) => {
           if (isNavigationFailure(failure, NavigationFailureType.duplicated)) {
+            this.$router.go();
             console.warn(
               `Navigation duplicated no problem: you wanna navigate to ${failure.to.path}, but you already are in ${failure.from.path}`
             );
