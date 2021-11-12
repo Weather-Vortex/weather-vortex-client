@@ -42,7 +42,7 @@
       </vue-horizontal>
     </template>-->
     <template>
-      <vue-horizontal class="horizontal" :displacement="0.7">
+      <vue-horizontal class="horizontal" :displacement="0.7" height="500">
         <!-- <template v-slot:btn-next>
               <v-div class="replaced-btn">
                 <v-icon>
