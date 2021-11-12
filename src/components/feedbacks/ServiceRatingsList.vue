@@ -83,7 +83,9 @@ export default {
         .map((m) => m.rating)
         .reduce((prev, curr) => prev + curr, 0);
       const avg = sum / num;
-      return avg;
+      const fixed = Number.parseFloat(avg).toFixed(2);
+
+      return fixed;
     },
   },
   methods: {
