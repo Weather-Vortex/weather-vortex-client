@@ -1,7 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
 
-import VuexPersistence from "vuex-persist";
 import localStore from "store";
 
 Vue.use(Vuex);
@@ -57,10 +56,6 @@ const mutations = {
   toggleDrawer: (state) => (state.drawer = !state.drawer),
 };
 
-const vuexLocal = new VuexPersistence({
-  storage: window.localStorage,
-});
-
 const store = new Vuex.Store({
   state,
   getters,
@@ -71,7 +66,6 @@ const store = new Vuex.Store({
       store.commit("login", user);
     },
   },
-  plugins: [vuexLocal.plugin],
   /*
   In strict mode, whenever Vuex state is mutated outside of mutation handlers, an error will be thrown.
   From doc: https://vuex.vuejs.org/guide/strict.html#strict-mode.
