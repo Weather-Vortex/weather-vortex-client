@@ -1,5 +1,5 @@
 <template>
-  <v-sheet elevation="5" max-width="95%">
+  <v-sheet elevation="5">
     <v-text-field
       v-model="searchContent"
       :append-icon="'mdi-magnify'"
@@ -12,46 +12,14 @@
       clearable
       clear-icon="mdi-close-circle"
     ></v-text-field>
-    <!--<v-slide-group v-model="model" class="pa-2" center-active show-arrows>
-      <v-slide-item
-        height="400"
-        v-for="ser in providers"
-        :key="ser._id"
-        v-slot="{ active, toggle }"
-      >
-        <v-card
-          :color="active ? 'primary' : 'grey lighten-1'"
-          class="ma-1 pa-1"
-          @click="toggle"
-        >
-          <ServiceRatingsList :title="ser" />
-
-          <LeaveFeedbackDialog
-            :provider="ser"
-          />
-        </v-card>
-      </v-slide-item>
-    </v-slide-group>-->
-    <!--<template>
-      <vue-horizontal class="horizontal" :displacement="0.7">
-        <section v-for="ser in providers" :key="ser._id">
-          <ServiceRatingsList :title="ser" />
-
-          <LeaveFeedbackDialog :provider="ser" />
-        </section>
-      </vue-horizontal>
-    </template>-->
     <template>
-      <vue-horizontal class="horizontal" :displacement="0.7" height="500">
-        <!-- <template v-slot:btn-next>
-              <v-div class="replaced-btn">
-                <v-icon>
-                  mdi-chevron-right
-                </v-icon>
-              </v-div>
-            </template>-->
-
-        <section v-for="ser in providers" :key="ser._id">
+      <vue-horizontal
+        responsive
+        class="horizontal"
+        :displacement="0.7"
+        height="500"
+      >
+        <section v-for="(ser, i) in providers" :key="i">
           <ServiceRatingsList :title="ser" />
 
           <LeaveFeedbackDialog :provider="ser" />
@@ -88,7 +56,7 @@ export default {
     },
     loadFeedbacks() {
       const server = process.env.VUE_APP_SERVER_URL;
-      let url = `${server}/feedbacks/`;
+      const url = `${server}/feedbacks/`;
       this.$http
         .get(url)
         .then((response) => {
@@ -140,6 +108,7 @@ export default {
   border-radius: 3px;
   border: 1px solid black;
 }
+
 .forecast {
   background: #e1f3f3;
 }
