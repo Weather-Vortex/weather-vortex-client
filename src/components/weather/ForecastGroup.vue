@@ -17,7 +17,6 @@
           <v-text-field
             label="Filter Provider"
             append-icon="mdi-magnify"
-            @click:append="setFilter"
             :loading="isLoading"
             placeholder="Insert provider name"
             single-line
@@ -74,19 +73,19 @@ export default {
     columns() {
       return this.showAggregation ? 3 : 4;
     },
-    _fetching: function() {
+    _fetching: function () {
       return this.fetching;
     },
-    forecasts: function() {
+    forecasts: function () {
       return this.initialForecasts;
     },
     isLoading() {
       return this.loading === true;
     },
-    mid: function() {
+    mid: function () {
       return this.initialMid;
     },
-    someForecasts: function() {
+    someForecasts: function () {
       if (typeof this.forecasts === "undefined") {
         // When this component is created, we don't have this.forecasts yet.
         console.warn("No forecasts now");
@@ -112,14 +111,10 @@ export default {
       showAggregation: true,
     };
   },
-  methods: {
-    setFilter: function(value) {
-      console.log("Set filter:", value);
-    },
-  },
   props: ["initialForecasts", "initialMid", "fetching"],
 };
 </script>
+
 <style scoped>
 .horizontal >>> .v-hl-btn-prev svg {
   background: blue;
