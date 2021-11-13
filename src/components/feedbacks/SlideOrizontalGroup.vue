@@ -1,11 +1,9 @@
 <template>
   <v-sheet elevation="8">
     <v-text-field
+      label="Search providers"
+      append-icon="mdi-magnify"
       v-model="searchContent"
-      :append-icon="'mdi-magnify'"
-      @click:append="searchMethod"
-      @change="searchMethod"
-      label="Search"
       single-line
       outlined
       class="ma-4"
@@ -15,7 +13,7 @@
 
     <template>
       <vue-horizontal class="horizontal" :displacement="0.7" height="500">
-        <section v-for="(ser, i) in providers" :key="i">
+        <section v-for="(ser, i) in someProviders" :key="i">
           <ServiceRatingsList :title="ser" />
           <LeaveFeedbackDialog :provider="ser" />
         </section>
@@ -33,14 +31,34 @@ export default {
     ServiceRatingsList,
     VueHorizontal,
   },
+  computed: {
+    someProviders: function () {
+      if (typeof this.providers === "undefined") {
+        console.warn("No providers now:", this.providers);
+        return undefined;
+      }
+
+      if (!this.searchContent) {
+        return this.providers;
+      }
+
+      // Lower case filter string.
+      const lower = this.searchContent.toLowerCase();
+      // Filter function with previous lower case string.
+      const filter = (provider) => provider.name.toLowerCase().includes(lower);
+      // Elements filtered with previous function
+      return this.providers.filter(filter);
+    },
+  },
   created() {
     this.loadFeedbacks();
   },
-  data: () => ({
-    model: null,
-    providers: [],
-    searchContent: null,
-  }),
+  data() {
+    return {
+      providers: [],
+      searchContent: null,
+    };
+  },
   methods: {
     clearMessage() {
       this.searchContent = "";
@@ -56,7 +74,6 @@ export default {
         .get(url)
         .then((response) => {
           this.providers = response.data.results;
-          console.log(this.providers);
         })
         .catch((error) => {
           console.error(error.data);
@@ -67,11 +84,12 @@ export default {
         elem.name.includes(this.searchContent)
       );
       console.log("Found: ", elem);
-      this.model = this.providers.indexOf(elem);
+      // this.model = this.providers.indexOf(elem);
     },
   },
 };
 </script>
+
 <style scoped>
 .horizontal >>> .v-hl-btn-prev svg {
   background: blue;
