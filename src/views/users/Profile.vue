@@ -48,10 +48,9 @@ export default {
   methods: {
     deleteUser() {
       const server = process.env.VUE_APP_SERVER_URL;
-      let url = `${server}/auth/`;
+      const url = `${server}/auth/`;
 
-      // if (this.$confirm("Do you really want to delete?")) {
-      if (window.confirm("Do you really want to delete?")) {
+      this.$confirm("Are you sure to delete your account?").then(() => {
         this.$http
           .delete(url, { withCredentials: true })
           .then(() => {
@@ -63,7 +62,7 @@ export default {
           .catch((error) => {
             console.log(error);
           });
-      }
+      });
     },
   },
 };
