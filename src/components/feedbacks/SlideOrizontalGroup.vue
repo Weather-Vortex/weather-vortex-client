@@ -1,5 +1,5 @@
 <template>
-  <v-sheet elevation="5" max-width="95%">
+  <v-sheet elevation="8">
     <v-text-field
       v-model="searchContent"
       :append-icon="'mdi-magnify'"
@@ -14,15 +14,8 @@
     ></v-text-field>
 
     <template>
-      <vue-horizontal class="horizontal" :displacement="0.7">
-        <!-- <template v-slot:btn-next>
-              <v-div class="replaced-btn">
-                <v-icon>
-                  mdi-chevron-right
-                </v-icon>
-              </v-div>
-            </template>-->
-        <section v-for="ser in providers" :key="ser._id">
+      <vue-horizontal class="horizontal" :displacement="0.7" height="500">
+        <section v-for="(ser, i) in providers" :key="i">
           <ServiceRatingsList :title="ser" />
           <LeaveFeedbackDialog :provider="ser" />
         </section>
