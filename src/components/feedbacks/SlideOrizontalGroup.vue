@@ -1,5 +1,5 @@
 <template>
-  <v-sheet elevation="5">
+  <v-sheet elevation="5" max-width="95%">
     <v-text-field
       v-model="searchContent"
       :append-icon="'mdi-magnify'"
@@ -12,16 +12,18 @@
       clearable
       clear-icon="mdi-close-circle"
     ></v-text-field>
-    <template>
-      <vue-horizontal
-        responsive
-        class="horizontal"
-        :displacement="0.7"
-        height="500"
-      >
-        <section v-for="(ser, i) in providers" :key="i">
-          <ServiceRatingsList :title="ser" />
 
+    <template>
+      <vue-horizontal class="horizontal" :displacement="0.7">
+        <!-- <template v-slot:btn-next>
+              <v-div class="replaced-btn">
+                <v-icon>
+                  mdi-chevron-right
+                </v-icon>
+              </v-div>
+            </template>-->
+        <section v-for="ser in providers" :key="ser._id">
+          <ServiceRatingsList :title="ser" />
           <LeaveFeedbackDialog :provider="ser" />
         </section>
       </vue-horizontal>
@@ -56,7 +58,7 @@ export default {
     },
     loadFeedbacks() {
       const server = process.env.VUE_APP_SERVER_URL;
-      const url = `${server}/feedbacks/`;
+      let url = `${server}/feedbacks/`;
       this.$http
         .get(url)
         .then((response) => {
@@ -83,13 +85,11 @@ export default {
   color: white;
   border-radius: 0;
 }
-
 .horizontal >>> .v-hl-btn-next {
   top: 0;
   bottom: 0;
   transform: translateX(0);
 }
-
 .replaced-btn {
   height: 100%;
   background: linear-gradient(to right, #ffffff00, white);
@@ -97,7 +97,6 @@ export default {
   display: flex;
   align-items: center;
 }
-
 .replaced-btn > div {
   font-weight: 700;
   font-size: 15px;
@@ -108,7 +107,6 @@ export default {
   border-radius: 3px;
   border: 1px solid black;
 }
-
 .forecast {
   background: #e1f3f3;
 }
