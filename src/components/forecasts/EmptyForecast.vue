@@ -9,11 +9,18 @@
             src="@/assets/weatherfewclouds.jpg"
           ></v-img></v-col></v-row
     ></template>
+
+    <CloudEffect />
   </div>
 </template>
 
 <script>
+import CloudEffect from "@/components/CloudEffect.vue";
 export default {
   name: "EmptyForecast",
+
+  components: {
+    CloudEffect,
+  },
 };
 </script>

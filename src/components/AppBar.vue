@@ -1,6 +1,6 @@
 <template>
   <!-- Is always placed at the top of an application with a lower priority than v-system-bar. -->
-  <v-app-bar app dark>
+  <v-app-bar app dark style="z-index: 99">
     <v-app-bar-nav-icon @click="toggleDrawer"
       ><!-- 
           TODO: Add App Bar Nav Icon

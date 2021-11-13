@@ -1,6 +1,12 @@
 <template>
   <!-- Can be placed on the left or right side of an application and can be configured to sit next to or below v-app-bar. -->
-  <v-navigation-drawer app v-model="drawerVisible" fixed temporary>
+  <v-navigation-drawer
+    app
+    v-model="drawerVisible"
+    fixed
+    temporary
+    style="z-index: 99"
+  >
     <!-- -->
     <v-list rounded nav>
       <v-list-item

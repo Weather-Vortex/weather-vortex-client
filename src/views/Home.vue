@@ -3,8 +3,10 @@
     <v-row>
       <v-spacer></v-spacer>
       <!-- We can set cols attribute or hide spacers with d-classes. -->
-      <v-col cols="12" md="6" class="mb-4">
-        <h2 class="display-2 font-weight-bold mb-4">Weather Vortex</h2>
+      <v-col cols="12" md="6" class="mb-4" style="z-index: 20">
+        <h2 class="display-2 font-weight-bold mb-4">
+          Weather Vortex
+        </h2>
         <p>A project from Lirussi Igor, Tentoni Daniele, Zandoli Silvia</p>
         <p>Weather Forecast Aggregation</p>
       </v-col>
@@ -14,7 +16,7 @@
     <v-row class="bg-img" justify="space-around">
       <v-spacer></v-spacer>
       <v-col cols="12" md="6">
-        <QuickForecastCard />
+        <QuickForecastCard style="z-index: 20" />
       </v-col>
       <v-spacer></v-spacer>
     </v-row>
@@ -35,6 +37,7 @@
         <CheckStatus v-bind="service" />
       </v-col>
     </v-row>
+    <CloudEffect />
   </v-container>
 </template>
 <style>
@@ -49,6 +52,7 @@
 <script>
 // @ is an alias to /src
 import AccountButtons from "@/components/AccountButtons.vue";
+import CloudEffect from "@/components/CloudEffect.vue";
 import CheckStatus from "@/components/info/CheckStatus.vue";
 import InfoMain from "@/components/info/InfoMain.vue";
 import QuickForecastCard from "@/components/weather/QuickForecastCard.vue";
@@ -60,6 +64,7 @@ export default {
     CheckStatus,
     InfoMain,
     QuickForecastCard,
+    CloudEffect,
   },
   data() {
     return {
