@@ -40,7 +40,6 @@ new Vue({
         }
       })
       .catch((error) => {
-        const title = "Application startup error";
         let errorMessage = "";
         switch (error.response.status) {
           case 401:
@@ -66,19 +65,22 @@ new Vue({
         }
 
         // Server didn't found the token in user storage.
-        this.$alert(errorMessage, title, "error").then(() => {
-          // Require the logout from the server, to expire auth httpOnly cookies
-          const logoutUrl = `${server}/auth/logout`;
-          this.$http.get(logoutUrl, { withCredentials: true }).then(() => {
-            this.$alert("You are logged out").then(() => {
-              // Execute the logout from the store and remove the cookie too.
-              this.$cookies.remove("auth");
-              this.$store.commit("logout");
-              // Don't redirect the user to login anymore.
-              // this.$router.push("/user/login");
-              this.$router.push("/");
-            });
-          });
+        console.error(errorMessage);
+        // const title = "Application startup error";
+        // this.$alert(errorMessage, title, "error").then(() => {
+        // Require the logout from the server, to expire auth httpOnly cookies
+        const logoutUrl = `${server}/auth/logout`;
+        this.$http.get(logoutUrl, { withCredentials: true }).finally(() => {
+          console.error("You are logged out");
+          // this.$alert("You are logged out").then(() => {
+          // Execute the logout from the store and remove the cookie too.
+          this.$cookies.remove("auth");
+          this.$store.commit("logout");
+          // Don't redirect the user to login anymore.
+          // this.$router.push("/user/login");
+          this.$router.push("/");
+          //});
+          //});
         });
       });
   },
