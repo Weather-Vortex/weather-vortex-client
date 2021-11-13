@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col cols="12" md="5" class="my-auto">
-        <h1 class="display-1 font-weight-bold">{{ title }}</h1>
+        <h1 class="display-1 font-weight-bold text-truncate">{{ title }}</h1>
       </v-col>
       <v-col cols="12" sm="7" md="4" class="ma-auto">
         <v-text-field
@@ -109,12 +109,11 @@ export default {
       this.loading = true;
       this.navigateToForecast(path);
     },
-    navigateToForecast: function (value) {
+    navigateToForecast: function(value) {
       this.$router
         .push(`/forecasts/${this.locality}/${value}`) // { name: value, params: { locality: this.locality } }
         .catch((failure) => {
           if (isNavigationFailure(failure, NavigationFailureType.duplicated)) {
-            this.$router.go();
             console.warn(
               `Navigation duplicated no problem: you wanna navigate to ${failure.to.path}, but you already are in ${failure.from.path}`
             );
@@ -122,7 +121,7 @@ export default {
             console.error("Navigation error: ", failure);
           }
         })
-        .finally(() => (this.loading = false));
+        .finally(() => (this.$router.go(), (this.loading = false)));
     },
     showPosition: function(position) {
       const latitude = position.coords.latitude;

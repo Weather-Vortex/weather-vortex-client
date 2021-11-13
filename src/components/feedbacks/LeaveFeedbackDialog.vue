@@ -116,7 +116,7 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="error" outlined text @click="dialog = false">
+        <v-btn color="error" outlined text @click="resetDialog()">
           Close
         </v-btn>
         <v-btn color="green" dark @click="submitFeedback()"> Send </v-btn>
@@ -166,6 +166,15 @@ export default {
     },
   },
   methods: {
+    resetDialog() {
+      this.activePicker = null;
+      this.date = null;
+      this.description = "";
+      this.dialog = false;
+      this.expand = false;
+      this.field = null;
+      this.rating = 0;
+    },
     save(date) {
       this.$refs.menu.save(date);
     },
@@ -198,13 +207,7 @@ export default {
               "success"
             ).then(() => {
               // Reset dialog data before quitting.
-              this.activePicker = null;
-              this.date = null;
-              this.description = "";
-              this.dialog = false;
-              this.expand = false;
-              this.field = null;
-              this.rating = 0;
+              this.resetDialog();
 
               this.$emit("feedback-created", feedback);
             });

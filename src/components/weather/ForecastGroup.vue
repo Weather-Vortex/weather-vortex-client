@@ -42,7 +42,7 @@
               </v-div>
             </template>-->
 
-            <v-section
+            <section
               class="content"
               v-for="forecast in someForecasts"
               :key="forecast.provider"
@@ -51,7 +51,7 @@
                 v-bind:provider="forecast.provider"
                 v-bind:data="forecast.data"
               />
-            </v-section>
+            </section>
           </vue-horizontal>
         </template>
       </v-col>
@@ -73,19 +73,19 @@ export default {
     columns() {
       return this.showAggregation ? 3 : 4;
     },
-    _fetching: function () {
+    _fetching: function() {
       return this.fetching;
     },
-    forecasts: function () {
+    forecasts: function() {
       return this.initialForecasts;
     },
     isLoading() {
       return this.loading === true;
     },
-    mid: function () {
+    mid: function() {
       return this.initialMid;
     },
-    someForecasts: function () {
+    someForecasts: function() {
       if (typeof this.forecasts === "undefined") {
         // When this component is created, we don't have this.forecasts yet.
         console.warn("No forecasts now");
