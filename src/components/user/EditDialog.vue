@@ -88,6 +88,7 @@ export default {
       passwordRules: [
         (v) =>
           /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/.test(v) ||
+          v?.length === 0 ||
           "Password must contain at least lowercase letter, one number, a special character and one uppercase letter",
       ],
     };
@@ -97,7 +98,11 @@ export default {
       return value === this.password || "Passwords don't match.";
     },
     validateLength(value) {
-      return value.length > 8 || "Password must have more than 8 characters";
+      return (
+        value.length > 8 ||
+        value?.length === 0 ||
+        "Password must have more than 8 characters"
+      );
     },
     updateUser() {
       const server = process.env.VUE_APP_SERVER_URL;

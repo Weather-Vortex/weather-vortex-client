@@ -72,7 +72,7 @@
       <v-container
         ><EditDialog
           @preferred-updated="onPreferredUpdated"
-          :preferred="this.profile.preferred.location"
+          :preferred="this.preferred"
       /></v-container>
     </v-card-text>
   </v-card>
