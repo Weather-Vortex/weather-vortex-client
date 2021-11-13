@@ -69,7 +69,11 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
-      <v-container><EditDialog /></v-container>
+      <v-container
+        ><EditDialog
+          @preferred-updated="onPreferredUpdated"
+          :preferred="this.profile.preferred.location"
+      /></v-container>
     </v-card-text>
   </v-card>
 </template>
@@ -164,6 +168,10 @@ export default {
               break;
           }
         });
+    },
+    onPreferredUpdated(value) {
+      console.log("Preferred updated:", value);
+      this.profile.preferred.location = value;
     },
   },
 };
