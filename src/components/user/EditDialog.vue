@@ -74,25 +74,35 @@
 </template>
 <script>
 export default {
-  data: () => ({
-    show1: false,
-    show2: false,
-    dialog: false,
-    password: "",
-    retypepassword: "",
-    editPreferred: "",
-    passwordRules: [
-      (v) =>
-        /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/.test(v) ||
-        "Password must contain at least lowercase letter, one number, a special character and one uppercase letter",
-    ],
-  }),
+  props: {
+    preferred: String,
+  },
+  data() {
+    return {
+      show1: false,
+      show2: false,
+      dialog: false,
+      password: "",
+      retypepassword: "",
+      editPreferred: this.$props.preferred,
+      passwordRules: [
+        (v) =>
+          /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/.test(v) ||
+          v?.length === 0 ||
+          "Password must contain at least lowercase letter, one number, a special character and one uppercase letter",
+      ],
+    };
+  },
   methods: {
     validatePassword2(value) {
       return value === this.password || "Passwords don't match.";
     },
     validateLength(value) {
-      return value.length > 8 || "Password must have more than 8 characters";
+      return (
+        value.length > 8 ||
+        value?.length === 0 ||
+        "Password must have more than 8 characters"
+      );
     },
     updateUser() {
       const server = process.env.VUE_APP_SERVER_URL;
@@ -106,7 +116,8 @@ export default {
           if (response.data.user) {
             this.$alert("Data updated correctly.", "Edit", "success").then(
               () => {
-                this.editPreferred = response.data.preferred;
+                console.log(this.editPreferred, response.data.user.preferred);
+                this.$emit("preferred-updated", this.editPreferred);
                 this.dialog = false; // Hide this edit dialog.
               }
             );
