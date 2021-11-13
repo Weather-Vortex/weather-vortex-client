@@ -15,7 +15,10 @@
       <vue-horizontal class="horizontal" :displacement="0.7" height="500">
         <section v-for="(ser, i) in someProviders" :key="i">
           <ServiceRatingsList :title="ser" />
-          <LeaveFeedbackDialog :provider="ser" />
+          <LeaveFeedbackDialog
+            :provider="ser"
+            @feedback-created="onFeedbackCreated"
+          />
         </section>
       </vue-horizontal>
     </template>
@@ -78,13 +81,6 @@ export default {
         .catch((error) => {
           console.error(error.data);
         });
-    },
-    searchMethod() {
-      const elem = this.providers.find((elem) =>
-        elem.name.includes(this.searchContent)
-      );
-      console.log("Found: ", elem);
-      // this.model = this.providers.indexOf(elem);
     },
   },
 };
