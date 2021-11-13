@@ -1,5 +1,5 @@
 <template>
-  <v-card min-width="300" class="mx-2 my-1" :loading="loading" elevation="1">
+  <v-card class="mx-2 my-1" :loading="loading" elevation="1">
     <template slot="progress">
       <v-progress-linear
         color="deep-purple"
@@ -19,6 +19,7 @@
         v-for="type in types"
         :key="type.title"
         v-bind:type="type"
+        max-width="100%"
       />
     </v-list>
   </v-card>
@@ -30,10 +31,10 @@ export default {
   name: "WeatherForecastCard",
   components: { WeatherCardItem },
   computed: {
-    loading: function () {
+    loading: function() {
       return typeof this.data === "undefined" || this.data === null;
     },
-    types: function () {
+    types: function() {
       // Build the array of card items. Each items contains label, icon, tooltip and value to show.
       let t =
         process.env.NODE_ENV !== "production"

@@ -37,12 +37,8 @@
       </v-toolbar>
     </template>
     <template v-slot:[`item.actions`]="{ item }">
-      <v-icon @click="deleteItem(item)">
-        mdi-delete
-      </v-icon>
-      <v-icon @click="goTo()">
-        mdi-chevron-right
-      </v-icon>
+      <v-icon @click="deleteItem(item)"> mdi-delete </v-icon>
+      <v-icon @click="goTo()"> mdi-chevron-right </v-icon>
     </template>
   </v-data-table>
 </template>
@@ -88,7 +84,9 @@ export default {
     //populate the table
     const server = process.env.VUE_APP_SERVER_URL;
     const user = this.$store.getters.getId;
-    console.log("user: " + user);
+    if (process.env.NODE_ENV === "production") {
+      console.log("User: " + user);
+    }
     let url = `${server}/users/${user}/feedbacks`;
     this.$http
       .get(url)

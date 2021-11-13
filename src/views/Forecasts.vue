@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col cols="12" md="5" class="my-auto">
-        <h1 class="display-2 font-weight-bold">{{ title }}</h1>
+        <h1 class="display-1 font-weight-bold text-truncate">{{ title }}</h1>
       </v-col>
       <v-col cols="12" sm="7" md="4" class="ma-auto">
         <v-text-field
@@ -29,17 +29,16 @@
         </v-text-field>
       </v-col>
       <v-col cols="12" sm="5" md="3" class="my-auto">
-        <v-btn-toggle v-model="selected" borderless>
-          <v-btn
-            v-for="item in items"
-            :key="item.title"
-            text
-            :value="item.route"
-          >
-            <span class="hidden-xs-and-down">{{ item.description }}</span>
-            <v-icon right>{{ item.icon }}</v-icon>
-          </v-btn>
-        </v-btn-toggle>
+        <v-btn
+          v-for="item in items"
+          :key="item.title"
+          text
+          :value="item.path"
+          @click="navigate(item.path)"
+        >
+          <span class="hidden-xs-and-down">{{ item.description }}</span>
+          <v-icon right>{{ item.icon }}</v-icon>
+        </v-btn>
       </v-col>
     </v-row>
     <v-row>
@@ -59,7 +58,7 @@ export default {
       return this.$route.params.locality ?? "Forecasts";
     },
   },
-  data: function () {
+  data: function() {
     return {
       selected: "justify",
       isLoading: false,
@@ -67,12 +66,14 @@ export default {
         {
           name: "now",
           description: "Now",
+          path: "current",
           route: "Current",
           icon: "mdi-weather-hazy",
         },
         {
           name: "3days",
           description: "3 Days",
+          path: "threedays",
           route: "Three Days",
           icon: "mdi-star",
         },
@@ -82,7 +83,7 @@ export default {
     };
   },
   methods: {
-    error: function (error) {
+    error: function(error) {
       if (error.code == error.PERMISSION_DENIED) {
         this.$alert(
           "You have to turn on the permission to access your location!"
@@ -91,12 +92,26 @@ export default {
         this.$alert("Geolocation error");
       }
     },
-    getPosition: function () {
+    getPosition: function() {
       navigator.geolocation.getCurrentPosition(this.showPosition, this.error);
     },
-    navigateToForecast: function (value) {
+    navigate(path) {
+      // Don't navigate to empty locality.
+      if (
+        typeof this.locality === "undefined" ||
+        this.locality === null ||
+        this.locality.length === 0
+      ) {
+        // TODO: Show error in text box.
+        return;
+      }
+
+      this.loading = true;
+      this.navigateToForecast(path);
+    },
+    navigateToForecast: function(value) {
       this.$router
-        .push({ name: value, params: { locality: this.locality } })
+        .push(`/forecasts/${this.locality}/${value}`) // { name: value, params: { locality: this.locality } }
         .catch((failure) => {
           if (isNavigationFailure(failure, NavigationFailureType.duplicated)) {
             console.warn(
@@ -106,12 +121,12 @@ export default {
             console.error("Navigation error: ", failure);
           }
         })
-        .finally(() => (this.loading = false));
+        .finally(() => (this.$router.go(), (this.loading = false)));
     },
-    showPosition: function (position) {
-      this.lat = position.coords.latitude;
-      this.lon = position.coords.longitude;
-      this.locality = "{" + this.lat + "," + this.lon + "}";
+    showPosition: function(position) {
+      const latitude = position.coords.latitude;
+      const longitude = position.coords.longitude;
+      this.locality = latitude + "," + longitude;
     },
   },
   mounted() {

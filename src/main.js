@@ -28,6 +28,7 @@ new Vue({
     /*
       Now we cannot get the auth cookie anymore since it is an httponly cookie. We should try a request to server each time to verify if the token is expired or not.
     */
+    this.$store.dispatch("loadStore");
     // Load authentication before the first isAuthentication request.
     const server = process.env.VUE_APP_SERVER_URL;
     const profileUrl = `${server}/auth/profile`;
@@ -39,7 +40,6 @@ new Vue({
         }
       })
       .catch((error) => {
-        const title = "Application startup error";
         let errorMessage = "";
         switch (error.response.status) {
           case 401:
@@ -57,7 +57,6 @@ new Vue({
             errorMessage = "No users found with given credentials.";
             break;
         }
-        console.log(error.response);
 
         if (!errorMessage || errorMessage === "") {
           // User doesn't need to be alerted.
@@ -65,19 +64,22 @@ new Vue({
         }
 
         // Server didn't found the token in user storage.
-        this.$alert(errorMessage, title, "error").then(() => {
-          // Require the logout from the server, to expire auth httpOnly cookies
-          const logoutUrl = `${server}/auth/logout`;
-          this.$http.get(logoutUrl, { withCredentials: true }).then(() => {
-            this.$alert("You are logged out").then(() => {
-              // Execute the logout from the store and remove the cookie too.
-              this.$cookies.remove("auth");
-              this.$store.commit("logout");
-              // Don't redirect the user to login anymore.
-              // this.$router.push("/user/login");
-              this.$router.push("/");
-            });
-          });
+        console.error(errorMessage, error.response);
+        // const title = "Application startup error";
+        // this.$alert(errorMessage, title, "error").then(() => {
+        // Require the logout from the server, to expire auth httpOnly cookies
+        const logoutUrl = `${server}/auth/logout`;
+        this.$http.get(logoutUrl, { withCredentials: true }).finally(() => {
+          console.error("You are logged out");
+          // this.$alert("You are logged out").then(() => {
+          // Execute the logout from the store and remove the cookie too.
+          this.$cookies.remove("auth");
+          this.$store.commit("logout");
+          // Don't redirect the user to login anymore.
+          // this.$router.push("/user/login");
+          this.$router.push("/");
+          //});
+          //});
         });
       });
   },

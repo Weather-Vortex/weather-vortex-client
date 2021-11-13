@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container fluid>
     <v-row>
       <v-spacer></v-spacer>
       <!-- We can set cols attribute or hide spacers with d-classes. -->

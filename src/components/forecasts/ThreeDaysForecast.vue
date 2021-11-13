@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row>
-      <v-col>
+      <v-col cols="12" md="6">
         <v-slide-group v-model="day" show-arrows center-active>
           <v-slide-item
             v-for="day in days"
@@ -28,7 +28,7 @@
           </v-slide-item>
         </v-slide-group>
       </v-col>
-      <v-col>
+      <v-col cols="12" md="6">
         <v-slider
           v-model="time"
           :max="7"
@@ -38,7 +38,7 @@
         ></v-slider
       ></v-col>
     </v-row>
-    <v-row>
+    <v-row v-if="debug">
       <v-col>
         <span>{{ this.current.toLocaleString() }}</span>
       </v-col>
@@ -98,7 +98,7 @@ export default {
     /**
      * Get if the socket is connected or not.
      */
-    connected: function () {
+    connected: function() {
       return (
         typeof this.socket !== "undefined" &&
         this.socket !== null &&
@@ -108,7 +108,7 @@ export default {
     /**
      * The current time selected from the user.
      */
-    current: function () {
+    current: function() {
       const old = new Date();
       old.setDate(old.getDate() + this.day);
       old.setTime(old.getTime() + this.time * 3 * 60 * 60 * 1000);
@@ -117,7 +117,7 @@ export default {
     /**
      * Forecast selected with current time.
      */
-    forecasts: function () {
+    forecasts: function() {
       if (typeof this.allForecasts !== "object") return undefined;
       const temps = nextForecast(this.allForecasts, this.current);
       return temps;
@@ -125,7 +125,7 @@ export default {
     /**
      * Average forecast with current time.
      */
-    mid: function () {
+    mid: function() {
       // Process only if we have some forecasts selected.
       if (typeof this.forecasts !== "object" || this.forecasts.length < 1) {
         return null;
@@ -144,12 +144,14 @@ export default {
     /**
      * Labels of hours to show.
      */
-    labels: function () {
+    labels: function() {
       /* 
       If number of modes changes, update the slider max attr too.
       Actually show 8 different hours (3h hop), starting from next hour.
       */
-      const now = new Date().getHours() + 1;
+      const now = new Date().getHours() - new Date().getTimezoneOffset() / 60;
+      console.log("Difference:", new Date().getTimezoneOffset());
+
       return Array.from(Array(8)).map((_, i) =>
         ((i * 3 + now) % 24).toString()
       );
@@ -157,17 +159,27 @@ export default {
     /**
      * True if some providers missing, false anywhere.
      */
-    loading: function () {
+    loading: function() {
       return this.fetching > 0;
     },
     /**
      * The selected time from first forecast.
      */
-    selectedTime: function () {
-      if (this.forecasts && this.forecasts.length > 0) {
-        return new Date(this.forecasts[0].data.time);
-      }
-      return this.current;
+    selectedTime: function() {
+      let selected =
+        this.forecasts && this.forecasts.length > 0
+          ? new Date(this.forecasts[0].data.time)
+          : this.current;
+
+      const calculated = new Date(
+        selected - new Date().getTimezoneOffset() / 60
+      );
+
+      // const str = calculated.toLocaleString(); // .toISOString(); // .substr(0, 10);
+      return calculated;
+    },
+    debug: function() {
+      return process.env.NODE_ENV !== "production";
     },
   },
   data() {
@@ -206,19 +218,19 @@ export default {
     };
   },
   methods: {
-    clean: function () {
+    clean: function() {
       this.allForecasts = [];
       this.waiting = [];
       this.cleanMinimal();
     },
-    cleanMinimal: function () {
+    cleanMinimal: function() {
       this.midData = JSON.parse(JSON.stringify(this.initialMidData));
       this.results = JSON.parse(JSON.stringify(this.initialMidData));
       // Needs to be two separated maps.
       this.descriptions = new Map();
       this.icons = new Map();
     },
-    connect: function () {
+    connect: function() {
       const username = uuidv4();
       this.socket = create();
       this.subscribe();
@@ -226,7 +238,7 @@ export default {
       this.socket.auth = { username };
       this.socket.connect({ forceNew: true });
     },
-    disconnect: function () {
+    disconnect: function() {
       const instance = this.socket;
       instance.off("connection");
       instance.off("connect_error");
@@ -235,13 +247,22 @@ export default {
       instance.disconnect();
       this.socket = null;
     },
-    requireForecasts: function (locality) {
-      console.log("Requested current for: ", locality);
+    requireForecasts: function(locality) {
       this.fetching = this.fetching + 1;
       this.clean();
+      const split = locality.split(",");
+      if (split && split.length === 2) {
+        const latitude = new Number(split[0]);
+        const longitude = new Number(split[1]);
+        if (!isNaN(latitude) && !isNaN(longitude)) {
+          console.log("Requiring %d::%d", latitude, longitude);
+          this.socket.emit("threedays", { latitude, longitude });
+          return;
+        }
+      }
       this.socket.emit("threedays", { locality });
     },
-    subscribe: function () {
+    subscribe: function() {
       this.socket.on("connect", () => {
         const locality = this.$route.params.locality;
         this.requireForecasts(locality);
@@ -285,7 +306,7 @@ export default {
         this.allForecasts.push({ provider, data });
       });
     },
-    updateMid: function (data) {
+    updateMid: function(data) {
       const keys = Object.keys(data);
       keys.forEach((elem) => {
         const value = Number(data[elem]);
@@ -313,7 +334,7 @@ export default {
         }
       });
     },
-    populateMap: function (desc, map) {
+    populateMap: function(desc, map) {
       if (map.has(desc)) {
         const actualValue = map.get(desc);
         const increasedValue = actualValue + 1;
@@ -322,10 +343,10 @@ export default {
         map.set(desc, 1);
       }
     },
-    getMostValueKeyFromMap: function (map) {
+    getMostValueKeyFromMap: function(map) {
       let keyWithMaxValue = null;
       let maxValueFromKey = 0;
-      map.forEach(function (value, key) {
+      map.forEach(function(value, key) {
         if (maxValueFromKey < value) {
           keyWithMaxValue = key;
           maxValueFromKey = value;
@@ -336,13 +357,13 @@ export default {
   },
   watch: {
     current(value) {
-      console.log("Changed current:", value.toLocaleString());
+      if (this.debug) console.log("Changed current:", value.toLocaleString());
     },
     day(value) {
-      console.log("Changed day:", value);
+      if (this.debug) console.log("Changed day:", value);
     },
     time(value) {
-      console.log("Changed time:", value);
+      if (this.debug) console.log("Changed time:", value);
     },
   },
   mounted() {

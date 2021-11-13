@@ -42,6 +42,7 @@
                 label="Password"
                 prepend-inner-icon="mdi-lock"
                 required
+                @keyup.enter="submitForm"
               ></v-text-field>
             </v-col>
           </v-row>
