@@ -5,8 +5,8 @@
         <h1>Feedbacks</h1>
       </v-col>
     </v-row>
-    <v-row>
-      <v-col class="py-2" cols="12">
+    <v-row class="my-5"
+      ><v-col cols="12">
         <SlideOrizontalGroup />
       </v-col>
     </v-row>
@@ -18,11 +18,5 @@ import SlideOrizontalGroup from "@/components/feedbacks/SlideOrizontalGroup";
 export default {
   name: "Feedbacks",
   components: { SlideOrizontalGroup },
-  data: () => ({}),
-  methods: {
-    goHome() {
-      this.$router.push("/");
-    },
-  },
 };
 </script>

@@ -13,6 +13,7 @@
         x-large
         v-bind="attrs"
         v-on="on"
+        max-width="300"
       >
         <b>Give Feedback</b>
       </v-btn>
@@ -191,20 +192,22 @@ export default {
         .then((response) => {
           const { feedback } = response.data;
           if (feedback) {
-            this.$alert("Feedback added correctly.", "Edit", "success").then(
-              () => {
-                // Reset dialog data before quitting.
-                this.activePicker = null;
-                this.date = null;
-                this.description = "";
-                this.dialog = false;
-                this.expand = false;
-                this.field = null;
-                this.rating = 0;
+            this.$alert(
+              "Feedback added correctly.",
+              "Creation",
+              "success"
+            ).then(() => {
+              // Reset dialog data before quitting.
+              this.activePicker = null;
+              this.date = null;
+              this.description = "";
+              this.dialog = false;
+              this.expand = false;
+              this.field = null;
+              this.rating = 0;
 
-                this.$emit("feedback-created", feedback);
-              }
-            );
+              this.$emit("feedback-created", feedback);
+            });
           }
         })
         .catch((error) => {

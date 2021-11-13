@@ -21,7 +21,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Deploy Vue
-        uses: xRealNeon/VuePagesAction@1.0.1
+        uses: Daniele-Tentoni/VuePagesAction@v1.0.8
         with:
           username: "Weather-Vortex"
           reponame: "weather-vortex-client"

@@ -58,7 +58,7 @@ export default {
       return this.$route.params.locality ?? "Forecasts";
     },
   },
-  data: function () {
+  data: function() {
     return {
       selected: "justify",
       isLoading: false,
@@ -83,7 +83,7 @@ export default {
     };
   },
   methods: {
-    error: function (error) {
+    error: function(error) {
       if (error.code == error.PERMISSION_DENIED) {
         this.$alert(
           "You have to turn on the permission to access your location!"
@@ -92,7 +92,7 @@ export default {
         this.$alert("Geolocation error");
       }
     },
-    getPosition: function () {
+    getPosition: function() {
       navigator.geolocation.getCurrentPosition(this.showPosition, this.error);
     },
     navigate(path) {
@@ -124,7 +124,7 @@ export default {
         })
         .finally(() => (this.loading = false));
     },
-    showPosition: function (position) {
+    showPosition: function(position) {
       const latitude = position.coords.latitude;
       const longitude = position.coords.longitude;
       this.locality = latitude + "," + longitude;

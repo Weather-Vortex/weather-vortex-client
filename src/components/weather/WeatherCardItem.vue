@@ -34,15 +34,15 @@
 export default {
   name: "WeatherCardItem",
   computed: {
-    _title: function () {
+    _title: function() {
       return this.type.title ?? "Title";
     },
-    _icon: function () {
+    _icon: function() {
       return typeof this.type.icon !== "undefined" && this.type.icon !== ""
         ? this.type.icon
         : null;
     },
-    _tooltip: function () {
+    _tooltip: function() {
       return this.type.tooltip ?? this._title;
     },
     _unit: function () {

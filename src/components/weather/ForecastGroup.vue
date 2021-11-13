@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container class="forecast">
     <v-row>
       <v-col cols="12" md="6" sm="6" xs="6" class="ma-auto">
         <div class="text-center">
@@ -28,22 +28,33 @@
         </div>
       </v-col>
     </v-row>
-    <v-row no-gutters>
-      <v-col cols="12" sm="4">
+    <v-row>
+      <v-col md="6" offset-md="3">
         <WeatherForecastCard v-if="showAggregation" v-bind="mid" />
       </v-col>
-      <v-col cols="12" sm="8">
-        <v-slide-group show-arrows>
-          <v-slide-item
-            v-for="forecast in someForecasts"
-            :key="forecast.provider"
-          >
-            <WeatherForecastCard
-              v-bind:provider="forecast.provider"
-              v-bind:data="forecast.data"
-            />
-          </v-slide-item>
-        </v-slide-group>
+      <v-col md="12" xs="6" offset-md="1">
+        <template>
+          <vue-horizontal responsive class="horizontal" :displacement="0.7">
+            <!-- <template v-slot:btn-next>
+              <v-div class="replaced-btn">
+                <v-icon>
+                  mdi-chevron-right
+                </v-icon>
+              </v-div>
+            </template>-->
+
+            <v-section
+              class="content"
+              v-for="forecast in someForecasts"
+              :key="forecast.provider"
+            >
+              <WeatherForecastCard
+                v-bind:provider="forecast.provider"
+                v-bind:data="forecast.data"
+              />
+            </v-section>
+          </vue-horizontal>
+        </template>
       </v-col>
     </v-row>
   </v-container>
@@ -51,10 +62,11 @@
 
 <script>
 import WeatherForecastCard from "@/components/weather/WeatherForecastCard";
+import VueHorizontal from "vue-horizontal";
 
 export default {
-  name: "ForecastGroup",
-  components: { WeatherForecastCard },
+  name: "CurrentForecast",
+  components: { WeatherForecastCard, VueHorizontal },
   computed: {
     /*
     Used to tighten and widen the columns if aggregation column is visible or not.
@@ -62,19 +74,19 @@ export default {
     columns() {
       return this.showAggregation ? 3 : 4;
     },
-    _fetching: function () {
+    _fetching: function() {
       return this.fetching;
     },
-    forecasts: function () {
+    forecasts: function() {
       return this.initialForecasts;
     },
     isLoading() {
       return this.loading === true;
     },
-    mid: function () {
+    mid: function() {
       return this.initialMid;
     },
-    someForecasts: function () {
+    someForecasts: function() {
       if (typeof this.forecasts === "undefined") {
         // When this component is created, we don't have this.forecasts yet.
         console.warn("No forecasts now");
@@ -101,10 +113,45 @@ export default {
     };
   },
   methods: {
-    setFilter: function (value) {
+    setFilter: function(value) {
       console.log("Set filter:", value);
     },
   },
   props: ["initialForecasts", "initialMid", "fetching"],
 };
 </script>
+<style scoped>
+.horizontal >>> .v-hl-btn-prev svg {
+  background: blue;
+  color: white;
+  border-radius: 0;
+}
+
+.horizontal >>> .v-hl-btn-next {
+  top: 0;
+  bottom: 0;
+  transform: translateX(0);
+}
+
+.replaced-btn {
+  height: 100%;
+  background: linear-gradient(to right, #ffffff00, white);
+  padding-left: 48px;
+  display: flex;
+  align-items: center;
+}
+
+.replaced-btn > div {
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1;
+  color: black;
+  padding: 8px 12px;
+  background: white;
+  border-radius: 3px;
+  border: 1px solid black;
+}
+.forecast {
+  background: #e1f3f3;
+}
+</style>
