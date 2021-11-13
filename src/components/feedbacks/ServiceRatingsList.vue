@@ -59,7 +59,7 @@ export default {
     ],
   }),
   computed: {
-    feedbacks: function() {
+    feedbacks: function () {
       return this.title.feedbacks.map((mapped) => {
         const firstName = mapped.user.firstName.charAt(0);
         const lastName = mapped.user.lastName.charAt(0);
@@ -72,7 +72,7 @@ export default {
         return mapped;
       });
     },
-    index: function() {
+    index: function () {
       const num = this.title?.feedbacks?.length;
       if (!num || num < 0) {
         // If no feedbacks are provided, return 0.
