@@ -114,7 +114,6 @@ export default {
         .push(`/forecasts/${this.locality}/${value}`) // { name: value, params: { locality: this.locality } }
         .catch((failure) => {
           if (isNavigationFailure(failure, NavigationFailureType.duplicated)) {
-            this.$router.go();
             console.warn(
               `Navigation duplicated no problem: you wanna navigate to ${failure.to.path}, but you already are in ${failure.from.path}`
             );
@@ -122,7 +121,7 @@ export default {
             console.error("Navigation error: ", failure);
           }
         })
-        .finally(() => (this.loading = false));
+        .finally(() => (this.$router.go(), (this.loading = false)));
     },
     showPosition: function(position) {
       const latitude = position.coords.latitude;
