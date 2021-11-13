@@ -15,12 +15,7 @@
 </template>
 
 <script>
-import CloudEffect from "@/components/CloudEffect.vue";
 export default {
   name: "EmptyForecast",
-
-  components: {
-    CloudEffect,
-  },
 };
 </script>
