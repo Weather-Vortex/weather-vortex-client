@@ -57,7 +57,6 @@ new Vue({
             errorMessage = "No users found with given credentials.";
             break;
         }
-        console.log(error.response);
 
         if (!errorMessage || errorMessage === "") {
           // User doesn't need to be alerted.
@@ -65,7 +64,7 @@ new Vue({
         }
 
         // Server didn't found the token in user storage.
-        console.error(errorMessage);
+        console.error(errorMessage, error.response);
         // const title = "Application startup error";
         // this.$alert(errorMessage, title, "error").then(() => {
         // Require the logout from the server, to expire auth httpOnly cookies

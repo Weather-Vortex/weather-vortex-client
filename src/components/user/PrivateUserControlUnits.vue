@@ -186,23 +186,20 @@ export default {
   created() {
     // Populate the table
     const user = this.$store.getters.getId;
-    console.log("user: " + user);
+    if (process.env.NODE_ENV === "production") {
+      console.log("User: " + user);
+    }
     const url = `${server}/users/${user}/stations`;
     this.$http
       .get(url)
       .then((response) => {
         //popola le stations
         this.stations = response.data.stations;
-        console.log("Ma ste stazioni?: " + this.stations);
+
         this.nameS = this.stations.map((e) => e.name);
-        console.log("stazioni sono :" + this.nameS);
-        /*this.ratings = this.feedbacks.map((e) => e.rating);
-        this.providers = this.feedbacks.map((e) => e.provider.name);
-        this.descriptions = this.feedbacks.map((e) => e.description);
-        this.id = this.feedbacks.map((e) => e._id);
-        console.log("Feedbacks id are: " + this.id);*/
+
         this.id = this.stations.map((e) => e._id);
-        console.log("stations id are  " + this.id);
+
         this.stations = this.stations.map((mapped) => {
           const idSta = mapped._id;
           const name = mapped.name;

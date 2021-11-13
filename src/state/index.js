@@ -30,9 +30,18 @@ const getters = {
     return `${id}`;
   },
   isAuthenticated: (state) => {
-    console.log("Is Auth:", state);
+    if (process.env.NODE_ENV !== "production") {
+      console.log("Is Auth:", state.user);
+    }
+
     if (!state.user) {
-      // return localStore.get("user_data");
+      // Try to retrieve data from local storage.
+      const user = localStore.get("user_data");
+      if (user) {
+        store.commit("login", user);
+        return true;
+      }
+
       return false;
     }
 
