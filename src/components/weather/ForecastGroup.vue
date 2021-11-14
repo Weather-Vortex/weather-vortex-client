@@ -5,7 +5,7 @@
         <div class="text-center">
           <v-switch
             v-model="showAggregation"
-            :label="`Show aggregation: ${showAggregation.toString()}`"
+            :label="showAggregationLabel"
           ></v-switch>
         </div>
       </v-col>
@@ -73,19 +73,22 @@ export default {
     columns() {
       return this.showAggregation ? 3 : 4;
     },
-    _fetching: function() {
+    _fetching: function () {
       return this.fetching;
     },
-    forecasts: function() {
+    forecasts: function () {
       return this.initialForecasts;
     },
     isLoading() {
       return this.loading === true;
     },
-    mid: function() {
+    mid: function () {
       return this.initialMid;
     },
-    someForecasts: function() {
+    showAggregationLabel: function () {
+      return this.showAggregation ? "Hide aggregation" : "Show aggregation";
+    },
+    someForecasts: function () {
       if (typeof this.forecasts === "undefined") {
         // When this component is created, we don't have this.forecasts yet.
         console.warn("No forecasts now");
