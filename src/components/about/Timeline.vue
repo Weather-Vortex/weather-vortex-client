@@ -64,7 +64,7 @@ export default {
       {
         color: "primary",
         icon: "mdi-weather-sunny",
-        date: "Future ?",
+        date: "Future?",
         title: "A new Service to the People",
         text:
           "In the future we want to keep providing our services to the customers, to develop better and better solutions to the users, and to reach new people.",
