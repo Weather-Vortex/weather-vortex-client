@@ -5,7 +5,7 @@
         <div class="text-center">
           <v-switch
             v-model="showAggregation"
-            :label="`Show aggregation: ${showAggregation.toString()}`"
+            :label="showAggregationLabel"
           ></v-switch>
         </div>
       </v-col>
@@ -84,6 +84,9 @@ export default {
     },
     mid: function() {
       return this.initialMid;
+    },
+    showAggregationLabel: function() {
+      return this.showAggregation ? "Hide aggregation" : "Show aggregation";
     },
     someForecasts: function() {
       if (typeof this.forecasts === "undefined") {
