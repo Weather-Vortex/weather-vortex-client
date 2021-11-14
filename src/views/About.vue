@@ -18,7 +18,7 @@
         </p>
         <p>
           On the other hand, the user can also customize his experience adding
-          Iot device to "trust" and leave feedbacks to all the services
+          Iot devices to "trust" and leave feedbacks to all the services
           available.
         </p>
       </v-col>
@@ -95,7 +95,7 @@
     <v-row class="contact">
       <v-spacer></v-spacer>
       <v-col cols="12">
-        <h3 class="display-1 font-weight-bold my-4" id="contact-us">
+        <h3 class="display-1 font-weight-bold mt-4" id="contact-us">
           Contact Us
         </h3>
         <ContactUs />
