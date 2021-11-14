@@ -86,7 +86,7 @@ export default {
       return this.initialMid;
     },
     showAggregationLabel: function() {
-      return this.showAggregation ? "Show aggregation" : "Hide aggregation";
+      return this.showAggregation ? "Hide aggregation" : "Show aggregation";
     },
     someForecasts: function() {
       if (typeof this.forecasts === "undefined") {
