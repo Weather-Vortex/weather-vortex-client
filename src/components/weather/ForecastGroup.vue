@@ -73,22 +73,22 @@ export default {
     columns() {
       return this.showAggregation ? 3 : 4;
     },
-    _fetching: function () {
+    _fetching: function() {
       return this.fetching;
     },
-    forecasts: function () {
+    forecasts: function() {
       return this.initialForecasts;
     },
     isLoading() {
       return this.loading === true;
     },
-    mid: function () {
+    mid: function() {
       return this.initialMid;
     },
-    showAggregationLabel: function () {
-      return this.showAggregation ? "Hide aggregation" : "Show aggregation";
+    showAggregationLabel: function() {
+      return this.showAggregation ? "Show aggregation" : "Hide aggregation";
     },
-    someForecasts: function () {
+    someForecasts: function() {
       if (typeof this.forecasts === "undefined") {
         // When this component is created, we don't have this.forecasts yet.
         console.warn("No forecasts now");
