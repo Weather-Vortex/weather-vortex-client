@@ -3,7 +3,7 @@
     <v-img height="200px" src="@/assets/lavender.jpg">
       <v-app-bar class="mt-8" flat color="rgba(0, 0, 0, 0)">
         <v-avatar size="100">
-          <img alt="user" src="@/assets/user.png" />
+          <img alt="user" src="@/assets/user2.png" />
         </v-avatar>
       </v-app-bar>
 
@@ -84,26 +84,26 @@ export default {
   components: { EditDialog },
   name: "privateProfileCard",
   computed: {
-    userInit: function () {
+    userInit: function() {
       return this.$store.getters.initials;
     },
-    firstName: function () {
+    firstName: function() {
       if (this.profile) return this.profile.firstName;
       return "";
     },
-    lastName: function () {
+    lastName: function() {
       if (this.profile) return this.profile.lastName;
       return "";
     },
-    email: function () {
+    email: function() {
       if (this.profile) return this.profile.email;
       return "";
     },
-    creationDate: function () {
+    creationDate: function() {
       if (this.profile) return this.profile.createdDate;
       return "";
     },
-    preferred: function () {
+    preferred: function() {
       if (this.profile && this.profile.preferred) {
         if (this.profile.preferred.location) {
           // Return location (more user friendly) if available.
@@ -138,7 +138,7 @@ export default {
     this.getProfile();
   },
   methods: {
-    getProfile: function () {
+    getProfile: function() {
       const isAuth = this.$store.getters.isAuthenticated;
       console.log("IsAuth:", isAuth);
       if (!isAuth) {

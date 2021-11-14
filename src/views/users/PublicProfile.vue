@@ -6,7 +6,7 @@
         <v-card width="500" class="blue lighten-5">
           <v-img src="@/assets/lavender.jpg">
             <v-avatar size="100">
-              <img alt="user" src="@/assets/user.png" />
+              <img alt="user" src="@/assets/user2.png" />
             </v-avatar>
             <v-card-title class="white--text">
               <h3 class="font-weight-bold pa-md-10 mx-lg-auto">
