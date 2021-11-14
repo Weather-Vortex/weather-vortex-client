@@ -13,9 +13,12 @@
                 [{{ this.initials }}] {{ this.lastName }} {{ this.firstName }}
               </h3>
             </v-card-title>
-            <v-card-title class="white--text">
+            <v-card-title
+              v-if="this.user.preferred.location"
+              class="white--text"
+            >
               <h3 class="font-weight-bold pa-md-10 mx-lg-auto">
-                Località: {{ this.user.preferred.location }}
+                Locality: {{ this.user.preferred.location }}
               </h3>
             </v-card-title>
           </v-img>
@@ -45,7 +48,7 @@ export default {
   name: "PublicProfile",
   components: { PublicUserControlUnits, PublicUserReviews },
   computed: {
-    initials: function() {
+    initials: function () {
       if (!this.user) {
         return "";
       }
@@ -54,14 +57,14 @@ export default {
       const lastName = this.user.lastName.charAt(0);
       return `${firstName}${lastName}`;
     },
-    firstName: function() {
+    firstName: function () {
       return this.user?.firstName ?? "";
     },
-    lastName: function() {
+    lastName: function () {
       return this.user?.lastName ?? "";
     },
   },
-  data: function() {
+  data: function () {
     return {
       user: null,
       userId: this.$route.params.id,
