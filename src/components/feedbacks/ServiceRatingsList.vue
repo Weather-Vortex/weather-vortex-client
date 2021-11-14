@@ -15,16 +15,37 @@
         :item-height="50"
       >
         <template v-slot:default="{ item }">
-          <v-list-item router :to="item.route" class="pa-0 ma-1">
-            <v-list-item-avatar class="pa-0 ma-1">
-              <v-avatar :color="item.color" size="40" class="white--text">
-                {{ item.initials }}
-              </v-avatar>
+          <v-list-item class="pa-0 ma-1">
+            <v-list-item-avatar
+              @click="navigateToUserPage(item.userId)"
+              class="pa-0 ma-1"
+            >
+              <v-tooltip top>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-avatar
+                    :color="item.color"
+                    size="40"
+                    class="white--text"
+                    v-bind="attrs"
+                    v-on="on"
+                  >
+                    {{ item.initials }}
+                  </v-avatar>
+                </template>
+                <span>{{ item.initialsTooltip }}</span>
+              </v-tooltip>
             </v-list-item-avatar>
 
             <v-list-item-content>
-              <v-list-item-title>
-                {{ item.name }}
+              <v-list-item-title @click="navigateToUserPage(item.userId)">
+                <v-tooltip top>
+                  <template v-slot:activator="{ on, attrs }">
+                    <span v-bind="attrs" v-on="on">
+                      {{ item.name }}
+                    </span>
+                  </template>
+                  <span>{{ item.nameTooltip }}</span>
+                </v-tooltip>
               </v-list-item-title>
             </v-list-item-content>
 
@@ -61,14 +82,28 @@ export default {
   computed: {
     feedbacks: function () {
       return this.title.feedbacks.map((mapped) => {
-        const firstName = mapped.user.firstName.charAt(0);
-        const lastName = mapped.user.lastName.charAt(0);
+        console.log("Process feedback", mapped);
+        // Process initials.
+        const firstName = mapped?.user?.firstName?.charAt(0) ?? "D";
+        const lastName = mapped?.user?.lastName?.charAt(0) ?? "E";
         const initials = `${firstName}${lastName}`;
         mapped.initials = initials;
+        const deletedInitials = "Deleted";
+        mapped.initialsTooltip = mapped?.user ? initials : deletedInitials;
+
+        // Process colors.
         const colorsLength = this.colors.length;
         mapped.color = this.colors[this.genRandomIndex(colorsLength)];
-        mapped.name = `${firstName} ${lastName}`;
-        mapped.route = `/user/public/${mapped.user._id}`;
+
+        // Process fullname.
+        const delitedToolip = "This user was deleted";
+        const fullName = (user) => `${user?.firstName} ${user?.lastName}`;
+        mapped.name = mapped?.user ? fullName(mapped?.user) : "Deleted";
+        mapped.nameTooltip = mapped?.user ? mapped.name : delitedToolip;
+
+        // Process tooltips.
+        mapped.userId = mapped?.user?._id ?? "";
+
         return mapped;
       });
     },
@@ -91,6 +126,16 @@ export default {
   methods: {
     genRandomIndex(length) {
       return Math.ceil(Math.random() * (length - 1));
+    },
+    navigateToUserPage(userId) {
+      /*
+      Navigate to the public user page if it's set.
+      If contains nothing because the user was deleted, do nothing.
+      */
+      if (userId) {
+        const url = `/user/public/${userId}`;
+        this.$router.push(url);
+      }
     },
   },
 };
