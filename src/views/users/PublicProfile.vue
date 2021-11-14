@@ -18,7 +18,7 @@
               class="white--text"
             >
               <h3 class="font-weight-bold pa-md-10 mx-lg-auto">
-                Località: {{ this.user.preferred.location }}
+                Locality: {{ this.user.preferred.location }}
               </h3>
             </v-card-title>
           </v-img>
