@@ -10,7 +10,6 @@
           ></v-img></v-col></v-row
     ></template>
 
-    <CloudEffect />
   </div>
 </template>
 
