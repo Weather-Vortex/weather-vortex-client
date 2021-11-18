@@ -9,6 +9,7 @@
             src="@/assets/weatherfewclouds.jpg"
           ></v-img></v-col></v-row
     ></template>
+
   </div>
 </template>
 
